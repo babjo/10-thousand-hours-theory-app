@@ -6,4 +6,6 @@ package com.three.a10_thousand_hours_theory_app.view;
 public interface NewGoalView {
     void goNewGoalFormStep1();
     void goNewGoalFormStep2();
+    void goNewGoalFormStep3();
+    void showDatePicker();
 }

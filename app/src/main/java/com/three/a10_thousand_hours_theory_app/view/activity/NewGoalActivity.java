@@ -1,7 +1,9 @@
 package com.three.a10_thousand_hours_theory_app.view.activity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
 import com.three.a10_thousand_hours_theory_app.R;
@@ -13,10 +15,15 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import link.fls.swipestack.SwipeStack;
 
 @EActivity
-public class NewGoalActivity extends AppCompatActivity implements NewGoalView{
+public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
+
+    private final static String TAG = NewGoalActivity.class.getName();
 
     @ViewById(R.id.new_goal_stack)
     SwipeStack mNewGoalStack;
@@ -62,7 +69,35 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView{
     @Override
     public void goNewGoalFormStep2() {
         mNewGoalStack.swipeTopViewToRight();
-        mProgressBar.setProgress(5);
+        mProgressBar.setProgress(3);
+    }
+
+    @Override
+    public void goNewGoalFormStep3() {
+        mNewGoalStack.swipeTopViewToRight();
+        mProgressBar.setProgress(6);
+    }
+
+    @Override
+    public void showDatePicker() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar c = Calendar.getInstance();
+                c.clear();
+                c.set(Calendar.YEAR, year);
+                c.set(Calendar.MONTH, monthOfYear);
+                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                Date deadLine = c.getTime();
+                mNewGoalAdapter.setNewGoalDeadLineDate(deadLine);
+            }
+        }, year, month, day);
+        datePickerDialog.setOnCancelListener(dialog -> dialog.dismiss());
+        datePickerDialog.show();
     }
 
 }

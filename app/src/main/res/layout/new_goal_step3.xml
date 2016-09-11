@@ -32,16 +32,16 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/goal_step2_form_layout">
             <Button
-                android:id="@+id/step2_back_btn"
+                android:id="@+id/step3_back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="뒤로"
+                android:text="처음으로"
                 android:background="@drawable/new_goal_button_border"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
             <Button
-                android:id="@+id/step2_next_btn"
+                android:id="@+id/step3_next_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="완료"

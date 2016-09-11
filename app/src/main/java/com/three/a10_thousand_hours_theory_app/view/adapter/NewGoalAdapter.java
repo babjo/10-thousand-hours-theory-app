@@ -1,6 +1,7 @@
 package com.three.a10_thousand_hours_theory_app.view.adapter;
 
 import android.content.Context;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.three.a10_thousand_hours_theory_app.R;
-import com.three.a10_thousand_hours_theory_app.model.domain.Goal;
+import com.three.a10_thousand_hours_theory_app.Utils;
 import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class NewGoalAdapter extends BaseAdapter {
@@ -84,20 +86,17 @@ public class NewGoalAdapter extends BaseAdapter {
             step1ViewHolder.mTitleEt.setText(createGoalRequestDTO.getTitle());
             step1ViewHolder.mDescriptionEt.setText(createGoalRequestDTO.getDescription());
 
-        }else{
+        }else if (type == STEP_2){
             if(convertView == null)
             {
                 convertView = mInflater.inflate(R.layout.new_goal_step2, parent, false);
                 step2ViewHolder = new Step2ViewHolder();
                 step2ViewHolder.mNextBtn = (Button) convertView.findViewById(R.id.step2_next_btn);
-                Goal goal = new Goal("", "");
-                step2ViewHolder.mNextBtn.setOnClickListener(view -> {
-                    mNewGoalPresenter.submitNewGoal(goal);
-                });
-                step2ViewHolder.mBackBtn = (Button) convertView.findViewById(R.id.step2_back_btn);
-                step2ViewHolder.mBackBtn.setOnClickListener(view -> {
-                    mNewGoalPresenter.goNewGoalFormStep1();
-                });
+                step2ViewHolder.mNewGoalDeadLineEt = (EditText) convertView.findViewById(R.id.new_goal_dead_line_et);
+
+                step2ViewHolder.mNextBtn.setOnClickListener(v -> mNewGoalPresenter.goNewGoalFormStep3());
+                step2ViewHolder.mNewGoalDeadLineEt.setOnClickListener(v -> mNewGoalPresenter.showDatePicker());
+                disableEditText(step2ViewHolder.mNewGoalDeadLineEt);
 
                 convertView.setTag(step2ViewHolder);
             }
@@ -105,7 +104,20 @@ public class NewGoalAdapter extends BaseAdapter {
                 step2ViewHolder = (Step2ViewHolder) convertView.getTag();
             }
 
-            //step2ViewHolder.mTv.setText(mData.get(position));
+            if(createGoalRequestDTO.getDeadLineDate()!=null)
+                step2ViewHolder.mNewGoalDeadLineEt.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(createGoalRequestDTO.getDeadLineDate()));
+        }else{
+            if(convertView == null){
+                convertView = mInflater.inflate(R.layout.new_goal_step3, parent, false);
+                step3ViewHolder = new Step3ViewHolder();
+                step3ViewHolder.mBackBtn = (Button) convertView.findViewById(R.id.step3_back_btn);
+                step3ViewHolder.mBackBtn.setOnClickListener(view -> mNewGoalPresenter.goNewGoalFormStep1());
+
+                convertView.setTag(step3ViewHolder);
+            }else{
+                step3ViewHolder = (Step3ViewHolder) convertView.getTag();
+            }
+
         }
 
         return convertView;
@@ -133,6 +145,11 @@ public class NewGoalAdapter extends BaseAdapter {
         }
     }
 
+    public void setNewGoalDeadLineDate(Date deadLine) {
+        createGoalRequestDTO.setDeadLineDate(deadLine);
+        step2ViewHolder.mNewGoalDeadLineEt.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(deadLine));
+    }
+
     public class Step1ViewHolder {
         public EditText mTitleEt;
         public EditText mDescriptionEt;
@@ -141,10 +158,14 @@ public class NewGoalAdapter extends BaseAdapter {
 
     public class Step2ViewHolder {
         public Button mNextBtn;
-        public Button mBackBtn;
+        public EditText mNewGoalDeadLineEt;
     }
 
     public class Step3ViewHolder{
+        public Button mBackBtn;
+    }
 
+    private void disableEditText(EditText editText) {
+        editText.setInputType(InputType.TYPE_NULL);
     }
 }

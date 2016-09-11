@@ -28,4 +28,13 @@ public class NewGoalPresenter {
     public void setNewGoalView(NewGoalView mNewGoalView) {
         this.mNewGoalView = mNewGoalView;
     }
+
+    public void goNewGoalFormStep3() {
+        mNewGoalView.goNewGoalFormStep3();
+    }
+
+    public void showDatePicker() {
+        mNewGoalView.showDatePicker();
+    }
+
 }
