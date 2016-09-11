@@ -2,6 +2,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="card_item_margin">6dp</dimen>
+    <dimen name="new_goal_card_item_content_margin">40dp</dimen>
+    <dimen name="new_goal_card_item_margin">20dp</dimen>
+    <dimen name="goal_card_item_margin">6dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 </resources>

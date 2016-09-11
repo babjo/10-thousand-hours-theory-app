@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.three.a10_thousand_hours_theory_app.view.activity.NewGoalActivity"
+    android:clipChildren="false">
+
+    <ProgressBar
+        android:id="@+id/new_goal_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:max="10"
+        android:layout_marginBottom="-8dp"
+        android:layout_marginTop="-6dp"
+        />
+
+    <link.fls.swipestack.SwipeStack
+        android:id="@+id/new_goal_stack"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:stack_rotation="0"
+        app:allowed_swipe_directions="2"
+        android:padding="@dimen/new_goal_card_item_margin"
+        />
+</LinearLayout>

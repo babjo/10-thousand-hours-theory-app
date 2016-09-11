@@ -1,52 +1,52 @@
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/goal_card_item_margin"
+    android:layout_marginLeft="@dimen/goal_card_item_margin"
+    android:layout_marginRight="@dimen/goal_card_item_margin"
+    card_view:cardCornerRadius="@dimen/cardview_default_radius"
+    card_view:cardElevation="@dimen/cardview_default_elevation"
+    card_view:contentPadding="@dimen/activity_vertical_margin"
+    >
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_item_margin"
-        android:layout_marginLeft="@dimen/card_item_margin"
-        android:layout_marginRight="@dimen/card_item_margin"
-        card_view:cardCornerRadius="@dimen/cardview_default_radius"
-        card_view:cardElevation="@dimen/cardview_default_elevation"
-        card_view:contentPadding="@dimen/activity_vertical_margin"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
         >
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
             >
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/goal_title_tv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-                <TextView
-                    android:id="@+id/goal_title_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="모든 영화 자막 없이 보기"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    />
-                <TextView
-                    android:id="@+id/goal_des_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="영어 농담도 알아들을 수준"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_arrow_forward_black_24dp" />
-            </LinearLayout>
-
+                android:text="모든 영화 자막 없이 보기"
+                android:textAppearance="?android:textAppearanceMedium"
+                />
+            <TextView
+                android:id="@+id/goal_des_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="영어 농담도 알아들을 수준"
+                />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_arrow_forward_black_24dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

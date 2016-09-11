@@ -1,4 +1,4 @@
-package com.three.a10_thousand_hours_theory_app.view;
+package com.three.a10_thousand_hours_theory_app.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

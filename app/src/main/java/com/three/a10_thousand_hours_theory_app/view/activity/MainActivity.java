@@ -1,7 +1,6 @@
-package com.three.a10_thousand_hours_theory_app;
+package com.three.a10_thousand_hours_theory_app.view.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.Goal;
 import com.three.a10_thousand_hours_theory_app.presenter.MainPresenter;
-import com.three.a10_thousand_hours_theory_app.view.GoalListAdapter;
+import com.three.a10_thousand_hours_theory_app.view.adapter.GoalListAdapter;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
