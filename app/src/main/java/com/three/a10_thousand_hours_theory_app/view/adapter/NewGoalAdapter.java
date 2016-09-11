@@ -95,7 +95,7 @@ public class NewGoalAdapter extends BaseAdapter {
                 step2ViewHolder.mNewGoalDeadLineEt = (EditText) convertView.findViewById(R.id.new_goal_dead_line_et);
 
                 step2ViewHolder.mNextBtn.setOnClickListener(v -> mNewGoalPresenter.goNewGoalFormStep3());
-                step2ViewHolder.mNewGoalDeadLineEt.setOnClickListener(v -> mNewGoalPresenter.showDatePicker());
+                step2ViewHolder.mNewGoalDeadLineEt.setOnClickListener(v -> mNewGoalPresenter.showDatePicker(createGoalRequestDTO.getDeadLineDate()));
                 disableEditText(step2ViewHolder.mNewGoalDeadLineEt);
 
                 convertView.setTag(step2ViewHolder);

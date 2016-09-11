@@ -79,8 +79,12 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void showDatePicker() {
+    public void showDatePicker(Date deadLineDate) {
         final Calendar c = Calendar.getInstance();
+
+        if(deadLineDate != null)
+            c.setTime(deadLineDate);
+
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);

@@ -5,6 +5,8 @@ import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
 
 import org.androidannotations.annotations.EBean;
 
+import java.util.Date;
+
 /**
  * Created by LCH on 2016. 9. 11..
  */
@@ -33,8 +35,8 @@ public class NewGoalPresenter {
         mNewGoalView.goNewGoalFormStep3();
     }
 
-    public void showDatePicker() {
-        mNewGoalView.showDatePicker();
+    public void showDatePicker(Date deadLineDate) {
+        mNewGoalView.showDatePicker(deadLineDate);
     }
 
 }
