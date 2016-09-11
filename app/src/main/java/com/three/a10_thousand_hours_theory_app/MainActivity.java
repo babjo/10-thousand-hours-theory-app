@@ -1,15 +1,36 @@
 package com.three.a10_thousand_hours_theory_app;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.three.a10_thousand_hours_theory_app.model.domain.Goal;
+import com.three.a10_thousand_hours_theory_app.presenter.MainPresenter;
+import com.three.a10_thousand_hours_theory_app.view.GoalListAdapter;
+
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@EActivity
 public class MainActivity extends AppCompatActivity {
+
+
+    @ViewById(R.id.goal_list)
+    RecyclerView mGoalListView;
+
+    @Bean
+    MainPresenter mMainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +39,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mGoalListView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mGoalListView.setLayoutManager(layoutManager);
+        List<Goal> goalList = new ArrayList();
+        goalList.add(new Goal("모든 영화 자막 없이 보기", "영어 농담도 알아들을 수준"));
+        goalList.add(new Goal("드로잉", "'그림 잘 그리는 사람'이 될 때까지 !"));
+        GoalListAdapter adapter = new GoalListAdapter(goalList);
+        mGoalListView.setAdapter(adapter);
+    }
+
+
+
+    @Click(R.id.fab)
+    public void fabButton(View view){
+        //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        mMainPresenter.addGoal();
     }
 
     @Override
