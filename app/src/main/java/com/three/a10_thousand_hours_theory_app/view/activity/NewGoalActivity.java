@@ -7,9 +7,11 @@ import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
 import com.three.a10_thousand_hours_theory_app.R;
+import com.three.a10_thousand_hours_theory_app.model.domain.Task;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.NewGoalAdapter;
+import com.three.a10_thousand_hours_theory_app.view.component.TaskDialog;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
@@ -33,6 +35,10 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
 
     @Bean
     NewGoalPresenter mNewGoalPresenter;
+
+    @Bean
+    TaskDialog mTaskDialog;
+
     private NewGoalAdapter mNewGoalAdapter;
 
     @Override
@@ -56,6 +62,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
 
             @Override
             public void onStackEmpty() {
+                mNewGoalStack.resetStack();
             }
         });
     }
@@ -76,6 +83,11 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     public void goNewGoalFormStep3() {
         mNewGoalStack.swipeTopViewToRight();
         mProgressBar.setProgress(6);
+    }
+
+    @Override
+    public void submitNewGoal() {
+        mProgressBar.setProgress(10);
     }
 
     @Override
@@ -102,6 +114,11 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
         }, year, month, day);
         datePickerDialog.setOnCancelListener(dialog -> dialog.dismiss());
         datePickerDialog.show();
+    }
+
+    @Override
+    public void showTaskDialog(Task task) {
+        mTaskDialog.show();
     }
 
 }

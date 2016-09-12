@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.three.a10_thousand_hours_theory_app">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".view.activity.MainActivity_"
             android:label="@string/main_activity_name"
@@ -18,10 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.NewGoalActivity_"
-            android:label="@string/new_goal_activity_name"
-            >
-        </activity>
+        <activity
+            android:name=".view.activity.NewGoalActivity_"
+            android:label="@string/new_goal_activity_name"></activity>
+        <activity android:name=".view.activity.GoalDetailsActivity_"></activity>
     </application>
 
 </manifest>

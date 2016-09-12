@@ -1,8 +1,13 @@
 package com.three.a10_thousand_hours_theory_app.presenter;
 
-import com.three.a10_thousand_hours_theory_app.model.domain.Goal;
+import com.three.a10_thousand_hours_theory_app.model.domain.Task;
+import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
+import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalResponseDTO;
+import com.three.a10_thousand_hours_theory_app.model.service.CreateGoalService;
+import com.three.a10_thousand_hours_theory_app.model.service.Service;
 import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import java.util.Date;
@@ -15,6 +20,9 @@ public class NewGoalPresenter {
 
     private NewGoalView mNewGoalView;
 
+    @Bean(CreateGoalService.class)
+    Service createGoalService;
+
     public void goNewGoalFormStep2() {
         mNewGoalView.goNewGoalFormStep2();
     }
@@ -23,8 +31,8 @@ public class NewGoalPresenter {
         mNewGoalView.goNewGoalFormStep1();
     }
 
-    public void submitNewGoal(Goal goal){
-
+    public void submitNewGoal(CreateGoalRequestDTO createGoalRequestDTO){
+        CreateGoalResponseDTO createGoalResponseDTO  = (CreateGoalResponseDTO) createGoalService.execute(createGoalRequestDTO);
     }
 
     public void setNewGoalView(NewGoalView mNewGoalView) {
@@ -37,6 +45,10 @@ public class NewGoalPresenter {
 
     public void showDatePicker(Date deadLineDate) {
         mNewGoalView.showDatePicker(deadLineDate);
+    }
+
+    public void showTaskDialog(Task task){
+        mNewGoalView.showTaskDialog(task);
     }
 
 }

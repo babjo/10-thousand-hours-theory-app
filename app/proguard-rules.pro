@@ -15,3 +15,5 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn java.lang.invoke.*
+-keep class com.three.a10_thousand_hours_theory_app.model.domain { *; }

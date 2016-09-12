@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'android-apt'
+apply plugin: 'com.neenbedankt.android-apt'
 def AAVersion = '4.1.0'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "com.three.a10_thousand_hours_theory_app"
@@ -29,11 +29,19 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:cardview-v7:23.0.+'
-    compile 'com.android.support:recyclerview-v7:23.0.+'
+    compile 'com.android.support:appcompat-v7:24.0.+'
+    compile 'com.android.support:design:24.0.+'
+    compile 'com.android.support:cardview-v7:24.0.+'
+    compile 'com.android.support:recyclerview-v7:24.0.+'
     compile 'link.fls:swipestack:0.3.0'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.github.sundeepk:compact-calendar-view:1.9.1'
+
+
+    // android orm
+    compile 'io.requery:requery:1.0.0-rc4'
+    compile 'io.requery:requery-android:1.0.0-rc4'
+    apt 'io.requery:requery-processor:1.0.0-rc4'
 
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"

@@ -19,18 +19,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/goal_step2_form_layout">
+            android:id="@+id/goal_step3_form_layout">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:text="언제까지 이루고 싶은가요?"
+                android:text="목표를 달성하기에 반복적으로 할일을 설정해주세요."
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
+                >
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></ListView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    >
+                    <ImageView
+                        android:id="@+id/add_new_task_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_add_black_24dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/goal_step2_form_layout">
+            android:layout_below="@+id/goal_step3_form_layout">
             <Button
                 android:id="@+id/step3_back_btn"
                 android:layout_width="wrap_content"
