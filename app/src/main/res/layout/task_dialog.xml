@@ -6,10 +6,56 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
     >
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="매주"
+            />
+        <com.three.a10_thousand_hours_theory_app.view.component.WheelView
+            android:id="@+id/time_wv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="회"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text=" "
+            />
+        <com.three.a10_thousand_hours_theory_app.view.component.WheelView
+            android:id="@+id/hour_wv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="시간씩"
+            />
+    </LinearLayout>
     <com.rengwuxian.materialedittext.MaterialEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
         app:met_helperText="ex) 단어 100개 외우기"
         android:hint="제목"
         app:met_floatingLabel="normal"
