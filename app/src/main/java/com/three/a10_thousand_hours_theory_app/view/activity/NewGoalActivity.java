@@ -7,7 +7,7 @@ import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
 import com.three.a10_thousand_hours_theory_app.R;
-import com.three.a10_thousand_hours_theory_app.model.domain.Task;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.NewGoalAdapter;
@@ -17,10 +17,15 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
 import link.fls.swipestack.SwipeStack;
+
+import static com.three.a10_thousand_hours_theory_app.view.adapter.NewGoalAdapter.STEP_1;
+import static com.three.a10_thousand_hours_theory_app.view.adapter.NewGoalAdapter.STEP_2;
+import static com.three.a10_thousand_hours_theory_app.view.adapter.NewGoalAdapter.STEP_3;
 
 @EActivity
 public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
@@ -62,13 +67,14 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
 
             @Override
             public void onStackEmpty() {
-                mNewGoalStack.resetStack();
+                goNewGoalFormStep1();
             }
         });
     }
 
     @Override
     public void goNewGoalFormStep1() {
+        mNewGoalAdapter.clearAndAddAll(Arrays.asList(STEP_1, STEP_2, STEP_3));
         mNewGoalStack.resetStack();
         mProgressBar.setProgress(0);
     }
@@ -88,6 +94,23 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     @Override
     public void submitNewGoal() {
         mProgressBar.setProgress(10);
+    }
+
+    @Override
+    public void addTask(TaskEntity newTask) {
+        mNewGoalAdapter.addTasks(newTask);
+        runOnUiThread(()-> {
+            mNewGoalAdapter.clearAndAdd(STEP_3);
+            mNewGoalStack.resetStack();
+        });
+    }
+
+    @Override
+    public void modifyTask(TaskEntity newTask) {
+        runOnUiThread(()-> {
+            mNewGoalAdapter.clearAndAdd(STEP_3);
+            mNewGoalStack.resetStack();
+        });
     }
 
     @Override
@@ -117,8 +140,8 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void showTaskDialog(Task task) {
-        mTaskDialog.show();
+    public void showTaskDialog(TaskEntity taskEntity) {
+        mTaskDialog.show(taskEntity);
     }
 
 }

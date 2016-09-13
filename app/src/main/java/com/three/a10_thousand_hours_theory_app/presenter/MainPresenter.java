@@ -9,10 +9,12 @@ import com.three.a10_thousand_hours_theory_app.view.activity.NewGoalActivity_;
 
 import org.androidannotations.annotations.EBean;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * Created by LCH on 2016. 9. 11..
  */
-@EBean
+@EBean(scope = EBean.Scope.Singleton)
 public class MainPresenter {
 
     private Context mContext;
@@ -23,12 +25,14 @@ public class MainPresenter {
 
     public void addGoal() {
         Intent intent = new Intent(mContext, NewGoalActivity_.class);
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 
     public void showGoalDetails(Goal goal) {
         Intent intent = new Intent(mContext, GoalDetailsActivity_.class);
         intent.putExtra("GOAL_ID", goal.getTitle());
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 }

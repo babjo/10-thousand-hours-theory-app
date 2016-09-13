@@ -1,5 +1,7 @@
 package com.three.a10_thousand_hours_theory_app.model.domain;
 
+import java.util.Date;
+
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
@@ -21,4 +23,8 @@ public interface Task extends Persistable {
     Goal getGoal();
 
     String getTitle();
+
+    int getTimes();
+    int getHours();
+    Date getStartDate();
 }

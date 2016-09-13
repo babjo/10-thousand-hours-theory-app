@@ -34,6 +34,8 @@
                 app:met_helperText="ex) 한달만에 허리둘레 3cm 줄이기"
                 app:met_floatingLabel="normal"
                 app:met_helperTextAlwaysShown="true"
+                android:inputType="text"
+                android:imeOptions="actionNext"
                 />
             <TextView
                 android:layout_marginTop="50dp"
@@ -51,6 +53,8 @@
                 app:met_helperText="ex) 일자복구 소취!!!"
                 app:met_floatingLabel="normal"
                 app:met_helperTextAlwaysShown="true"
+                android:inputType="text"
+                android:imeOptions="actionDone"
                 />
             </LinearLayout>
         <RelativeLayout

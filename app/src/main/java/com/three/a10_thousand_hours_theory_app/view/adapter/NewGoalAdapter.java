@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.Utils;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 
@@ -21,6 +23,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+
 public class NewGoalAdapter extends BaseAdapter {
 
     private final LayoutInflater mInflater;
@@ -28,7 +31,11 @@ public class NewGoalAdapter extends BaseAdapter {
     private Context mContext;
 
     private NewGoalPresenter mNewGoalPresenter;
-    private List<String> unused = new ArrayList(Arrays.asList("step1","step2","step3"));
+
+    private List<Integer> types = new ArrayList(Arrays.asList(STEP_1, STEP_2, STEP_3));
+    private TaskAdapter mTaskAdapter;
+
+    private static final String TAG = NewGoalAdapter.class.getName();
 
     public NewGoalAdapter(Context mContext) {
         this.mContext = mContext;
@@ -42,12 +49,12 @@ public class NewGoalAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return unused.size();
+        return types.size();
     }
 
     @Override
-    public String getItem(int position) {
-        return unused.get(position);
+    public Integer getItem(int position) {
+        return types.get(position);
     }
 
     @Override
@@ -62,7 +69,7 @@ public class NewGoalAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        int type = getItemViewType(position);
+        int type = types.get(position);
 
         if(type == STEP_1){
             if(convertView == null)
@@ -113,18 +120,22 @@ public class NewGoalAdapter extends BaseAdapter {
                 convertView = mInflater.inflate(R.layout.new_goal_step3, parent, false);
                 step3ViewHolder = new Step3ViewHolder();
                 step3ViewHolder.mBackBtn = (Button) convertView.findViewById(R.id.step3_back_btn);
-                step3ViewHolder.mAddNewTaskIv = (ImageView) convertView.findViewById(R.id.add_new_task_iv);
+                step3ViewHolder.mAddNewTaskIv = (LinearLayout) convertView.findViewById(R.id.add_new_task_iv);
                 step3ViewHolder.mSubmitBtn = (Button) convertView.findViewById(R.id.step3_next_btn);
+                step3ViewHolder.mTaskLv = (ListView) convertView.findViewById(R.id.step3_task_lv);
 
                 step3ViewHolder.mBackBtn.setOnClickListener(view -> mNewGoalPresenter.goNewGoalFormStep1());
                 step3ViewHolder.mAddNewTaskIv.setOnClickListener(v -> mNewGoalPresenter.showTaskDialog(null));
                 step3ViewHolder.mSubmitBtn.setOnClickListener(v -> mNewGoalPresenter.submitNewGoal(createGoalRequestDTO));
 
+                mTaskAdapter = new TaskAdapter(mContext, createGoalRequestDTO.getTasks());
+                mTaskAdapter.setNewGoalPresenter(mNewGoalPresenter);
+                step3ViewHolder.mTaskLv.setAdapter(mTaskAdapter);
+                step3ViewHolder.mTaskLv.setSelection(mTaskAdapter.getCount()-1);
                 convertView.setTag(step3ViewHolder);
             }else{
                 step3ViewHolder = (Step3ViewHolder) convertView.getTag();
             }
-
         }
 
         return convertView;
@@ -141,9 +152,9 @@ public class NewGoalAdapter extends BaseAdapter {
     }
 
 
-    private final static int STEP_1 = 0;
-    private final static int STEP_2 = 1;
-    private final static int STEP_3 = 2;
+    public final static int STEP_1 = 0;
+    public final static int STEP_2 = 1;
+    public final static int STEP_3 = 2;
 
     public void saveInputs() {
         if(step1ViewHolder != null) {
@@ -155,6 +166,21 @@ public class NewGoalAdapter extends BaseAdapter {
     public void setNewGoalDeadLineDate(Date deadLine) {
         createGoalRequestDTO.setDeadLineDate(deadLine);
         step2ViewHolder.mNewGoalDeadLineEt.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(deadLine));
+    }
+
+
+    public void clearAndAdd(int type) {
+        types.clear();
+        types.add(type);
+    }
+
+    public void clearAndAddAll(List<Integer> targets) {
+        types.clear();
+        types.addAll(targets);
+    }
+
+    public void addTasks(TaskEntity newTask) {
+        createGoalRequestDTO.addTask(newTask);
     }
 
     public class Step1ViewHolder {
@@ -171,7 +197,8 @@ public class NewGoalAdapter extends BaseAdapter {
     public class Step3ViewHolder{
         public Button mBackBtn;
         public Button mSubmitBtn;
-        public ImageView mAddNewTaskIv;
+        public ListView mTaskLv;
+        public LinearLayout mAddNewTaskIv;
     }
 
     private void disableEditText(EditText editText) {

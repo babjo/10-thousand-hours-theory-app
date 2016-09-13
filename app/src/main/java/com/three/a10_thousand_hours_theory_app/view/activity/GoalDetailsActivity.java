@@ -15,7 +15,7 @@ import org.androidannotations.annotations.ViewById;
 public class GoalDetailsActivity extends AppCompatActivity {
 
 
-    @ViewById(R.id.task_lv)
+    @ViewById(R.id.step3_task_lv)
     ListView mTaskListView;
 
     @ViewById(R.id.compactcalendar_view)

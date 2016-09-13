@@ -1,6 +1,6 @@
 package com.three.a10_thousand_hours_theory_app.presenter;
 
-import com.three.a10_thousand_hours_theory_app.model.domain.Task;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.service.CreateGoalService;
@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * Created by LCH on 2016. 9. 11..
  */
-@EBean
+@EBean(scope = EBean.Scope.Singleton)
 public class NewGoalPresenter {
 
     private NewGoalView mNewGoalView;
@@ -47,8 +47,15 @@ public class NewGoalPresenter {
         mNewGoalView.showDatePicker(deadLineDate);
     }
 
-    public void showTaskDialog(Task task){
-        mNewGoalView.showTaskDialog(task);
+    public void showTaskDialog(TaskEntity taskEntity){
+        mNewGoalView.showTaskDialog(taskEntity);
     }
 
+    public void addTask(TaskEntity newTask) {
+        mNewGoalView.addTask(newTask);
+    }
+
+    public void modifyTask(TaskEntity taskEntity) {
+        mNewGoalView.modifyTask(taskEntity);
+    }
 }
