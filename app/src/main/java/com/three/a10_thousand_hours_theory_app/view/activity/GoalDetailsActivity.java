@@ -3,14 +3,19 @@ package com.three.a10_thousand_hours_theory_app.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.R;
+import com.three.a10_thousand_hours_theory_app.Utils;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.Task;
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskRule;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.GoalDetailsPresenter;
 import com.three.a10_thousand_hours_theory_app.view.GoalDetailsView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.TaskAdapter;
@@ -19,12 +24,14 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @EActivity
 public class GoalDetailsActivity extends AppCompatActivity implements GoalDetailsView{
 
+    @ViewById(R.id.month_tv)
+    TextView mMonthTv;
 
     @ViewById(R.id.task_lv)
     ListView mTaskListView;
@@ -34,18 +41,50 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
 
     @Bean
     GoalDetailsPresenter mGoalDetailsPresenter;
-    private TaskAdapter mTaskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_details);
-
         mGoalDetailsPresenter.setGoalDetailsView(this);
+
+        mMonthTv.setText(Utils.getMonth(new Date()));
+        mCompactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
+            @Override
+            public void onDayClick(Date dateClicked) {
+            }
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+                mMonthTv.setText(Utils.getMonth(firstDayOfNewMonth));
+            }
+        });
 
         Intent intent = getIntent();
         if(intent != null){
-            int goalId = intent.getIntExtra("GOAL_ID", -1);
+            int goalId = intent.getIntExtra(Const.INTENT_EXTRA_GOAL_ID, -1);
+            if (goalId != -1) {
+                mGoalDetailsPresenter.loadGoal(goalId);
+            }else{ // goldId 가 없으면
+            }
+        }
+    }
+
+    private void setCurrentDateAtCalendar(Task task) {
+        Date d;
+        if(task.getCompleted())
+            d = task.getCompletedDate();
+        else
+            d = task.getBeginDate();
+        mMonthTv.setText(Utils.getMonth(d));
+        mCompactCalendarView.setCurrentDate(d);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        if(intent != null){
+            int goalId = intent.getIntExtra(Const.INTENT_EXTRA_GOAL_ID, -1);
             if (goalId != -1) {
                 mGoalDetailsPresenter.loadGoal(goalId);
             }else{ // goldId 가 없으면
@@ -56,15 +95,32 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     @Override
     public void loadGoal(GoalEntity goalEntity) {
         setTitle(goalEntity.getTitle());
+        List<Task> tasks = goalEntity.getTesks();
 
-        List<Task> tasks = new ArrayList();
-        for (TaskRule r : goalEntity.getTaskRules()){
-            tasks.addAll(r.getTasks());
-        }
+        TaskAdapter taskAdapter = new TaskAdapter(this, tasks);
+        taskAdapter.setGoalDetailsPresenter(mGoalDetailsPresenter);
+        mTaskListView.setAdapter(taskAdapter);
 
-        mTaskAdapter = new TaskAdapter(this, tasks);
-        mTaskAdapter.setGoalDetailsPresenter(mGoalDetailsPresenter);
-        mTaskListView.setAdapter(mTaskAdapter);
+        mTaskListView.setOnItemClickListener((parent, view, position, id) ->{
+            Task task = taskAdapter.getItem(position);
+            setCurrentDateAtCalendar(task);
+        });
+
+        mTaskListView.setOnScrollListener(new AbsListView.OnScrollListener(){
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState == 0)
+                    Log.i("a", "scrolling stopped...");
+                if (view.getId() == mTaskListView.getId()) {
+                    int currentFirstVisibleItem = mTaskListView.getFirstVisiblePosition();
+                    TaskEntity task = (TaskEntity) mTaskListView.getItemAtPosition(currentFirstVisibleItem);
+                    setCurrentDateAtCalendar(task);
+                }
+            }
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
 
         mCompactCalendarView.removeAllEvents();
         for (Task t : tasks) {

@@ -7,32 +7,33 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:background="#FFFFFF"
+        android:id="@+id/month_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:text="8월"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        />
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
         android:layout_width="match_parent"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_height="260dp"
+        android:layout_height="200dp"
         app:compactCalendarTextSize="12sp"
         app:compactCalendarCurrentDayBackgroundColor="#9E9E9E"
         />
-
     <ListView
+        android:layout_marginTop="1dp"
         android:id="@+id/task_lv"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
         >
-
     </ListView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/create_task_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_36dp" />
 
 </LinearLayout>

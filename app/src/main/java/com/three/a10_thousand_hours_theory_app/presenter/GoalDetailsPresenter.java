@@ -48,7 +48,7 @@ public class GoalDetailsPresenter {
 
     public void completeTask(TaskEntity taskEntity) {
         mSaveTaskService.execute(new SaveTaskRequestDTO(taskEntity));
-        loadGoal(taskEntity.getTaskRule().getGoal().getId());
+        loadGoal(taskEntity.getGoal().getId());
     }
 
 }

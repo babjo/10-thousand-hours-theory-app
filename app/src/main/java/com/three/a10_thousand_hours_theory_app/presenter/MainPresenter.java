@@ -3,6 +3,7 @@ package com.three.a10_thousand_hours_theory_app.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.model.domain.Goal;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetAllGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.service.GetAllGoalService;
@@ -49,7 +50,7 @@ public class MainPresenter {
 
     public void showGoalDetails(Goal goal) {
         Intent intent = new Intent(mContext, GoalDetailsActivity_.class);
-        intent.putExtra("GOAL_ID", goal.getId());
+        intent.putExtra(Const.INTENT_EXTRA_GOAL_ID, goal.getId());
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

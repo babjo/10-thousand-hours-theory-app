@@ -1,8 +1,8 @@
 package com.three.a10_thousand_hours_theory_app.model.service;
 
 import android.content.Context;
-import android.graphics.Color;
 
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
@@ -30,28 +30,6 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
     private final Context mContext;
     private static final String TAG = CreateGoalService.class.getName();
 
-    private static final Integer[] LABEL_COLORS = new Integer[]{
-            Color.parseColor("#F44336"), // Red
-            Color.parseColor("#E91E63"), // Pink
-            Color.parseColor("#9C27B0"), // Purple
-            Color.parseColor("#673AB7"), // Deep Purple
-            Color.parseColor("#3F51B5"), // Indigo
-            Color.parseColor("#2196F3"), // Blue
-            Color.parseColor("#03A9F4"), // Light Blue
-            Color.parseColor("#00BCD4"), // Cyan
-            Color.parseColor("#009688"), // Teal
-            Color.parseColor("#4CAF50"), // Green
-            Color.parseColor("#8BC34A"), // Light Green
-            Color.parseColor("#CDDC39"), // Lime
-            Color.parseColor("#FFEB3B"), // Yellow
-            Color.parseColor("#FFC107"), // Amber
-            Color.parseColor("#FF9800"), // Orange
-            Color.parseColor("#FF5722"), // Deep Orange
-            Color.parseColor("#795548"), // Brown
-            Color.parseColor("#9E9E9E"), // Grey
-            Color.parseColor("#607D8B") // Blue Grey
-    };
-
     @Bean
     Requery requery;
 
@@ -70,26 +48,24 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
         // Save Goal
         goalEntity = requery.getData().insert(goalEntity);
 
-        List<Integer> colors = Arrays.asList(LABEL_COLORS);
+        List<Integer> colors = Arrays.asList(Const.LABEL_COLORS);
         Collections.shuffle(colors);
 
-        // Set Goal
+        // Set TaskRule
         for (int i=0; i<taskRuleEntities.size(); i++) {
             TaskRuleEntity t = taskRuleEntities.get(i);
-            int color = colors.get(i % LABEL_COLORS.length);
+            int color = colors.get(i % Const.LABEL_COLORS.length);
             t.setGoal(goalEntity);
             t.setLabelColor(color);
+            t.setStartDate(new Date());
         }
         // Save TaskRule
         requery.getData().insert(taskRuleEntities);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, (Calendar.MONDAY - cal.get(Calendar.DAY_OF_WEEK)));
-        Date beginDate = cal.getTime();
-        cal.add(Calendar.DATE, 6);
+        cal.add(Calendar.DATE, (Calendar.MONDAY - cal.get(Calendar.DAY_OF_WEEK))); // 그 주 월요일
+        cal.add(Calendar.DATE, 6); // 그 주 일요일
         Date endDate = cal.getTime();
-
-
 
         // Set Task
         for (TaskRuleEntity t: taskRuleEntities){
@@ -97,11 +73,11 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
 
             for (int i=0; i<t.getTimes(); i++){
                 TaskEntity newTaskEntity = new TaskEntity();
-                newTaskEntity.setBeginDate(beginDate);
+                newTaskEntity.setBeginDate(t.getStartDate());
                 newTaskEntity.setEndDate(endDate);
                 newTaskEntity.setCompleted(false);
                 newTaskEntity.setHours(t.getHours());
-                newTaskEntity.setTaskRule(t);
+                newTaskEntity.setGoal(goalEntity);
                 newTaskEntity.setTitle(t.getTitle());
                 newTaskEntity.setLabelColor(t.getLabelColor());
                 taskEntities.add(newTaskEntity);

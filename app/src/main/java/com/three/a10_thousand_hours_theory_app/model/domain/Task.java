@@ -27,5 +27,5 @@ public interface Task extends Persistable{
     String getTitle();
 
     @ManyToOne
-    TaskRule getTaskRule();
+    Goal getGoal();
 }

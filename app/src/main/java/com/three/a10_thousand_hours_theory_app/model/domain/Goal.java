@@ -28,4 +28,7 @@ public interface Goal extends Persistable {
 
     @OneToMany(mappedBy = "goal", cascade = {CascadeAction.DELETE, CascadeAction.SAVE})
     List<TaskRule> getTaskRules();
+
+    @OneToMany(mappedBy = "goal", cascade = {CascadeAction.DELETE, CascadeAction.SAVE})
+    List<Task> getTesks();
 }
