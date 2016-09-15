@@ -8,4 +8,5 @@ import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 
 public interface GoalDetailsView {
     void loadGoal(GoalEntity goalEntity);
+    void finish();
 }

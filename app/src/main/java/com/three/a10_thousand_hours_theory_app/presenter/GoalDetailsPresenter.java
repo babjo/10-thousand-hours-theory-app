@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
+import com.three.a10_thousand_hours_theory_app.model.dto.DeleteGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.SaveTaskRequestDTO;
+import com.three.a10_thousand_hours_theory_app.model.service.DeleteGoalService;
 import com.three.a10_thousand_hours_theory_app.model.service.GetGoalService;
 import com.three.a10_thousand_hours_theory_app.model.service.SaveTaskService;
 import com.three.a10_thousand_hours_theory_app.model.service.Service;
@@ -32,6 +34,9 @@ public class GoalDetailsPresenter {
     @Bean(SaveTaskService.class)
     Service mSaveTaskService;
 
+    @Bean(DeleteGoalService.class)
+    Service mDeleteGoalService;
+
     public GoalDetailsPresenter(Context mContext) {
         this.mContext = mContext;
     }
@@ -51,4 +56,8 @@ public class GoalDetailsPresenter {
         loadGoal(taskEntity.getGoal().getId());
     }
 
+    public void deleteGoal(int goalId) {
+        mDeleteGoalService.execute(new DeleteGoalRequestDTO(goalId));
+        mGoalDetailsView.finish();
+    }
 }

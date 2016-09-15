@@ -109,11 +109,14 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        int goalId = getIntent().getIntExtra(Const.INTENT_EXTRA_GOAL_ID, -1);
         if (id == R.id.action_edit) {
             Intent intent = new Intent(this, NewGoalActivity_.class);
-            intent.putExtra(Const.INTENT_EXTRA_GOAL_ID, getIntent().getIntExtra(Const.INTENT_EXTRA_GOAL_ID, -1));
+            intent.putExtra(Const.INTENT_EXTRA_GOAL_ID, goalId);
             startActivity(intent);
             return true;
+        }else if (id == R.id.action_delete_goal){
+            mGoalDetailsPresenter.deleteGoal(goalId);
         }
 
         return super.onOptionsItemSelected(item);
