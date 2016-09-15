@@ -30,14 +30,14 @@ public class TaskAdapter extends BaseAdapter{
     private final Context mContext;
     private final LayoutInflater mInflater;
     private List<TaskRule> mTaskRules;
-    private List<Task> mTasks;
+    private List<TaskEntity> mTasks;
 
     private GoalDetailsPresenter mGoalDetailsPresenter;
 
-    public TaskAdapter(Context mContext, List<Task> tasks) {
+    public TaskAdapter(Context mContext, List<TaskEntity> taskEntities) {
         this.mContext = mContext;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mTasks = tasks;
+        this.mTasks = taskEntities;
     }
 
     public void setGoalDetailsPresenter(GoalDetailsPresenter mGoalDetailsPresenter) {

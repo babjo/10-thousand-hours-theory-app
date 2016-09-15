@@ -20,7 +20,7 @@ public class GetGoalService implements Service<GetGoalRequestDTO, GetGoalRespons
 
     @Override
     public GetGoalResponseDTO execute(GetGoalRequestDTO arg) {
-        GoalEntity g = mRequery.getData().select(GoalEntity.class).where(GoalEntity.ID.eq(arg.getGoalId())).get().first();
+        GoalEntity g = mRequery.getData().findByKey(GoalEntity.class, arg.getGoalId());
         return new GetGoalResponseDTO(g);
     }
 }

@@ -32,6 +32,7 @@ public class TaskDialog {
 
     @Bean
     NewGoalPresenter mNewGoalPresenter;
+
     private Dialog dialog;
 
 
@@ -84,16 +85,16 @@ public class TaskDialog {
         }else{
             alertDialogBuilder
                     .setPositiveButton("추가", (dialog, which) -> {
-                        TaskRuleEntity newTask = newTaskEntity(titleEt, timeWheelView, hourWheelView);
-                        mNewGoalPresenter.addTask(newTask);
+                        TaskRuleEntity newTask = newTaskRuleEntity(titleEt, timeWheelView, hourWheelView);
+                        mNewGoalPresenter.addTaskRule(newTask);
                         dialog.dismiss();
                     });
 
             // 키보드 엔터
             titleEt.setOnEditorActionListener((textView, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    TaskRuleEntity newTask = newTaskEntity(titleEt, timeWheelView, hourWheelView);
-                    mNewGoalPresenter.addTask(newTask);
+                    TaskRuleEntity newTask = newTaskRuleEntity(titleEt, timeWheelView, hourWheelView);
+                    mNewGoalPresenter.addTaskRule(newTask);
                     dialog.dismiss();
                     return true;
                 }
@@ -107,7 +108,7 @@ public class TaskDialog {
     }
 
     @NonNull
-    private TaskRuleEntity newTaskEntity(EditText titleEt, WheelView timeWheelView, WheelView hourWheelView) {
+    private TaskRuleEntity newTaskRuleEntity(EditText titleEt, WheelView timeWheelView, WheelView hourWheelView) {
         String title = titleEt.getText().toString();
         int times = Integer.parseInt(timeWheelView.getSeletedItem());
         int hours = Integer.parseInt(hourWheelView.getSeletedItem());
@@ -117,7 +118,7 @@ public class TaskDialog {
         newTask.setTimes(times);
         newTask.setHours(hours);
 
-        Log.d(TAG, String.format("할일추가 %s, %dialog, %dialog", title, times, hours));
+        Log.d(TAG, String.format("할일추가 %s, %d times, %d hours", title, times, hours));
         return newTask;
     }
 
@@ -131,6 +132,6 @@ public class TaskDialog {
         taskEntity.setHours(hours);
         taskEntity.setTimes(times);
 
-        Log.d(TAG, String.format("할일수정 %s, %dialog, %dialog", title, times, hours));
+        Log.d(TAG, String.format("할일수정 %s, %d times, %d hours", title, times, hours));
     }
 }

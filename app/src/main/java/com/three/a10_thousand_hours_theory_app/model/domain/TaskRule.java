@@ -20,7 +20,7 @@ public interface TaskRule extends Persistable {
     int getId();
 
     @ManyToOne
-    Goal getGoal();
+    GoalEntity getGoal();
 
     String getTitle();
 

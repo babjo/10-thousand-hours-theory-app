@@ -43,7 +43,7 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
         goalEntity.setTitle(createGoalRequestDTO.getTitle());
         goalEntity.setDescription(createGoalRequestDTO.getDescription());
         goalEntity.setDeadLineDate(createGoalRequestDTO.getDeadLineDate());
-        List<TaskRuleEntity> taskRuleEntities = createGoalRequestDTO.getTasks();
+        List<TaskRuleEntity> taskRuleEntities = createGoalRequestDTO.getTaskRuleEntities();
 
         // Save Goal
         goalEntity = requery.getData().insert(goalEntity);

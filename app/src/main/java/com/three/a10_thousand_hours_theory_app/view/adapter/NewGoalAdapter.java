@@ -38,9 +38,13 @@ public class NewGoalAdapter extends BaseAdapter {
     private static final String TAG = NewGoalAdapter.class.getName();
 
     public NewGoalAdapter(Context mContext) {
+        this(mContext, new CreateGoalRequestDTO());
+    }
+
+    public NewGoalAdapter(Context mContext, CreateGoalRequestDTO createGoalRequestDTO) {
         this.mContext = mContext;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.createGoalRequestDTO = new CreateGoalRequestDTO();
+        this.createGoalRequestDTO = createGoalRequestDTO;
     }
 
     public void setNewGoalPresenter(NewGoalPresenter mNewGoalPresenter) {
@@ -126,9 +130,15 @@ public class NewGoalAdapter extends BaseAdapter {
 
                 step3ViewHolder.mBackBtn.setOnClickListener(view -> mNewGoalPresenter.goNewGoalFormStep1());
                 step3ViewHolder.mAddNewTaskIv.setOnClickListener(v -> mNewGoalPresenter.showTaskDialog(null));
-                step3ViewHolder.mSubmitBtn.setOnClickListener(v -> mNewGoalPresenter.submitNewGoal(createGoalRequestDTO));
+                step3ViewHolder.mSubmitBtn.setOnClickListener(v -> {
+                    if(createGoalRequestDTO.getGoalId() == 0) {
+                        mNewGoalPresenter.submitNewGoal(createGoalRequestDTO);
+                    }else{
+                        mNewGoalPresenter.updateGoal(createGoalRequestDTO.convert());
+                    }
+                });
 
-                mNewTaskAdapter = new NewTaskAdapter(mContext, createGoalRequestDTO.getTasks());
+                mNewTaskAdapter = new NewTaskAdapter(mContext, createGoalRequestDTO.getTaskRuleEntities());
                 mNewTaskAdapter.setNewGoalPresenter(mNewGoalPresenter);
                 step3ViewHolder.mTaskLv.setAdapter(mNewTaskAdapter);
                 step3ViewHolder.mTaskLv.setSelection(mNewTaskAdapter.getCount()-1);
@@ -179,8 +189,8 @@ public class NewGoalAdapter extends BaseAdapter {
         types.addAll(targets);
     }
 
-    public void addTasks(TaskRuleEntity newTask) {
-        createGoalRequestDTO.addTask(newTask);
+    public void addTasks(TaskRuleEntity newTaskEntity) {
+        createGoalRequestDTO.addTaskRuleEntity(newTaskEntity);
     }
 
     public class Step1ViewHolder {

@@ -27,8 +27,8 @@ public interface Goal extends Persistable {
     Date getDeadLineDate();
 
     @OneToMany(mappedBy = "goal", cascade = {CascadeAction.DELETE, CascadeAction.SAVE})
-    List<TaskRule> getTaskRules();
+    List<TaskRuleEntity> getTaskRules();
 
     @OneToMany(mappedBy = "goal", cascade = {CascadeAction.DELETE, CascadeAction.SAVE})
-    List<Task> getTesks();
+    List<TaskEntity> getTesks();
 }

@@ -14,6 +14,7 @@ public interface NewGoalView {
     void showDatePicker(Date deadLineDate);
     void showTaskDialog(TaskRuleEntity task);
     void submitNewGoal();
-    void addTask(TaskRuleEntity newTask);
-    void modifyTask(TaskRuleEntity newTask);
+    void addTask(TaskRuleEntity newTaskEntity);
+    void modifyTask(TaskRuleEntity taskEntity);
+    void finish();
 }

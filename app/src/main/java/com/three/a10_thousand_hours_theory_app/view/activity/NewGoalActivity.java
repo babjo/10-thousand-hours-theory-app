@@ -1,13 +1,16 @@
 package com.three.a10_thousand_hours_theory_app.view.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
+import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.NewGoalAdapter;
@@ -51,7 +54,17 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_goal);
 
-        mNewGoalAdapter = new NewGoalAdapter(this);
+        Intent intent = getIntent();
+        int goalId = intent.getIntExtra(Const.INTENT_EXTRA_GOAL_ID, -1);
+
+        // 생성
+        if(goalId == -1) {
+            mNewGoalAdapter = new NewGoalAdapter(this);
+        }else{ // 수정
+            mNewGoalAdapter = new NewGoalAdapter(this, new CreateGoalRequestDTO(mNewGoalPresenter.getGoal(goalId)));
+            setTitle("목표 수정");
+        }
+
         mNewGoalAdapter.setNewGoalPresenter(mNewGoalPresenter);
         mNewGoalStack.setAdapter(mNewGoalAdapter);
         mNewGoalPresenter.setNewGoalView(this);
@@ -110,8 +123,8 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void addTask(TaskRuleEntity newTask) {
-        mNewGoalAdapter.addTasks(newTask);
+    public void addTask(TaskRuleEntity newTaskEntity) {
+        mNewGoalAdapter.addTasks(newTaskEntity);
         runOnUiThread(()-> {
             mNewGoalAdapter.clearAndAdd(STEP_3);
             mNewGoalStack.resetStack();
@@ -119,7 +132,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void modifyTask(TaskRuleEntity newTask) {
+    public void modifyTask(TaskRuleEntity taskEntity) {
         runOnUiThread(()-> {
             mNewGoalAdapter.clearAndAdd(STEP_3);
             mNewGoalStack.resetStack();
