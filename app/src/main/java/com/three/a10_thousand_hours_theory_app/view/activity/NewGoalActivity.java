@@ -62,6 +62,16 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
 
             @Override
             public void onViewSwipedToRight(int position) {
+                if(currentStep == STEP_1){
+                    mProgressBar.setProgress(3);
+                    currentStep = STEP_2;
+                }else if(currentStep == STEP_2){
+                    mProgressBar.setProgress(6);
+                    currentStep = STEP_3;
+                }else{
+                    mProgressBar.setProgress(0);
+                    currentStep = STEP_1;
+                }
                 mNewGoalAdapter.saveInputs();
             }
 
@@ -71,6 +81,8 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
             }
         });
     }
+
+    private int currentStep = STEP_1;
 
     @Override
     public void goNewGoalFormStep1() {
@@ -94,6 +106,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     @Override
     public void submitNewGoal() {
         mProgressBar.setProgress(10);
+        finish();
     }
 
     @Override

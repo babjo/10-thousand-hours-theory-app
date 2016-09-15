@@ -12,6 +12,7 @@ import android.view.View;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.MainPresenter;
+import com.three.a10_thousand_hours_theory_app.view.MainView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.GoalListAdapter;
 
 import org.androidannotations.annotations.Bean;
@@ -19,11 +20,10 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @EActivity
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView{
 
 
     @ViewById(R.id.goal_list)
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Bean
     MainPresenter mMainPresenter;
+    private GoalListAdapter mGoalListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,29 +43,25 @@ public class MainActivity extends AppCompatActivity {
         mGoalListView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mGoalListView.setLayoutManager(layoutManager);
-        List<GoalEntity> goalList = new ArrayList();
+        mGoalListAdapter = new GoalListAdapter();
+        mGoalListView.setAdapter(mGoalListAdapter);
 
-        GoalEntity g1 = new GoalEntity();
-        g1.setTitle("모든 영화 자막 없이 보기");
-        g1.setDescription("영어 농담도 알아들을 수준");
+        // inject
+        mGoalListAdapter.setMainPresenter(mMainPresenter);
+        mMainPresenter.setMainView(this);
 
-        GoalEntity g2 = new GoalEntity();
-        g2.setTitle("드로잉");
-        g2.setDescription("'그림 잘 그리는 사람'이 될 때까지 !");
-
-        goalList.add(g1);
-        goalList.add(g2);
-        GoalListAdapter adapter = new GoalListAdapter(goalList);
-        mGoalListView.setAdapter(adapter);
-        adapter.setMainPresenter(mMainPresenter);
+        mMainPresenter.loadGoals();
     }
 
-
-
     @Click(R.id.create_goal_btn)
-    public void fabButton(View view){
-        //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    public void createGoalButton(View view){
         mMainPresenter.addGoal();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMainPresenter.loadGoals();
     }
 
     @Override
@@ -87,5 +84,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void loadGoals(List<GoalEntity> goals) {
+        runOnUiThread(()->{
+            mGoalListAdapter.clearAndAddAll(goals);
+            mGoalListAdapter.notifyDataSetChanged();
+        });
     }
 }

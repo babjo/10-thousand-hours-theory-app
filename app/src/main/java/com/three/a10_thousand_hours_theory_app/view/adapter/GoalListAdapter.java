@@ -12,6 +12,7 @@ import com.three.a10_thousand_hours_theory_app.model.domain.Goal;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.MainPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,9 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
     private List<GoalEntity> goalList;
     private MainPresenter mMainPresenter;
 
+    public GoalListAdapter(){
+        this(new ArrayList());
+    }
     public GoalListAdapter(List<GoalEntity> goalList) {
         this.goalList = goalList;
     }
@@ -48,6 +52,11 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
     @Override
     public int getItemCount() {
         return goalList.size();
+    }
+
+    public void clearAndAddAll(List<GoalEntity> goals) {
+        goalList.clear();
+        goalList.addAll(goals);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

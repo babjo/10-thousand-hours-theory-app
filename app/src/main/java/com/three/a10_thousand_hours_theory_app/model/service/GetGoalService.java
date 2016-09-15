@@ -1,0 +1,26 @@
+package com.three.a10_thousand_hours_theory_app.model.service;
+
+import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
+import com.three.a10_thousand_hours_theory_app.model.dto.GetGoalRequestDTO;
+import com.three.a10_thousand_hours_theory_app.model.dto.GetGoalResponseDTO;
+import com.three.a10_thousand_hours_theory_app.model.infrastructure.Requery;
+
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+
+/**
+ * Created by LCH on 2016. 9. 13..
+ */
+
+@EBean
+public class GetGoalService implements Service<GetGoalRequestDTO, GetGoalResponseDTO> {
+
+    @Bean
+    Requery requery;
+
+    @Override
+    public GetGoalResponseDTO execute(GetGoalRequestDTO arg) {
+        GoalEntity g = requery.getData().select(GoalEntity.class).where(GoalEntity.ID.eq(arg.getGoalId())).get().first();
+        return new GetGoalResponseDTO(g);
+    }
+}

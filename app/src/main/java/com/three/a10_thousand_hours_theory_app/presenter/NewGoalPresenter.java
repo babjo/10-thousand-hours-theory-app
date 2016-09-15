@@ -2,7 +2,6 @@ package com.three.a10_thousand_hours_theory_app.presenter;
 
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
-import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.service.CreateGoalService;
 import com.three.a10_thousand_hours_theory_app.model.service.Service;
 import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
@@ -21,7 +20,7 @@ public class NewGoalPresenter {
     private NewGoalView mNewGoalView;
 
     @Bean(CreateGoalService.class)
-    Service createGoalService;
+    Service mCreateGoalService;
 
     public void goNewGoalFormStep2() {
         mNewGoalView.goNewGoalFormStep2();
@@ -32,7 +31,8 @@ public class NewGoalPresenter {
     }
 
     public void submitNewGoal(CreateGoalRequestDTO createGoalRequestDTO){
-        CreateGoalResponseDTO createGoalResponseDTO  = (CreateGoalResponseDTO) createGoalService.execute(createGoalRequestDTO);
+        mCreateGoalService.execute(createGoalRequestDTO);
+        mNewGoalView.submitNewGoal();
     }
 
     public void setNewGoalView(NewGoalView mNewGoalView) {
