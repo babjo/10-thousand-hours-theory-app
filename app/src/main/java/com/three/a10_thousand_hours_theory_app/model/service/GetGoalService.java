@@ -16,11 +16,11 @@ import org.androidannotations.annotations.EBean;
 public class GetGoalService implements Service<GetGoalRequestDTO, GetGoalResponseDTO> {
 
     @Bean
-    Requery requery;
+    Requery mRequery;
 
     @Override
     public GetGoalResponseDTO execute(GetGoalRequestDTO arg) {
-        GoalEntity g = requery.getData().select(GoalEntity.class).where(GoalEntity.ID.eq(arg.getGoalId())).get().first();
+        GoalEntity g = mRequery.getData().select(GoalEntity.class).where(GoalEntity.ID.eq(arg.getGoalId())).get().first();
         return new GetGoalResponseDTO(g);
     }
 }

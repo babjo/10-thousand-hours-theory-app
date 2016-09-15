@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
+import com.three.a10_thousand_hours_theory_app.model.domain.Task;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRule;
 import com.three.a10_thousand_hours_theory_app.presenter.GoalDetailsPresenter;
 import com.three.a10_thousand_hours_theory_app.view.GoalDetailsView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.TaskAdapter;
@@ -15,6 +18,9 @@ import com.three.a10_thousand_hours_theory_app.view.adapter.TaskAdapter;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EActivity
 public class GoalDetailsActivity extends AppCompatActivity implements GoalDetailsView{
@@ -28,6 +34,7 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
 
     @Bean
     GoalDetailsPresenter mGoalDetailsPresenter;
+    private TaskAdapter mTaskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,22 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     @Override
     public void loadGoal(GoalEntity goalEntity) {
         setTitle(goalEntity.getTitle());
-        mTaskListView.setAdapter(new TaskAdapter(this, goalEntity.getTaskRules()));
+
+        List<Task> tasks = new ArrayList();
+        for (TaskRule r : goalEntity.getTaskRules()){
+            tasks.addAll(r.getTasks());
+        }
+
+        mTaskAdapter = new TaskAdapter(this, tasks);
+        mTaskAdapter.setGoalDetailsPresenter(mGoalDetailsPresenter);
+        mTaskListView.setAdapter(mTaskAdapter);
+
+        mCompactCalendarView.removeAllEvents();
+        for (Task t : tasks) {
+            if(t.getCompleted()) {
+                Event e = new Event(t.getLabelColor(), t.getCompletedDate().getTime());
+                mCompactCalendarView.addEvent(e, true);
+            }
+        }
     }
 }

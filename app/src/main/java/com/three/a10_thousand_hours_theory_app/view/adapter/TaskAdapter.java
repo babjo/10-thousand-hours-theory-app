@@ -11,9 +11,11 @@ import android.widget.TextView;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.Utils;
 import com.three.a10_thousand_hours_theory_app.model.domain.Task;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRule;
+import com.three.a10_thousand_hours_theory_app.presenter.GoalDetailsPresenter;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.view.View.GONE;
@@ -30,15 +32,16 @@ public class TaskAdapter extends BaseAdapter{
     private List<TaskRule> mTaskRules;
     private List<Task> mTasks;
 
-    public TaskAdapter(Context mContext, List<TaskRule> taskRules) {
+    private GoalDetailsPresenter mGoalDetailsPresenter;
+
+    public TaskAdapter(Context mContext, List<Task> tasks) {
         this.mContext = mContext;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mTaskRules = taskRules;
+        this.mTasks = tasks;
+    }
 
-        this.mTasks = new ArrayList();
-        for (TaskRule r : mTaskRules){
-            mTasks.addAll(r.getTasks());
-        }
+    public void setGoalDetailsPresenter(GoalDetailsPresenter mGoalDetailsPresenter) {
+        this.mGoalDetailsPresenter = mGoalDetailsPresenter;
     }
 
     @Override
@@ -59,7 +62,7 @@ public class TaskAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder v;
-        Task task = getItem(position);
+        TaskEntity task = (TaskEntity) getItem(position);
 
         if (convertView == null){
             convertView = mInflater.inflate(R.layout.task_list_item, parent, false);
@@ -69,6 +72,20 @@ public class TaskAdapter extends BaseAdapter{
             v.mTaskHoursTv = (TextView) convertView.findViewById(R.id.task_hours_tv);
             v.mTaskCompletedCb = (CheckBox) convertView.findViewById(R.id.task_completed_cb);
             v.mTaskCompletedDateTv = (TextView) convertView.findViewById(R.id.task_completed_date_tv);
+            v.mTaskCompletedCb.setOnClickListener(v1 -> {
+
+                if(task.getCompleted()){
+                    task.setCompleted(false);
+                }else {
+                    task.setCompleted(true);
+                    // for test
+                    //Calendar c = Calendar.getInstance();
+                    //c.add(Calendar.DATE, -1);
+                    //task.setCompletedDate(c.getTime());
+                    task.setCompletedDate(new Date());
+                }
+                mGoalDetailsPresenter.completeTask(task);
+            });
 
             convertView.setTag(v);
         }else{
