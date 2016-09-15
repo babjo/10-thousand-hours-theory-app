@@ -10,6 +10,7 @@ import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.GoalDetailsPresenter;
 import com.three.a10_thousand_hours_theory_app.view.GoalDetailsView;
+import com.three.a10_thousand_hours_theory_app.view.adapter.TaskAdapter;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
@@ -19,7 +20,7 @@ import org.androidannotations.annotations.ViewById;
 public class GoalDetailsActivity extends AppCompatActivity implements GoalDetailsView{
 
 
-    @ViewById(R.id.step3_task_lv)
+    @ViewById(R.id.task_lv)
     ListView mTaskListView;
 
     @ViewById(R.id.compactcalendar_view)
@@ -31,7 +32,7 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goal);
+        setContentView(R.layout.activity_goal_details);
 
         mGoalDetailsPresenter.setGoalDetailsView(this);
 
@@ -48,5 +49,6 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     @Override
     public void loadGoal(GoalEntity goalEntity) {
         setTitle(goalEntity.getTitle());
+        mTaskListView.setAdapter(new TaskAdapter(this, goalEntity.getTaskRules()));
     }
 }

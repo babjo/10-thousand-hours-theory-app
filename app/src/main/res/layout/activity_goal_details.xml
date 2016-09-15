@@ -18,12 +18,20 @@
         />
 
     <ListView
-        android:id="@+id/step3_task_lv"
+        android:id="@+id/task_lv"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
         >
 
     </ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/create_task_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_white_36dp" />
 
 </LinearLayout>

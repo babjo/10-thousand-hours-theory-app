@@ -5,49 +5,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.three.a10_thousand_hours_theory_app.R;
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
-import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
+import com.three.a10_thousand_hours_theory_app.Utils;
+import com.three.a10_thousand_hours_theory_app.model.domain.Task;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRule;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
- * Created by LCH on 2016. 9. 11..
+ * Created by LCH on 2016. 9. 15..
  */
+
 public class TaskAdapter extends BaseAdapter{
 
-    private final List<TaskEntity> tasks;
     private final Context mContext;
     private final LayoutInflater mInflater;
+    private List<TaskRule> mTaskRules;
+    private List<Task> mTasks;
 
-    private NewGoalPresenter mNewGoalPresenter;
-
-    public TaskAdapter(Context mContext) {
-        this(mContext, new ArrayList());
-    }
-
-    public TaskAdapter(Context mContext, List<TaskEntity> tasks) {
+    public TaskAdapter(Context mContext, List<TaskRule> taskRules) {
         this.mContext = mContext;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.tasks = tasks;
-    }
+        this.mTaskRules = taskRules;
 
-    public void setNewGoalPresenter(NewGoalPresenter mNewGoalPresenter) {
-        this.mNewGoalPresenter = mNewGoalPresenter;
+        this.mTasks = new ArrayList();
+        for (TaskRule r : mTaskRules){
+            mTasks.addAll(r.getTasks());
+        }
     }
 
     @Override
     public int getCount() {
-        return tasks.size();
+        return mTasks.size();
     }
 
     @Override
-    public TaskEntity getItem(int position) {
-        return tasks.get(position);
+    public Task getItem(int position) {
+        return mTasks.get(position);
     }
 
     @Override
@@ -58,26 +59,40 @@ public class TaskAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder v;
-        TaskEntity t = getItem(position);
+        Task task = getItem(position);
 
         if (convertView == null){
             convertView = mInflater.inflate(R.layout.task_list_item, parent, false);
             v = new ViewHolder();
-            v.mNewTaskTitleTv = (TextView) convertView.findViewById(R.id.new_task_title_tv);
-            v.mEditIv = (ImageView) convertView.findViewById(R.id.edit_new_task_iv);
-            convertView.setOnClickListener(view->mNewGoalPresenter.showTaskDialog(t));
+            v.mTaskLabel = convertView.findViewById(R.id.task_label);
+            v.mTaskTitleTv = (TextView) convertView.findViewById(R.id.task_title_tv);
+            v.mTaskHoursTv = (TextView) convertView.findViewById(R.id.task_hours_tv);
+            v.mTaskCompletedCb = (CheckBox) convertView.findViewById(R.id.task_completed_cb);
+            v.mTaskCompletedDateTv = (TextView) convertView.findViewById(R.id.task_completed_date_tv);
+
             convertView.setTag(v);
         }else{
             v = (ViewHolder) convertView.getTag();
         }
-        v.mNewTaskTitleTv.setText(t.getTitle());
 
+        v.mTaskLabel.setBackgroundColor(task.getLabelColor());
+        v.mTaskTitleTv.setText(task.getTitle());
+        v.mTaskHoursTv.setText(task.getHours()+":00");
+        v.mTaskCompletedCb.setChecked(task.getCompleted());
+        if(task.getCompleted()){
+            v.mTaskCompletedDateTv.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(task.getCompletedDate()));
+            v.mTaskCompletedDateTv.setVisibility(VISIBLE);
+        }else{
+            v.mTaskCompletedDateTv.setVisibility(GONE);
+        }
         return convertView;
     }
 
     public class ViewHolder {
-        public TextView mNewTaskTitleTv;
-        public ImageView mEditIv;
+        public View mTaskLabel;
+        public TextView mTaskTitleTv;
+        public TextView mTaskHoursTv;
+        public CheckBox mTaskCompletedCb;
+        public TextView mTaskCompletedDateTv;
     }
-
 }

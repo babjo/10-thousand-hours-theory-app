@@ -1,6 +1,6 @@
 package com.three.a10_thousand_hours_theory_app.model.dto;
 
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +14,7 @@ public class CreateGoalRequestDTO {
     private String description;
     private Date deadLineDate;
 
-    private List<TaskEntity> tasks;
+    private List<TaskRuleEntity> tasks;
 
     public CreateGoalRequestDTO() {
         tasks = new ArrayList();
@@ -44,11 +44,11 @@ public class CreateGoalRequestDTO {
         return deadLineDate;
     }
 
-    public List<TaskEntity> getTasks() {
+    public List<TaskRuleEntity> getTasks() {
         return tasks;
     }
 
-    public void addTask(TaskEntity newTask) {
+    public void addTask(TaskRuleEntity newTask) {
         tasks.add(newTask);
     }
 

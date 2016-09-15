@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.three.a10_thousand_hours_theory_app.R;
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 
 import org.androidannotations.annotations.Bean;
@@ -39,7 +39,7 @@ public class TaskDialog {
         this.mContext = mContext;
     }
 
-    public void show(TaskEntity taskEntity){
+    public void show(TaskRuleEntity taskEntity){
         View v = LayoutInflater.from(mContext).inflate(R.layout.new_task_dialog, null, false);
         EditText titleEt = (EditText) v.findViewById(R.id.task_title_et);
         WheelView timeWheelView = (WheelView) v.findViewById(R.id.time_wv);
@@ -84,7 +84,7 @@ public class TaskDialog {
         }else{
             alertDialogBuilder
                     .setPositiveButton("추가", (dialog, which) -> {
-                        TaskEntity newTask = newTaskEntity(titleEt, timeWheelView, hourWheelView);
+                        TaskRuleEntity newTask = newTaskEntity(titleEt, timeWheelView, hourWheelView);
                         mNewGoalPresenter.addTask(newTask);
                         dialog.dismiss();
                     });
@@ -92,7 +92,7 @@ public class TaskDialog {
             // 키보드 엔터
             titleEt.setOnEditorActionListener((textView, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    TaskEntity newTask = newTaskEntity(titleEt, timeWheelView, hourWheelView);
+                    TaskRuleEntity newTask = newTaskEntity(titleEt, timeWheelView, hourWheelView);
                     mNewGoalPresenter.addTask(newTask);
                     dialog.dismiss();
                     return true;
@@ -107,12 +107,12 @@ public class TaskDialog {
     }
 
     @NonNull
-    private TaskEntity newTaskEntity(EditText titleEt, WheelView timeWheelView, WheelView hourWheelView) {
+    private TaskRuleEntity newTaskEntity(EditText titleEt, WheelView timeWheelView, WheelView hourWheelView) {
         String title = titleEt.getText().toString();
         int times = Integer.parseInt(timeWheelView.getSeletedItem());
         int hours = Integer.parseInt(hourWheelView.getSeletedItem());
 
-        TaskEntity newTask = new TaskEntity();
+        TaskRuleEntity newTask = new TaskRuleEntity();
         newTask.setTitle(title);
         newTask.setTimes(times);
         newTask.setHours(hours);
@@ -122,7 +122,7 @@ public class TaskDialog {
     }
 
     @NonNull
-    private void setTaskEntity(TaskEntity taskEntity, EditText titleEt, WheelView timeWheelView, WheelView hourWheelView) {
+    private void setTaskEntity(TaskRuleEntity taskEntity, EditText titleEt, WheelView timeWheelView, WheelView hourWheelView) {
         String title = titleEt.getText().toString();
         int times = Integer.parseInt(timeWheelView.getSeletedItem());
         int hours = Integer.parseInt(hourWheelView.getSeletedItem());

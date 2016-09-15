@@ -9,22 +9,23 @@ import io.requery.ManyToOne;
 import io.requery.Persistable;
 
 /**
- * Created by LCH on 2016. 9. 11..
+ * Created by LCH on 2016. 9. 15..
  */
 
 @Entity
-public interface Task extends Persistable {
-
+public interface Task extends Persistable{
     @Key
     @Generated
     int getId();
 
-    @ManyToOne
-    Goal getGoal();
-
+    boolean getCompleted();
+    Date getCompletedDate();
+    Date getBeginDate();
+    Date getEndDate();
+    int getHours();
+    int getLabelColor();
     String getTitle();
 
-    int getTimes();
-    int getHours();
-    Date getStartDate();
+    @ManyToOne
+    TaskRule getTaskRule();
 }

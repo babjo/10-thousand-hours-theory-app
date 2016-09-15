@@ -1,6 +1,6 @@
 package com.three.a10_thousand_hours_theory_app.view;
 
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 
 import java.util.Date;
 
@@ -12,8 +12,8 @@ public interface NewGoalView {
     void goNewGoalFormStep2();
     void goNewGoalFormStep3();
     void showDatePicker(Date deadLineDate);
-    void showTaskDialog(TaskEntity task);
+    void showTaskDialog(TaskRuleEntity task);
     void submitNewGoal();
-    void addTask(TaskEntity newTask);
-    void modifyTask(TaskEntity newTask);
+    void addTask(TaskRuleEntity newTask);
+    void modifyTask(TaskRuleEntity newTask);
 }

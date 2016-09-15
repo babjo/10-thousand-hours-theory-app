@@ -7,7 +7,7 @@ import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
 import com.three.a10_thousand_hours_theory_app.R;
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.NewGoalAdapter;
@@ -110,7 +110,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void addTask(TaskEntity newTask) {
+    public void addTask(TaskRuleEntity newTask) {
         mNewGoalAdapter.addTasks(newTask);
         runOnUiThread(()-> {
             mNewGoalAdapter.clearAndAdd(STEP_3);
@@ -119,7 +119,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void modifyTask(TaskEntity newTask) {
+    public void modifyTask(TaskRuleEntity newTask) {
         runOnUiThread(()-> {
             mNewGoalAdapter.clearAndAdd(STEP_3);
             mNewGoalStack.resetStack();
@@ -153,7 +153,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void showTaskDialog(TaskEntity taskEntity) {
+    public void showTaskDialog(TaskRuleEntity taskEntity) {
         mTaskDialog.show(taskEntity);
     }
 

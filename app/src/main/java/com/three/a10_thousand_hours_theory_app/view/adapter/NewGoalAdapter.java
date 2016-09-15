@@ -14,7 +14,7 @@ import android.widget.ListView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.Utils;
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 
@@ -33,7 +33,7 @@ public class NewGoalAdapter extends BaseAdapter {
     private NewGoalPresenter mNewGoalPresenter;
 
     private List<Integer> types = new ArrayList(Arrays.asList(STEP_1, STEP_2, STEP_3));
-    private TaskAdapter mTaskAdapter;
+    private NewTaskAdapter mNewTaskAdapter;
 
     private static final String TAG = NewGoalAdapter.class.getName();
 
@@ -128,10 +128,10 @@ public class NewGoalAdapter extends BaseAdapter {
                 step3ViewHolder.mAddNewTaskIv.setOnClickListener(v -> mNewGoalPresenter.showTaskDialog(null));
                 step3ViewHolder.mSubmitBtn.setOnClickListener(v -> mNewGoalPresenter.submitNewGoal(createGoalRequestDTO));
 
-                mTaskAdapter = new TaskAdapter(mContext, createGoalRequestDTO.getTasks());
-                mTaskAdapter.setNewGoalPresenter(mNewGoalPresenter);
-                step3ViewHolder.mTaskLv.setAdapter(mTaskAdapter);
-                step3ViewHolder.mTaskLv.setSelection(mTaskAdapter.getCount()-1);
+                mNewTaskAdapter = new NewTaskAdapter(mContext, createGoalRequestDTO.getTasks());
+                mNewTaskAdapter.setNewGoalPresenter(mNewGoalPresenter);
+                step3ViewHolder.mTaskLv.setAdapter(mNewTaskAdapter);
+                step3ViewHolder.mTaskLv.setSelection(mNewTaskAdapter.getCount()-1);
                 convertView.setTag(step3ViewHolder);
             }else{
                 step3ViewHolder = (Step3ViewHolder) convertView.getTag();
@@ -179,7 +179,7 @@ public class NewGoalAdapter extends BaseAdapter {
         types.addAll(targets);
     }
 
-    public void addTasks(TaskEntity newTask) {
+    public void addTasks(TaskRuleEntity newTask) {
         createGoalRequestDTO.addTask(newTask);
     }
 
