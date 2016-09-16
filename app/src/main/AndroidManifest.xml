@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.three.a10_thousand_hours_theory_app">
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <application
         android:name="com.three.a10_thousand_hours_theory_app.App_"
         android:allowBackup="true"
@@ -21,6 +25,13 @@
             android:name=".view.activity.NewGoalActivity_"
             android:label="@string/new_goal_activity_name"></activity>
         <activity android:name=".view.activity.GoalDetailsActivity_"></activity>
+
+        <receiver android:name=".AlarmReceiver_">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_NEW_TASKS"></action>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

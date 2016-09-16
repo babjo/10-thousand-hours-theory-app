@@ -48,12 +48,12 @@ public class GoalDetailsPresenter {
     public void loadGoal(int goalId) {
         GetGoalResponseDTO g = (GetGoalResponseDTO) mGetGoalService.execute(new GetGoalRequestDTO(goalId));
         GoalEntity goalEntity = g.getGoalEntity();
-        this.mGoalDetailsView.loadGoal(goalEntity);
+        mGoalDetailsView.loadGoal(goalEntity, 0);
     }
 
     public void completeTask(TaskEntity taskEntity) {
         mSaveTaskService.execute(new SaveTaskRequestDTO(taskEntity));
-        loadGoal(taskEntity.getGoal().getId());
+        mGoalDetailsView.loadGoal(taskEntity.getGoal(), taskEntity.getId());
     }
 
     public void deleteGoal(int goalId) {

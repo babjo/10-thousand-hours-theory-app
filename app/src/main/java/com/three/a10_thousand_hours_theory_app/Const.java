@@ -29,4 +29,5 @@ public class Const {
             Color.parseColor("#607D8B") // Blue Grey
     };
     public static final String INTENT_EXTRA_GOAL_ID = "GOAL_ID";
+    public static final String INTENT_ACTION_CREATE_NEW_TASKS = "android.intent.action.CREATE_NEW_TASKS";
 }

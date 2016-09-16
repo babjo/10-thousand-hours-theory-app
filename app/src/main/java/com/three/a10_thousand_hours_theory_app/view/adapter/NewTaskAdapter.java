@@ -65,12 +65,13 @@ public class NewTaskAdapter extends BaseAdapter{
             v = new ViewHolder();
             v.mNewTaskTitleTv = (TextView) convertView.findViewById(R.id.new_task_title_tv);
             v.mEditIv = (ImageView) convertView.findViewById(R.id.edit_new_task_iv);
-            convertView.setOnClickListener(view->mNewGoalPresenter.showTaskDialog(t));
+
             convertView.setTag(v);
         }else{
             v = (ViewHolder) convertView.getTag();
         }
         v.mNewTaskTitleTv.setText(t.getTitle());
+        convertView.setOnClickListener(view->mNewGoalPresenter.showTaskDialog(t));
 
         return convertView;
     }

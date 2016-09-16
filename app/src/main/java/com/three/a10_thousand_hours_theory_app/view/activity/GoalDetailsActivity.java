@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -123,18 +124,28 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     }
 
     @Override
-    public void loadGoal(GoalEntity goalEntity) {
+    public void loadGoal(GoalEntity goalEntity, int updatedTaskId) {
         setTitle(goalEntity.getTitle());
         List<TaskEntity> tasks = goalEntity.getTesks();
 
-        TaskAdapter taskAdapter = new TaskAdapter(this, tasks);
-        taskAdapter.setGoalDetailsPresenter(mGoalDetailsPresenter);
-        mTaskListView.setAdapter(taskAdapter);
+        if(updatedTaskId == 0) {
+            TaskAdapter taskAdapter = new TaskAdapter(this, tasks);
+            taskAdapter.setGoalDetailsPresenter(mGoalDetailsPresenter);
+            mTaskListView.setAdapter(taskAdapter);
+            mTaskListView.setOnItemClickListener((parent, view, position, id) ->{
+                Task task = taskAdapter.getItem(position);
+                setCurrentDateAtCalendar(task);
+            });
+        }else{
+            int start = mTaskListView.getFirstVisiblePosition();
+            for(int i=start, j=mTaskListView.getLastVisiblePosition();i<=j;i++)
+                if(updatedTaskId == ((TaskEntity) mTaskListView.getItemAtPosition(i)).getId()){
+                    View view = mTaskListView.getChildAt(i-start);
+                    mTaskListView.getAdapter().getView(i, view, mTaskListView);
+                    break;
+            }
+        }
 
-        mTaskListView.setOnItemClickListener((parent, view, position, id) ->{
-            Task task = taskAdapter.getItem(position);
-            setCurrentDateAtCalendar(task);
-        });
 
         mTaskListView.setOnScrollListener(new AbsListView.OnScrollListener(){
             @Override

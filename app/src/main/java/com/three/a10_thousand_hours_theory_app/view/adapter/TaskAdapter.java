@@ -1,6 +1,7 @@
 package com.three.a10_thousand_hours_theory_app.view.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,7 @@ import android.widget.TextView;
 
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.Utils;
-import com.three.a10_thousand_hours_theory_app.model.domain.Task;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
-import com.three.a10_thousand_hours_theory_app.model.domain.TaskRule;
 import com.three.a10_thousand_hours_theory_app.presenter.GoalDetailsPresenter;
 
 import java.util.Date;
@@ -27,9 +26,9 @@ import static android.view.View.VISIBLE;
 
 public class TaskAdapter extends BaseAdapter{
 
+    private final static String TAG = TaskAdapter.class.getName();
     private final Context mContext;
     private final LayoutInflater mInflater;
-    private List<TaskRule> mTaskRules;
     private List<TaskEntity> mTasks;
 
     private GoalDetailsPresenter mGoalDetailsPresenter;
@@ -50,19 +49,21 @@ public class TaskAdapter extends BaseAdapter{
     }
 
     @Override
-    public Task getItem(int position) {
+    public TaskEntity getItem(int position) {
+        Log.d(TAG, String.format("getItem (%d)", position));
         return mTasks.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return mTasks.get(position).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.d(TAG, String.format("getView (%d)", position));
         ViewHolder v;
-        TaskEntity task = (TaskEntity) getItem(position);
+        TaskEntity task = getItem(position);
 
         if (convertView == null){
             convertView = mInflater.inflate(R.layout.task_list_item, parent, false);
@@ -72,21 +73,6 @@ public class TaskAdapter extends BaseAdapter{
             v.mTaskHoursTv = (TextView) convertView.findViewById(R.id.task_hours_tv);
             v.mTaskCompletedCb = (CheckBox) convertView.findViewById(R.id.task_completed_cb);
             v.mTaskCompletedDateTv = (TextView) convertView.findViewById(R.id.task_completed_date_tv);
-            v.mTaskCompletedCb.setOnClickListener(v1 -> {
-
-                if(task.getCompleted()){
-                    task.setCompleted(false);
-                }else {
-                    task.setCompleted(true);
-                    // for test
-                    //Calendar c = Calendar.getInstance();
-                    //c.add(Calendar.DATE, -1);
-                    //task.setCompletedDate(c.getTime());
-                    task.setCompletedDate(new Date());
-                }
-                mGoalDetailsPresenter.completeTask(task);
-            });
-
             convertView.setTag(v);
         }else{
             v = (ViewHolder) convertView.getTag();
@@ -102,6 +88,22 @@ public class TaskAdapter extends BaseAdapter{
         }else{
             v.mTaskCompletedDateTv.setVisibility(GONE);
         }
+
+        v.mTaskCompletedCb.setOnClickListener(v1 -> {
+            Log.d(TAG, String.format("mTaskCompletedCb onClick position(%d)", position));
+            if(task.getCompleted()){
+                task.setCompleted(false);
+            }else {
+                task.setCompleted(true);
+                // for test
+                //Calendar c = Calendar.getInstance();
+                //c.add(Calendar.DATE, -1);
+                //task.setCompletedDate(c.getTime());
+                task.setCompletedDate(new Date());
+            }
+            mGoalDetailsPresenter.completeTask(task);
+        });
+
         return convertView;
     }
 
