@@ -29,7 +29,7 @@ public class Requery {
     }
 
     private EntityDataStore createData(Context mContext) {
-        DatabaseSource dataSource = new DatabaseSource(mContext, Models.DEFAULT, 13);
+        DatabaseSource dataSource = new DatabaseSource(mContext, Models.DEFAULT, 15);
         dataSource.setLoggingEnabled(true);
         if (BuildConfig.DEBUG) {
             dataSource.setTableCreationMode(TableCreationMode.DROP_CREATE);

@@ -2,6 +2,8 @@ package com.three.a10_thousand_hours_theory_app.view.adapter;
 
 import android.content.Context;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,13 +188,17 @@ public class NewGoalAdapter extends BaseAdapter {
     private void showGoalDeadLineForm() {
         step2ViewHolder.mNewGoalDeadLineTypeLy.setVisibility(View.VISIBLE);
         step2ViewHolder.mNewGoalHoursTypeLy.setVisibility(View.INVISIBLE);
-        step2ViewHolder.mChangeGoalTypeTv.setText(Const.시간으로_설정할래요);
+        SpannableString text = new SpannableString(Const.시간으로_설정할래요);
+        text.setSpan(new UnderlineSpan(), 0, text.length(), 0);
+        step2ViewHolder.mChangeGoalTypeTv.setText(text);
     }
 
     private void showGoalHoursForm() {
         step2ViewHolder.mNewGoalDeadLineTypeLy.setVisibility(View.INVISIBLE);
         step2ViewHolder.mNewGoalHoursTypeLy.setVisibility(View.VISIBLE);
-        step2ViewHolder.mChangeGoalTypeTv.setText(Const.날짜로_설정할래요);
+        SpannableString text = new SpannableString(Const.날짜로_설정할래요);
+        text.setSpan(new UnderlineSpan(), 0, text.length(), 0);
+        step2ViewHolder.mChangeGoalTypeTv.setText(text);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.three.a10_thousand_hours_theory_app.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.DeleteGoalRequestDTO;
@@ -13,6 +15,7 @@ import com.three.a10_thousand_hours_theory_app.model.service.GetGoalService;
 import com.three.a10_thousand_hours_theory_app.model.service.SaveTaskService;
 import com.three.a10_thousand_hours_theory_app.model.service.Service;
 import com.three.a10_thousand_hours_theory_app.view.GoalDetailsView;
+import com.three.a10_thousand_hours_theory_app.view.activity.TimerActivity_;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -59,5 +62,15 @@ public class GoalDetailsPresenter {
     public void deleteGoal(int goalId) {
         mDeleteGoalService.execute(new DeleteGoalRequestDTO(goalId));
         mGoalDetailsView.finish();
+    }
+
+    public void showTimerDialog(TaskEntity taskEntity) {
+        mGoalDetailsView.showTimerDialog(taskEntity);
+    }
+
+    public void startTimer(TaskEntity taskEntity) {
+        Intent intent = new Intent(mContext, TimerActivity_.class);
+        intent.putExtra(Const.INTENT_EXTRA_TASK_ID, taskEntity.getId());
+        mContext.startActivity(intent);
     }
 }

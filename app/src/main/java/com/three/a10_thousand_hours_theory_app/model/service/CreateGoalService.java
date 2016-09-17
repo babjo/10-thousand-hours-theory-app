@@ -80,6 +80,7 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
                 newTaskEntity.setGoal(goalEntity);
                 newTaskEntity.setTitle(t.getTitle());
                 newTaskEntity.setLabelColor(t.getLabelColor());
+                newTaskEntity.setMinutesLeft(t.getHours() * 60);
                 taskEntities.add(newTaskEntity);
             }
 

@@ -2,6 +2,7 @@ package com.three.a10_thousand_hours_theory_app.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -171,5 +172,17 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
                 mCompactCalendarView.addEvent(e, true);
             }
         }
+    }
+
+    @Override
+    public void showTimerDialog(TaskEntity taskEntity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("타이머").setMessage(String.format("지금부터 %d분 동안 '%s' 을/를 수행합니다.", taskEntity.getMinutesLeft(), taskEntity.getTitle()));
+        builder.setPositiveButton("시작", (dialog, which) -> {
+            mGoalDetailsPresenter.startTimer(taskEntity);
+            dialog.dismiss();
+        });
+        builder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 }

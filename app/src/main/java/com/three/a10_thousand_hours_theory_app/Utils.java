@@ -11,8 +11,12 @@ public class Utils {
     public static final SimpleDateFormat DATE_FORMAT_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat DATE_FORMAT_yyyy_MM = new SimpleDateFormat("yyyy-MM");
     public static final SimpleDateFormat DATE_FORMAT_M = new SimpleDateFormat("M");
-
     public static final String getMonth(Date date){
         return DATE_FORMAT_M.format(date) + " 월";
+    }
+    public static final String getHoursAndMins(int minutes){
+        int hours = minutes / 60;
+        int mins = minutes - hours * 60;
+        return String.format("%02d:%02d", hours, mins);
     }
 }

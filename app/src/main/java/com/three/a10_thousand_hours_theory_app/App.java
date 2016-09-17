@@ -122,16 +122,17 @@ public class App extends Application {
 
     @NonNull
     private TaskEntity createTask(GoalEntity goalEntity, TaskRuleEntity ruleEntity, String completed, String begin, String end) throws ParseException {
-        TaskEntity newT1;
-        newT1 = new TaskEntity();
-        newT1.setCompleted(true);
-        newT1.setCompletedDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+completed));
-        newT1.setGoal(goalEntity);
-        newT1.setTitle(ruleEntity.getTitle());
-        newT1.setHours(ruleEntity.getHours());
-        newT1.setLabelColor(ruleEntity.getLabelColor());
-        newT1.setBeginDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+begin));
-        newT1.setEndDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+end));
-        return newT1;
+        TaskEntity newTask;
+        newTask = new TaskEntity();
+        newTask.setCompleted(true);
+        newTask.setCompletedDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+completed));
+        newTask.setGoal(goalEntity);
+        newTask.setTitle(ruleEntity.getTitle());
+        newTask.setHours(ruleEntity.getHours());
+        newTask.setMinutesLeft(ruleEntity.getHours() * 60);
+        newTask.setLabelColor(ruleEntity.getLabelColor());
+        newTask.setBeginDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+begin));
+        newTask.setEndDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+end));
+        return newTask;
     }
 }

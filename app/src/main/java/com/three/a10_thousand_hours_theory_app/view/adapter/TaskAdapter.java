@@ -14,11 +14,11 @@ import com.three.a10_thousand_hours_theory_app.Utils;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.GoalDetailsPresenter;
 
-import java.util.Date;
 import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.three.a10_thousand_hours_theory_app.Utils.getHoursAndMins;
 
 /**
  * Created by LCH on 2016. 9. 15..
@@ -80,7 +80,7 @@ public class TaskAdapter extends BaseAdapter{
 
         v.mTaskLabel.setBackgroundColor(task.getLabelColor());
         v.mTaskTitleTv.setText(task.getTitle());
-        v.mTaskHoursTv.setText(task.getHours()+":00");
+        v.mTaskHoursTv.setText(getHoursAndMins(task.getMinutesLeft()));
         v.mTaskCompletedCb.setChecked(task.getCompleted());
         if(task.getCompleted()){
             v.mTaskCompletedDateTv.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(task.getCompletedDate()));
@@ -94,12 +94,14 @@ public class TaskAdapter extends BaseAdapter{
             if(task.getCompleted()){
                 task.setCompleted(false);
             }else {
-                task.setCompleted(true);
-                // for test
+                mGoalDetailsPresenter.showTimerDialog(task);
+                //task.setCompleted(true);
+                //task.setCompletedDate(new Date());
+
+                //for test
                 //Calendar c = Calendar.getInstance();
                 //c.add(Calendar.DATE, -1);
                 //task.setCompletedDate(c.getTime());
-                task.setCompletedDate(new Date());
             }
             mGoalDetailsPresenter.completeTask(task);
         });
