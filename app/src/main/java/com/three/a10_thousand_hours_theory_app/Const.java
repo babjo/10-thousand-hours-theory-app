@@ -30,4 +30,9 @@ public class Const {
     };
     public static final String INTENT_EXTRA_GOAL_ID = "GOAL_ID";
     public static final String INTENT_ACTION_CREATE_NEW_TASKS = "android.intent.action.CREATE_NEW_TASKS";
+
+    public static final int GOAL_TYPE_DEADLINE = 1;
+    public static final int GOAL_TYPE_HOURS = 2;
+    public static final String 시간으로_설정할래요 = "시간으로 설정할래요.";
+    public static final String 날짜로_설정할래요 = "날짜로 설정할래요.";
 }

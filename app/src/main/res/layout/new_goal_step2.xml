@@ -19,20 +19,70 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/goal_step2_form_layout">
+            <LinearLayout
+                android:id="@+id/goal_dead_line_type_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="언제까지 이루고 싶은가요?"
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/new_goal_dead_line_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_helperText="ex) 2017-03-11"
+                    app:met_floatingLabel="normal"
+                    app:met_helperTextAlwaysShown="true"
+                    />
+            </LinearLayout>
             <TextView
+                android:id="@+id/change_goal_type_tv"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:text="언제까지 이루고 싶은가요?"
+                android:textColor="@color/colorAccent"
+                android:text="시간으로 설정할래요."
                 />
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/new_goal_dead_line_et"
+            <LinearLayout
+                android:id="@+id/goal_hours_type_ly"
+                android:visibility="invisible"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:met_helperText="ex) 2017-03-11"
-                app:met_floatingLabel="normal"
-                app:met_helperTextAlwaysShown="true"
-                />
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="얼마만에 이루고 싶으신가요?"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/new_goal_hours_et"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        app:met_helperText="ex) 10,000 시간"
+                        app:met_floatingLabel="normal"
+                        app:met_helperTextAlwaysShown="true"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="시간"
+                        />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"

@@ -136,6 +136,7 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
                 Task task = taskAdapter.getItem(position);
                 setCurrentDateAtCalendar(task);
             });
+            mTaskListView.setSelection(taskAdapter.getCount()-1);
         }else{
             int start = mTaskListView.getFirstVisiblePosition();
             for(int i=start, j=mTaskListView.getLastVisiblePosition();i<=j;i++)

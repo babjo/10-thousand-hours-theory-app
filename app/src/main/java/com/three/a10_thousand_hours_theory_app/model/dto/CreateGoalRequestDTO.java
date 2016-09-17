@@ -1,5 +1,6 @@
 package com.three.a10_thousand_hours_theory_app.model.dto;
 
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 
@@ -14,20 +15,27 @@ public class CreateGoalRequestDTO {
 
     private GoalEntity goalEntity;
     private int goalId = 0;
+
+    private int goalType;
+    private Date deadLineDate;
+    private int goalHours;
+
     private String title;
     private String description;
-    private Date deadLineDate;
     private List<TaskRuleEntity> taskRuleEntities;
 
     public CreateGoalRequestDTO(){
+        goalType = Const.GOAL_TYPE_DEADLINE;
         taskRuleEntities = new ArrayList();
     }
     public CreateGoalRequestDTO(GoalEntity goalEntity) {
         this.goalEntity = goalEntity;
+        this.goalType = goalEntity.getType();
+        this.deadLineDate = goalEntity.getDeadLineDate();
+        this.goalHours = goalEntity.getGoalHours();
         this.goalId = goalEntity.getId();
         this.title = goalEntity.getTitle();
         this.description = goalEntity.getDescription();
-        this.deadLineDate = goalEntity.getDeadLineDate();
         this.taskRuleEntities = goalEntity.getTaskRules();
     }
 
@@ -67,10 +75,28 @@ public class CreateGoalRequestDTO {
         return goalId;
     }
 
+    public int getGoalType() {
+        return goalType;
+    }
+
+    public void setGoalType(int goalType) {
+        this.goalType = goalType;
+    }
+
     public UpdateGoalRequestDTO convert(){
         goalEntity.setTitle(title);
         goalEntity.setDescription(description);
         goalEntity.setDeadLineDate(deadLineDate);
+        goalEntity.setType(goalType);
+        goalEntity.setGoalHours(goalHours);
         return new UpdateGoalRequestDTO(goalEntity, taskRuleEntities);
+    }
+
+    public int getGoalHours() {
+        return goalHours;
+    }
+
+    public void setGoalHours(int goalHours) {
+        this.goalHours = goalHours;
     }
 }

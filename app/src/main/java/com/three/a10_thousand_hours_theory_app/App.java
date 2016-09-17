@@ -42,6 +42,7 @@ public class App extends Application {
         intent.setAction(Const.INTENT_ACTION_CREATE_NEW_TASKS);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
+
         Calendar cal = Calendar.getInstance();
         // 다음주 월요일 00:00 태스크 생성
         cal.add(Calendar.DATE, (Calendar.MONDAY - cal.get(Calendar.DAY_OF_WEEK))); // 이번주 월요일
@@ -49,14 +50,17 @@ public class App extends Application {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
+        long interval = AlarmManager.INTERVAL_DAY;
+
 
         // for test
-        //Calendar cal = Calendar.getInstance();
-        //cal.add(Calendar.SECOND, 5);
+        /*
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 5);
+        long interval = 5000;*/
 
         Log.d(TAG, "처음 알람 예정 시간 : " + Utils.DATE_FORMAT_yyyy_MM_dd_hh_mm_ss.format(cal.getTime()));
-        //mAlarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), interval, pendingIntent);
         Log.d(TAG, "알람 매니저 설정 완료");
     }
 
@@ -71,6 +75,7 @@ public class App extends Application {
                 goalEntity.setDeadLineDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-09-30"));
                 goalEntity.setTitle("영어 중급 마스터");
                 goalEntity.setDescription("할 수 있다. 화이팅");
+                goalEntity.setType(Const.GOAL_TYPE_DEADLINE);
                 mRequery.getData().insert(goalEntity);
 
 

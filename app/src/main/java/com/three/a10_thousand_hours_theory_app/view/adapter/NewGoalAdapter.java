@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.Utils;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
@@ -105,10 +107,11 @@ public class NewGoalAdapter extends BaseAdapter {
                 convertView = mInflater.inflate(R.layout.new_goal_step2, parent, false);
                 step2ViewHolder = new Step2ViewHolder();
                 step2ViewHolder.mNextBtn = (Button) convertView.findViewById(R.id.step2_next_btn);
+                step2ViewHolder.mNewGoalDeadLineTypeLy = (LinearLayout) convertView.findViewById(R.id.goal_dead_line_type_ly);
                 step2ViewHolder.mNewGoalDeadLineEt = (MaterialEditText) convertView.findViewById(R.id.new_goal_dead_line_et);
-
-                step2ViewHolder.mNextBtn.setOnClickListener(v -> mNewGoalPresenter.goNewGoalFormStep3());
-                step2ViewHolder.mNewGoalDeadLineEt.setOnClickListener(v -> mNewGoalPresenter.showDatePicker(createGoalRequestDTO.getDeadLineDate()));
+                step2ViewHolder.mChangeGoalTypeTv = (TextView) convertView.findViewById(R.id.change_goal_type_tv);
+                step2ViewHolder.mNewGoalHoursTypeLy = (LinearLayout) convertView.findViewById(R.id.goal_hours_type_ly);
+                step2ViewHolder.mNewGoalHoursEt = (MaterialEditText) convertView.findViewById(R.id.new_goal_hours_et);
                 disableEditText(step2ViewHolder.mNewGoalDeadLineEt);
 
                 convertView.setTag(step2ViewHolder);
@@ -117,8 +120,37 @@ public class NewGoalAdapter extends BaseAdapter {
                 step2ViewHolder = (Step2ViewHolder) convertView.getTag();
             }
 
+            // Set Event Listener
+            step2ViewHolder.mNextBtn.setOnClickListener(v -> {
+                if(createGoalRequestDTO.getGoalType() == Const.GOAL_TYPE_HOURS)
+                    createGoalRequestDTO.setGoalHours(Integer.parseInt(step2ViewHolder.mNewGoalHoursEt.getText().toString()));
+                mNewGoalPresenter.goNewGoalFormStep3();
+            });
+            step2ViewHolder.mNewGoalDeadLineEt.setOnClickListener(v -> mNewGoalPresenter.showDatePicker(createGoalRequestDTO.getDeadLineDate()));
+
+            step2ViewHolder.mChangeGoalTypeTv.setOnClickListener(v -> {
+                if (step2ViewHolder.mNewGoalDeadLineTypeLy.getVisibility() == View.VISIBLE){
+                    showGoalHoursForm();
+                    createGoalRequestDTO.setGoalType(Const.GOAL_TYPE_HOURS);
+                }
+                else {
+                    showGoalDeadLineForm();
+                    createGoalRequestDTO.setGoalType(Const.GOAL_TYPE_DEADLINE);
+                }
+            });
+
+            // Set Values
             if(createGoalRequestDTO.getDeadLineDate()!=null)
                 step2ViewHolder.mNewGoalDeadLineEt.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(createGoalRequestDTO.getDeadLineDate()));
+
+            if(createGoalRequestDTO.getGoalHours()!=0)
+                step2ViewHolder.mNewGoalHoursEt.setText(Integer.toString(createGoalRequestDTO.getGoalHours()));
+
+            if(createGoalRequestDTO.getGoalType() == Const.GOAL_TYPE_DEADLINE)
+                showGoalDeadLineForm();
+            else
+                showGoalHoursForm();
+
         }else{
             if(convertView == null){
                 convertView = mInflater.inflate(R.layout.new_goal_step3, parent, false);
@@ -149,6 +181,18 @@ public class NewGoalAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    private void showGoalDeadLineForm() {
+        step2ViewHolder.mNewGoalDeadLineTypeLy.setVisibility(View.VISIBLE);
+        step2ViewHolder.mNewGoalHoursTypeLy.setVisibility(View.INVISIBLE);
+        step2ViewHolder.mChangeGoalTypeTv.setText(Const.시간으로_설정할래요);
+    }
+
+    private void showGoalHoursForm() {
+        step2ViewHolder.mNewGoalDeadLineTypeLy.setVisibility(View.INVISIBLE);
+        step2ViewHolder.mNewGoalHoursTypeLy.setVisibility(View.VISIBLE);
+        step2ViewHolder.mChangeGoalTypeTv.setText(Const.날짜로_설정할래요);
     }
 
     @Override
@@ -200,8 +244,17 @@ public class NewGoalAdapter extends BaseAdapter {
     }
 
     public class Step2ViewHolder {
-        public Button mNextBtn;
+
+        //for goal dead line type
+        public LinearLayout mNewGoalDeadLineTypeLy;
         public MaterialEditText mNewGoalDeadLineEt;
+
+        //for goal hours type
+        public LinearLayout mNewGoalHoursTypeLy;
+        public MaterialEditText mNewGoalHoursEt;
+
+        public TextView mChangeGoalTypeTv;
+        public Button mNextBtn;
     }
 
     public class Step3ViewHolder{

@@ -24,7 +24,10 @@ public interface Goal extends Persistable {
 
     String getTitle();
     String getDescription();
+
+    int getType();
     Date getDeadLineDate();
+    int getGoalHours();
 
     @OneToMany(mappedBy = "goal", cascade = {CascadeAction.DELETE, CascadeAction.SAVE})
     List<TaskRuleEntity> getTaskRules();
