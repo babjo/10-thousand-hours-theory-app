@@ -3,6 +3,7 @@ package com.three.a10_thousand_hours_theory_app.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -20,7 +21,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import static com.three.a10_thousand_hours_theory_app.Utils.getHoursAndMins;
+import java.util.Date;
+
+import static com.three.a10_thousand_hours_theory_app.Utils.gethhmmss;
 
 @EActivity
 public class TimerActivity extends AppCompatActivity implements TimerView{
@@ -82,6 +85,14 @@ public class TimerActivity extends AppCompatActivity implements TimerView{
 
     @Click(R.id.timer_stop_iv)
     public void timerStop(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle("정지").setMessage("할 일을 멈추고 이전으로 돌아갑니다.");
+        b.setPositiveButton("확인", (dialog, which) -> {
+            finish();
+            dialog.dismiss();
+        }).setNegativeButton("취소", (dialog, which) -> {
+            dialog.dismiss();
+        }).show();
     }
 
     boolean mIsRunning = false;
@@ -98,16 +109,22 @@ public class TimerActivity extends AppCompatActivity implements TimerView{
         @Override
         public void run() {
             if(mIsRunning) {
-                mTaskEntity.setMinutesLeft(mTaskEntity.getMinutesLeft() - 1);
+                mTaskEntity.setSecondsLeft(mTaskEntity.getSecondsLeft() - 1);
+                if(mTaskEntity.getSecondsLeft() == 0) {
+                    mTaskEntity.setCompleted(true);
+                    mTaskEntity.setCompletedDate(new Date());
+                    mTimerHandler.removeCallbacks(mTimerRunnable);
+                    finish();
+                }
                 mTimerPresenter.updateTask(mTaskEntity);
             }else{
                 mIsRunning = true;
             }
-            mTimerMinutesLeftTv.setText(getHoursAndMins(mTaskEntity.getMinutesLeft()));
+            mTimerMinutesLeftTv.setText(gethhmmss(mTaskEntity.getSecondsLeft()));
 
-            int progress = (int)((mTaskEntity.getHours()*60.0 - mTaskEntity.getMinutesLeft())/(mTaskEntity.getHours()*60.0) * 100);
+            int progress = (int)((mTaskEntity.getHours()*3600.0 - mTaskEntity.getSecondsLeft())/(mTaskEntity.getHours()*3600.0) * 100);
             mProgressBar.setProgress(progress);
-            mTimerHandler.postDelayed(this, 1000 * 60); // 1000 * 60 : 1분
+            mTimerHandler.postDelayed(this, 1000); // 1000 : 1초
         }
     }
 

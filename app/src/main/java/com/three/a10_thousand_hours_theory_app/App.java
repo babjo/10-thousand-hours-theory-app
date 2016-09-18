@@ -1,25 +1,20 @@
 package com.three.a10_thousand_hours_theory_app;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.model.infrastructure.Requery;
+import com.three.a10_thousand_hours_theory_app.model.infrastructure.TaskAlarmManager;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
-import org.androidannotations.annotations.SystemService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -32,43 +27,16 @@ public class App extends Application {
     @Bean
     Requery mRequery;
 
+    @Bean
+    TaskAlarmManager mTaskAlarmManager;
+
     private static final String TAG = App.class.getName();
-
-    @SystemService
-    AlarmManager mAlarmManager;
-
-    void settingAlarmManager(){
-        Intent intent = new Intent(this, AlarmReceiver_.class);
-        intent.setAction(Const.INTENT_ACTION_CREATE_NEW_TASKS);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-
-        Calendar cal = Calendar.getInstance();
-        // 다음주 월요일 00:00 태스크 생성
-        cal.add(Calendar.DATE, (Calendar.MONDAY - cal.get(Calendar.DAY_OF_WEEK))); // 이번주 월요일
-        cal.add(Calendar.DATE, 7); // 다음주 월요일
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        long interval = AlarmManager.INTERVAL_DAY;
-
-
-        // for test
-        /*
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 5);
-        long interval = 5000;*/
-
-        Log.d(TAG, "처음 알람 예정 시간 : " + Utils.DATE_FORMAT_yyyy_MM_dd_hh_mm_ss.format(cal.getTime()));
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), interval, pendingIntent);
-        Log.d(TAG, "알람 매니저 설정 완료");
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mTaskAlarmManager.setting();
 
-        settingAlarmManager();
         if (BuildConfig.DEBUG) {
             try {
                 GoalEntity goalEntity = new GoalEntity();
@@ -124,12 +92,12 @@ public class App extends Application {
     private TaskEntity createTask(GoalEntity goalEntity, TaskRuleEntity ruleEntity, String completed, String begin, String end) throws ParseException {
         TaskEntity newTask;
         newTask = new TaskEntity();
-        newTask.setCompleted(true);
+        newTask.setCompleted(false);
         newTask.setCompletedDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+completed));
         newTask.setGoal(goalEntity);
         newTask.setTitle(ruleEntity.getTitle());
         newTask.setHours(ruleEntity.getHours());
-        newTask.setMinutesLeft(ruleEntity.getHours() * 60);
+        newTask.setSecondsLeft(ruleEntity.getHours());
         newTask.setLabelColor(ruleEntity.getLabelColor());
         newTask.setBeginDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+begin));
         newTask.setEndDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+end));

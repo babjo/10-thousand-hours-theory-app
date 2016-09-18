@@ -1,13 +1,11 @@
 package com.three.a10_thousand_hours_theory_app.view.component;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.three.a10_thousand_hours_theory_app.R;
@@ -32,8 +30,6 @@ public class TaskDialog {
 
     @Bean
     NewGoalPresenter mNewGoalPresenter;
-
-    private Dialog dialog;
 
 
     public TaskDialog(Context mContext) {
@@ -71,17 +67,6 @@ public class TaskDialog {
                         mNewGoalPresenter.modifyTask(taskEntity);
                         dialog.dismiss();
                     });
-
-            // 키보드 엔터
-            titleEt.setOnEditorActionListener((textView, actionId, event) -> {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    setTaskEntity(taskEntity, titleEt, timeWheelView, hourWheelView);
-                    mNewGoalPresenter.modifyTask(taskEntity);
-                    dialog.dismiss();
-                    return true;
-                }
-                return false;
-            });
         }else{
             alertDialogBuilder
                     .setPositiveButton("추가", (dialog, which) -> {
@@ -89,22 +74,10 @@ public class TaskDialog {
                         mNewGoalPresenter.addTaskRule(newTask);
                         dialog.dismiss();
                     });
-
-            // 키보드 엔터
-            titleEt.setOnEditorActionListener((textView, actionId, event) -> {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    TaskRuleEntity newTask = newTaskRuleEntity(titleEt, timeWheelView, hourWheelView);
-                    mNewGoalPresenter.addTaskRule(newTask);
-                    dialog.dismiss();
-                    return true;
-                }
-                return false;
-            });
         }
 
         alertDialogBuilder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
-        dialog = alertDialogBuilder.create();
-        dialog.show();
+        alertDialogBuilder.show();
     }
 
     @NonNull

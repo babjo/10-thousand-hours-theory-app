@@ -1,6 +1,7 @@
 package com.three.a10_thousand_hours_theory_app.view.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements MainView{
     @Bean
     MainPresenter mMainPresenter;
     private GoalListAdapter mGoalListAdapter;
+
+    @ViewById(R.id.create_goal_btn)
+    FloatingActionButton mFloatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

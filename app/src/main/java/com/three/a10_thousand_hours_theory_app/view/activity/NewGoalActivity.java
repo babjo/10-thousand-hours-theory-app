@@ -124,7 +124,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
 
     @Override
     public void addTask(TaskRuleEntity newTaskEntity) {
-        mNewGoalAdapter.addTasks(newTaskEntity);
+        mNewGoalAdapter.addRuleTasks(newTaskEntity);
         runOnUiThread(()-> {
             mNewGoalAdapter.clearAndAdd(STEP_3);
             mNewGoalStack.resetStack();

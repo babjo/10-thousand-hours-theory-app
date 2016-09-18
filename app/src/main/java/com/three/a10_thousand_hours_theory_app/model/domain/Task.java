@@ -23,7 +23,7 @@ public interface Task extends Persistable{
     Date getBeginDate();
     Date getEndDate();
     int getHours();
-    int getMinutesLeft();
+    int getSecondsLeft();
     int getLabelColor();
     String getTitle();
 

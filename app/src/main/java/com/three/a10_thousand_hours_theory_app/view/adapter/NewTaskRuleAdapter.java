@@ -12,28 +12,23 @@ import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.presenter.NewGoalPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by LCH on 2016. 9. 11..
  */
-public class NewTaskAdapter extends BaseAdapter{
+public class NewTaskRuleAdapter extends BaseAdapter{
 
-    private final List<TaskRuleEntity> tasks;
+    private final List<TaskRuleEntity> taskRules;
     private final Context mContext;
     private final LayoutInflater mInflater;
 
     private NewGoalPresenter mNewGoalPresenter;
 
-    public NewTaskAdapter(Context mContext) {
-        this(mContext, new ArrayList());
-    }
-
-    public NewTaskAdapter(Context mContext, List<TaskRuleEntity> tasks) {
+    public NewTaskRuleAdapter(Context mContext, List<TaskRuleEntity> taskRules) {
         this.mContext = mContext;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.tasks = tasks;
+        this.taskRules = taskRules;
     }
 
     public void setNewGoalPresenter(NewGoalPresenter mNewGoalPresenter) {
@@ -42,12 +37,12 @@ public class NewTaskAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return tasks.size();
+        return taskRules.size();
     }
 
     @Override
     public TaskRuleEntity getItem(int position) {
-        return tasks.get(position);
+        return taskRules.get(position);
     }
 
     @Override

@@ -42,7 +42,11 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
         GoalEntity goalEntity = new GoalEntity();
         goalEntity.setTitle(createGoalRequestDTO.getTitle());
         goalEntity.setDescription(createGoalRequestDTO.getDescription());
-        goalEntity.setDeadLineDate(createGoalRequestDTO.getDeadLineDate());
+        goalEntity.setType(createGoalRequestDTO.getGoalType());
+        if(createGoalRequestDTO.getGoalType() == Const.GOAL_TYPE_DEADLINE)
+            goalEntity.setDeadLineDate(createGoalRequestDTO.getDeadLineDate());
+        else
+            goalEntity.setGoalHours(createGoalRequestDTO.getGoalHours());
         List<TaskRuleEntity> taskRuleEntities = createGoalRequestDTO.getTaskRuleEntities();
 
         // Save Goal
@@ -80,7 +84,7 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
                 newTaskEntity.setGoal(goalEntity);
                 newTaskEntity.setTitle(t.getTitle());
                 newTaskEntity.setLabelColor(t.getLabelColor());
-                newTaskEntity.setMinutesLeft(t.getHours() * 60);
+                newTaskEntity.setSecondsLeft(t.getHours() * 60 * 60);
                 taskEntities.add(newTaskEntity);
             }
 

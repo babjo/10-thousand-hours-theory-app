@@ -37,7 +37,7 @@ public class NewGoalAdapter extends BaseAdapter {
     private NewGoalPresenter mNewGoalPresenter;
 
     private List<Integer> types = new ArrayList(Arrays.asList(STEP_1, STEP_2, STEP_3));
-    private NewTaskAdapter mNewTaskAdapter;
+    private NewTaskRuleAdapter mNewTaskRuleAdapter;
 
     private static final String TAG = NewGoalAdapter.class.getName();
 
@@ -124,12 +124,15 @@ public class NewGoalAdapter extends BaseAdapter {
 
             // Set Event Listener
             step2ViewHolder.mNextBtn.setOnClickListener(v -> {
-                if(createGoalRequestDTO.getGoalType() == Const.GOAL_TYPE_HOURS)
-                    createGoalRequestDTO.setGoalHours(Integer.parseInt(step2ViewHolder.mNewGoalHoursEt.getText().toString()));
+                if(createGoalRequestDTO.getGoalType() == Const.GOAL_TYPE_HOURS) {
+                    String goalHours = step2ViewHolder.mNewGoalHoursEt.getText().toString();
+                    if(goalHours.isEmpty()) createGoalRequestDTO.setGoalHours(0);
+                    else createGoalRequestDTO.setGoalHours(Integer.parseInt(goalHours));
+                }
                 mNewGoalPresenter.goNewGoalFormStep3();
             });
-            step2ViewHolder.mNewGoalDeadLineEt.setOnClickListener(v -> mNewGoalPresenter.showDatePicker(createGoalRequestDTO.getDeadLineDate()));
 
+            step2ViewHolder.mNewGoalDeadLineEt.setOnClickListener(v -> mNewGoalPresenter.showDatePicker(createGoalRequestDTO.getDeadLineDate()));
             step2ViewHolder.mChangeGoalTypeTv.setOnClickListener(v -> {
                 if (step2ViewHolder.mNewGoalDeadLineTypeLy.getVisibility() == View.VISIBLE){
                     showGoalHoursForm();
@@ -161,25 +164,25 @@ public class NewGoalAdapter extends BaseAdapter {
                 step3ViewHolder.mAddNewTaskIv = (LinearLayout) convertView.findViewById(R.id.add_new_task_iv);
                 step3ViewHolder.mSubmitBtn = (Button) convertView.findViewById(R.id.step3_next_btn);
                 step3ViewHolder.mTaskLv = (ListView) convertView.findViewById(R.id.step3_task_lv);
-
-                step3ViewHolder.mBackBtn.setOnClickListener(view -> mNewGoalPresenter.goNewGoalFormStep1());
-                step3ViewHolder.mAddNewTaskIv.setOnClickListener(v -> mNewGoalPresenter.showTaskDialog(null));
-                step3ViewHolder.mSubmitBtn.setOnClickListener(v -> {
-                    if(createGoalRequestDTO.getGoalId() == 0) {
-                        mNewGoalPresenter.submitNewGoal(createGoalRequestDTO);
-                    }else{
-                        mNewGoalPresenter.updateGoal(createGoalRequestDTO.convert());
-                    }
-                });
-
-                mNewTaskAdapter = new NewTaskAdapter(mContext, createGoalRequestDTO.getTaskRuleEntities());
-                mNewTaskAdapter.setNewGoalPresenter(mNewGoalPresenter);
-                step3ViewHolder.mTaskLv.setAdapter(mNewTaskAdapter);
-                step3ViewHolder.mTaskLv.setSelection(mNewTaskAdapter.getCount()-1);
                 convertView.setTag(step3ViewHolder);
             }else{
                 step3ViewHolder = (Step3ViewHolder) convertView.getTag();
             }
+
+            mNewTaskRuleAdapter = new NewTaskRuleAdapter(mContext, createGoalRequestDTO.getTaskRuleEntities());
+            mNewTaskRuleAdapter.setNewGoalPresenter(mNewGoalPresenter);
+            step3ViewHolder.mTaskLv.setAdapter(mNewTaskRuleAdapter);
+            step3ViewHolder.mTaskLv.setSelection(mNewTaskRuleAdapter.getCount()-1);
+
+            step3ViewHolder.mBackBtn.setOnClickListener(view -> mNewGoalPresenter.goNewGoalFormStep1());
+            step3ViewHolder.mAddNewTaskIv.setOnClickListener(v -> mNewGoalPresenter.showTaskDialog(null));
+            step3ViewHolder.mSubmitBtn.setOnClickListener(v -> {
+                if(createGoalRequestDTO.getGoalId() == 0) {
+                    mNewGoalPresenter.submitNewGoal(createGoalRequestDTO);
+                }else{
+                    mNewGoalPresenter.updateGoal(createGoalRequestDTO.convert());
+                }
+            });
         }
 
         return convertView;
@@ -239,8 +242,8 @@ public class NewGoalAdapter extends BaseAdapter {
         types.addAll(targets);
     }
 
-    public void addTasks(TaskRuleEntity newTaskEntity) {
-        createGoalRequestDTO.addTaskRuleEntity(newTaskEntity);
+    public void addRuleTasks(TaskRuleEntity newTaskRuleEntity) {
+        createGoalRequestDTO.addTaskRuleEntity(newTaskRuleEntity);
     }
 
     public class Step1ViewHolder {

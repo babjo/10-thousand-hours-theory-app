@@ -14,9 +14,11 @@ public class Utils {
     public static final String getMonth(Date date){
         return DATE_FORMAT_M.format(date) + " 월";
     }
-    public static final String getHoursAndMins(int minutes){
-        int hours = minutes / 60;
-        int mins = minutes - hours * 60;
-        return String.format("%02d:%02d", hours, mins);
+    public static final String gethhmmss(int seconds){
+        return String.format("%02d:%02d:%02d", seconds / 3600, (seconds / 60) % 60, seconds % 60);
+    }
+
+    public static final String gethhmmss2(int seconds){
+        return String.format("%02d시간 %02d분 %02d초", seconds / 3600, (seconds / 60) % 60, seconds % 60);
     }
 }

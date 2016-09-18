@@ -18,7 +18,7 @@ import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.three.a10_thousand_hours_theory_app.Utils.getHoursAndMins;
+import static com.three.a10_thousand_hours_theory_app.Utils.gethhmmss;
 
 /**
  * Created by LCH on 2016. 9. 15..
@@ -80,30 +80,24 @@ public class TaskAdapter extends BaseAdapter{
 
         v.mTaskLabel.setBackgroundColor(task.getLabelColor());
         v.mTaskTitleTv.setText(task.getTitle());
-        v.mTaskHoursTv.setText(getHoursAndMins(task.getMinutesLeft()));
         v.mTaskCompletedCb.setChecked(task.getCompleted());
+        v.mTaskHoursTv.setText(gethhmmss(task.getSecondsLeft()));
+
         if(task.getCompleted()){
             v.mTaskCompletedDateTv.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(task.getCompletedDate()));
             v.mTaskCompletedDateTv.setVisibility(VISIBLE);
+            v.mTaskCompletedCb.setEnabled(false); // disable checkbox
+            v.mTaskHoursTv.setVisibility(GONE);
         }else{
             v.mTaskCompletedDateTv.setVisibility(GONE);
+            v.mTaskHoursTv.setVisibility(VISIBLE);
         }
 
         v.mTaskCompletedCb.setOnClickListener(v1 -> {
             Log.d(TAG, String.format("mTaskCompletedCb onClick position(%d)", position));
-            if(task.getCompleted()){
-                task.setCompleted(false);
-            }else {
+            if(!task.getCompleted()){
                 mGoalDetailsPresenter.showTimerDialog(task);
-                //task.setCompleted(true);
-                //task.setCompletedDate(new Date());
-
-                //for test
-                //Calendar c = Calendar.getInstance();
-                //c.add(Calendar.DATE, -1);
-                //task.setCompletedDate(c.getTime());
             }
-            mGoalDetailsPresenter.completeTask(task);
         });
 
         return convertView;

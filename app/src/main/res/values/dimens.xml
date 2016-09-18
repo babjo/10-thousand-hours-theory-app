@@ -5,5 +5,5 @@
     <dimen name="new_goal_card_item_content_margin">40dp</dimen>
     <dimen name="new_goal_card_item_margin">30dp</dimen>
     <dimen name="goal_card_item_margin">6dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">20dp</dimen>
 </resources>

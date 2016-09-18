@@ -5,6 +5,8 @@ import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,18 +17,16 @@ public class CreateGoalRequestDTO {
 
     private GoalEntity goalEntity;
     private int goalId = 0;
-
     private int goalType;
     private Date deadLineDate;
     private int goalHours;
-
     private String title;
     private String description;
     private List<TaskRuleEntity> taskRuleEntities;
 
     public CreateGoalRequestDTO(){
-        goalType = Const.GOAL_TYPE_DEADLINE;
-        taskRuleEntities = new ArrayList();
+        this.goalType = Const.GOAL_TYPE_DEADLINE;
+        this.taskRuleEntities = new ArrayList();
     }
     public CreateGoalRequestDTO(GoalEntity goalEntity) {
         this.goalEntity = goalEntity;
@@ -68,7 +68,7 @@ public class CreateGoalRequestDTO {
     }
 
     public void addTaskRuleEntity(TaskRuleEntity newTaskRule) {
-        taskRuleEntities.add(newTaskRule);
+        this.taskRuleEntities.add(newTaskRule);
     }
 
     public int getGoalId() {
@@ -89,7 +89,21 @@ public class CreateGoalRequestDTO {
         goalEntity.setDeadLineDate(deadLineDate);
         goalEntity.setType(goalType);
         goalEntity.setGoalHours(goalHours);
-        return new UpdateGoalRequestDTO(goalEntity, taskRuleEntities);
+
+        List<Integer> colors = Arrays.asList(Const.LABEL_COLORS);
+        Collections.shuffle(colors);
+
+        // 새로이만들어진 Rule들
+        for (int i=0; i<taskRuleEntities.size(); i++) {
+            TaskRuleEntity t = taskRuleEntities.get(i);
+            if(t.getId() == 0) {
+                t.setGoal(goalEntity);
+                t.setLabelColor(colors.get(i % Const.LABEL_COLORS.length));
+                t.setStartDate(new Date());
+            }
+        }
+
+        return new UpdateGoalRequestDTO(goalEntity);
     }
 
     public int getGoalHours() {

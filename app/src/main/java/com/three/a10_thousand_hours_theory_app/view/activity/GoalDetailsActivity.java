@@ -177,9 +177,11 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     @Override
     public void showTimerDialog(TaskEntity taskEntity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("타이머").setMessage(String.format("지금부터 %d분 동안 '%s' 을/를 수행합니다.", taskEntity.getMinutesLeft(), taskEntity.getTitle()));
+        builder.setTitle("타이머").setMessage(String.format("지금부터 %s 동안 '%s' 을/를 수행합니다.", Utils.gethhmmss2(taskEntity.getSecondsLeft()), taskEntity.getTitle()));
         builder.setPositiveButton("시작", (dialog, which) -> {
-            mGoalDetailsPresenter.startTimer(taskEntity);
+            Intent intent = new Intent(GoalDetailsActivity.this, TimerActivity_.class);
+            intent.putExtra(Const.INTENT_EXTRA_TASK_ID, taskEntity.getId());
+            startActivityForResult(intent, 0);
             dialog.dismiss();
         });
         builder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
