@@ -17,3 +17,13 @@
 #}
 -dontwarn java.lang.invoke.*
 -keep class com.three.a10_thousand_hours_theory_app.model.domain { *; }
+
+# Add this global rule
+-keepattributes Signature
+
+# This rule will properly ProGuard all the model classes in
+# the package com.yourcompany.models. Modify to fit the structure
+# of your app.
+-keepclassmembers class com.three.a10_thousand_hours_theory_app.model.domain.** {
+  *;
+}

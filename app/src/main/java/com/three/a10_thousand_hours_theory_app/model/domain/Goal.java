@@ -33,5 +33,5 @@ public interface Goal extends Persistable {
     List<TaskRuleEntity> getTaskRules();
 
     @OneToMany(mappedBy = "goal", cascade = {CascadeAction.DELETE, CascadeAction.SAVE})
-    List<TaskEntity> getTesks();
+    List<TaskEntity> getTasks();
 }

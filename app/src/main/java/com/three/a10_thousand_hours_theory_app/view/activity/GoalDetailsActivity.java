@@ -127,7 +127,7 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     @Override
     public void loadGoal(GoalEntity goalEntity, int updatedTaskId) {
         setTitle(goalEntity.getTitle());
-        List<TaskEntity> tasks = goalEntity.getTesks();
+        List<TaskEntity> tasks = goalEntity.getTasks();
 
         if(updatedTaskId == 0) {
             TaskAdapter taskAdapter = new TaskAdapter(this, tasks);

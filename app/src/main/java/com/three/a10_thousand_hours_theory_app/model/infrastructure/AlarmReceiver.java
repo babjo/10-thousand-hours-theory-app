@@ -64,7 +64,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             goalEntity.setGoalHours(goalEntity.getGoalHours() - taskRuleEntity.getHours());
                         newTaskEntity.setCompleted(false);
                         newTaskEntity.setGoal(goalEntity);
-                        goalEntity.getTesks().add(newTaskEntity);
+                        goalEntity.getTasks().add(newTaskEntity);
                         Log.d(TAG, String.format("새로운 테스트 추가 (목표 : %s, 테스크 : %s)", goalEntity.getTitle(), newTaskEntity.getTitle()));
                     }
                 }

@@ -38,10 +38,11 @@ dependencies {
     compile 'com.github.sundeepk:compact-calendar-view:1.9.1'
 
     // firebase
-    compile 'com.google.firebase:firebase-core:9.0.0'
-    compile 'com.google.firebase:firebase-crash:9.0.0'
-    compile 'com.google.firebase:firebase-messaging:9.0.0'
-    compile 'com.google.firebase:firebase-auth:9.0.0'
+    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-crash:9.4.0'
+    compile 'com.google.firebase:firebase-messaging:9.4.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.firebase:firebase-database:9.4.0'
 
     // android orm
     compile 'io.requery:requery:1.0.0-rc4'
