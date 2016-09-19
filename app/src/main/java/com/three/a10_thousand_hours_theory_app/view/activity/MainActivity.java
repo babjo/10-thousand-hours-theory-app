@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.three.a10_thousand_hours_theory_app.R;
+import com.three.a10_thousand_hours_theory_app.view.fragment.BoardFragment_;
+import com.three.a10_thousand_hours_theory_app.view.fragment.MainFragment_;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             fragmentClass = MainFragment_.class;
         } else if (id == R.id.nav_board) {
-
+            fragmentClass = BoardFragment_.class;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 

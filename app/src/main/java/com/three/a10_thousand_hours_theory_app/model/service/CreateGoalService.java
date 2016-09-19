@@ -43,6 +43,7 @@ public class CreateGoalService implements Service<CreateGoalRequestDTO, CreateGo
         goalEntity.setTitle(createGoalRequestDTO.getTitle());
         goalEntity.setDescription(createGoalRequestDTO.getDescription());
         goalEntity.setType(createGoalRequestDTO.getGoalType());
+        goalEntity.setStartDate(new Date());
         if(createGoalRequestDTO.getGoalType() == Const.GOAL_TYPE_DEADLINE)
             goalEntity.setDeadLineDate(createGoalRequestDTO.getDeadLineDate());
         else

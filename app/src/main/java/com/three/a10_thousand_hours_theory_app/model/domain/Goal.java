@@ -24,6 +24,7 @@ public interface Goal extends Persistable {
 
     String getTitle();
     String getDescription();
+    Date getStartDate();
 
     int getType();
     Date getDeadLineDate();

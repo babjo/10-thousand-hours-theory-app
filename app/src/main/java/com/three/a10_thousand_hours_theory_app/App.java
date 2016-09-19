@@ -41,53 +41,57 @@ public class App extends Application {
         AppEventsLogger.activateApp(this);
         mTaskAlarmManager.setting();
 
+
         if (BuildConfig.DEBUG) {
-            try {
-                GoalEntity goalEntity = new GoalEntity();
-                goalEntity.setDeadLineDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-09-30"));
-                goalEntity.setTitle("영어 중급 마스터");
-                goalEntity.setDescription("할 수 있다. 화이팅");
-                goalEntity.setType(Const.GOAL_TYPE_DEADLINE);
-                mRequery.getData().insert(goalEntity);
+            int count = mRequery.getData().count(GoalEntity.class).get().value();
+            if(count == 0) {
+                try {
+                    GoalEntity goalEntity = new GoalEntity();
+                    goalEntity.setDeadLineDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-09-30"));
+                    goalEntity.setTitle("영어 중급 마스터");
+                    goalEntity.setDescription("할 수 있다. 화이팅");
+                    goalEntity.setType(Const.GOAL_TYPE_DEADLINE);
+                    mRequery.getData().insert(goalEntity);
 
 
-                TaskRuleEntity ruleEntity1 = new TaskRuleEntity();
-                ruleEntity1.setTitle("영어 단어 100개 외우기");
-                ruleEntity1.setLabelColor(Const.LABEL_COLORS[0]);
-                ruleEntity1.setGoal(goalEntity);
-                ruleEntity1.setStartDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-08-01"));
-                ruleEntity1.setHours(2);
-                ruleEntity1.setTimes(2);
+                    TaskRuleEntity ruleEntity1 = new TaskRuleEntity();
+                    ruleEntity1.setTitle("영어 단어 100개 외우기");
+                    ruleEntity1.setLabelColor(Const.LABEL_COLORS[0]);
+                    ruleEntity1.setGoal(goalEntity);
+                    ruleEntity1.setStartDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-08-01"));
+                    ruleEntity1.setHours(2);
+                    ruleEntity1.setTimes(2);
 
-                TaskRuleEntity ruleEntity2 = new TaskRuleEntity();
-                ruleEntity2.setTitle("영어 딕테이션");
-                ruleEntity2.setLabelColor(Const.LABEL_COLORS[1]);
-                ruleEntity2.setGoal(goalEntity);
-                ruleEntity2.setStartDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-08-20"));
-                ruleEntity2.setHours(2);
-                ruleEntity2.setTimes(2);
-                mRequery.getData().insert(Arrays.asList(ruleEntity1, ruleEntity2));
+                    TaskRuleEntity ruleEntity2 = new TaskRuleEntity();
+                    ruleEntity2.setTitle("영어 딕테이션");
+                    ruleEntity2.setLabelColor(Const.LABEL_COLORS[1]);
+                    ruleEntity2.setGoal(goalEntity);
+                    ruleEntity2.setStartDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-08-20"));
+                    ruleEntity2.setHours(2);
+                    ruleEntity2.setTimes(2);
+                    mRequery.getData().insert(Arrays.asList(ruleEntity1, ruleEntity2));
 
-                List<TaskEntity> taskEntities = new ArrayList();
-                taskEntities.add(createTask(goalEntity, ruleEntity1, "08-01", "08-01", "08-07"));
-                taskEntities.add(createTask(goalEntity, ruleEntity1, "08-02", "08-01", "08-07"));
-                taskEntities.add(createTask(goalEntity, ruleEntity1, "08-03", "08-01", "08-07"));
-                taskEntities.add(createTask(goalEntity, ruleEntity1, "08-04", "08-01", "08-07"));
-                taskEntities.add(createTask(goalEntity, ruleEntity1, "08-05", "08-01", "08-07"));
-                taskEntities.add(createTask(goalEntity, ruleEntity1, "08-06", "08-01", "08-07"));
-                taskEntities.add(createTask(goalEntity, ruleEntity1, "08-07", "08-01", "08-07"));
+                    List<TaskEntity> taskEntities = new ArrayList();
+                    taskEntities.add(createTask(goalEntity, ruleEntity1, "08-01", "08-01", "08-07"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity1, "08-02", "08-01", "08-07"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity1, "08-03", "08-01", "08-07"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity1, "08-04", "08-01", "08-07"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity1, "08-05", "08-01", "08-07"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity1, "08-06", "08-01", "08-07"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity1, "08-07", "08-01", "08-07"));
 
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "09-26", "09-26", "10-02"));
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "09-27", "09-26", "10-02"));
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "09-28", "09-26", "10-02"));
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "09-29", "09-26", "10-02"));
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "09-30", "09-26", "10-02"));
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "10-01", "09-26", "10-02"));
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "10-02", "09-26", "10-02"));
-                taskEntities.add(createTask(goalEntity, ruleEntity2, "10-03", "10-03", "10-09"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "09-26", "09-26", "10-02"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "09-27", "09-26", "10-02"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "09-28", "09-26", "10-02"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "09-29", "09-26", "10-02"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "09-30", "09-26", "10-02"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "10-01", "09-26", "10-02"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "10-02", "09-26", "10-02"));
+                    taskEntities.add(createTask(goalEntity, ruleEntity2, "10-03", "10-03", "10-09"));
 
-                mRequery.getData().insert(taskEntities);
-            }catch (Exception e){
+                    mRequery.getData().insert(taskEntities);
+                } catch (Exception e) {
+                }
             }
         }
     }

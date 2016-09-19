@@ -1,4 +1,4 @@
-package com.three.a10_thousand_hours_theory_app.view.activity;
+package com.three.a10_thousand_hours_theory_app.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
