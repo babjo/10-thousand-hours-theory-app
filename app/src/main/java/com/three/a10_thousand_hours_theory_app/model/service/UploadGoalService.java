@@ -60,26 +60,9 @@ public class UploadGoalService implements Service<UploadGoalRequestDTO, UploadGo
             taskRules.add(t);
         }
         sharedGoal.setTaskRules(taskRules);
-        sharedGoal.setUserKey(arg.getUser().getKey());
+        sharedGoal.setUserKey(arg.getUserEntity().getKey());
         sharedGoal.setUpdatedAt(Utils.DATE_FORMAT_yyyy_MM_dd_hh_mm_ss.format(new Date()));
         mDatabaseReference.child(sharedGoalKey).setValue(sharedGoal);
-
-        /*
-        mDatabaseReference.child(sharedGoalKey).child("title").setValue(goalEntity.getTitle());
-        mDatabaseReference.child(sharedGoalKey).child("description").setValue(goalEntity.getDescription());
-        mDatabaseReference.child(sharedGoalKey).child("type").setValue(goalEntity.getType());
-        mDatabaseReference.child(sharedGoalKey).child("deadLineDate").setValue(Utils.DATE_FORMAT_yyyy_MM_dd.format(goalEntity.getDeadLineDate()));
-        mDatabaseReference.child(sharedGoalKey).child("goalHours").setValue(goalEntity.getGoalHours());
-
-        for(TaskRuleEntity t : goalEntity.getTaskRules()){
-            String taskKey = mDatabaseReference.child(sharedGoalKey).child("taskRules").push().getKey();
-            mDatabaseReference.child(sharedGoalKey).child("taskRules").child(taskKey).child("title").setValue(t.getTitle());
-            mDatabaseReference.child(sharedGoalKey).child("taskRules").child(taskKey).child("times").setValue(t.getTimes());
-            mDatabaseReference.child(sharedGoalKey).child("taskRules").child(taskKey).child("hours").setValue(t.getHours());
-            mDatabaseReference.child(sharedGoalKey).child("taskRules").child(taskKey).child("startDate").setValue(Utils.DATE_FORMAT_yyyy_MM_dd.format(t.getStartDate()));
-            mDatabaseReference.child(sharedGoalKey).child("taskRules").child(taskKey).child("labelColor").setValue(t.getLabelColor());
-        }*/
-
         return new UploadGoalResponseDTO(sharedGoal);
     }
 }

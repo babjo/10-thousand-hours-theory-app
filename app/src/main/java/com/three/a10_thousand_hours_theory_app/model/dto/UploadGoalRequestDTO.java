@@ -20,7 +20,7 @@ public class UploadGoalRequestDTO {
         return goalEntity;
     }
 
-    public UserEntity getUser() {
+    public UserEntity getUserEntity() {
         return userEntity;
     }
 }

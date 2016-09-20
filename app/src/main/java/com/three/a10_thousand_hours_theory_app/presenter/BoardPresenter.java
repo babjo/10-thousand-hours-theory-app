@@ -11,19 +11,22 @@ import com.three.a10_thousand_hours_theory_app.model.domain.User;
 import com.three.a10_thousand_hours_theory_app.model.domain.UserEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetAllGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetUserResponseDTO;
+import com.three.a10_thousand_hours_theory_app.model.dto.UpdateSharedGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UploadGoalRequestDTO;
-import com.three.a10_thousand_hours_theory_app.model.service.AsyncService;
+import com.three.a10_thousand_hours_theory_app.model.dto.UploadGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.service.CreateUserService;
 import com.three.a10_thousand_hours_theory_app.model.service.GetAllGoalService;
-import com.three.a10_thousand_hours_theory_app.model.service.GetAllSharedGoalAsyncService;
 import com.three.a10_thousand_hours_theory_app.model.service.GetUserService;
 import com.three.a10_thousand_hours_theory_app.model.service.Service;
+import com.three.a10_thousand_hours_theory_app.model.service.UpdateSharedGoalService;
 import com.three.a10_thousand_hours_theory_app.model.service.UploadGoalService;
 import com.three.a10_thousand_hours_theory_app.view.BoardView;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,9 +37,6 @@ import java.util.List;
 public class BoardPresenter {
 
     private BoardView mBoardView;
-
-    @Bean(GetAllSharedGoalAsyncService.class)
-    AsyncService mGetAllSharedGoalService;
 
     @Bean(GetUserService.class)
     Service mGetUserService;
@@ -49,6 +49,9 @@ public class BoardPresenter {
 
     @Bean(UploadGoalService.class)
     Service mUploadGoalService;
+
+    @Bean(UpdateSharedGoalService.class)
+    Service mUpdateSharedGoalService;
 
     private Context mContext;
 
@@ -65,8 +68,6 @@ public class BoardPresenter {
         if(user == null){
             mCreateUserService.execute(null);
         }
-
-        
     }
 
     public UserEntity getUser() {
@@ -75,13 +76,27 @@ public class BoardPresenter {
     }
 
     public void likeSharedGoal(SharedGoal sharedGoal, User user) {
+        String userKey = user.getKey();
+        if(sharedGoal.getLikeUserKeys() == null){
+            sharedGoal.setLikeUserKeys(new ArrayList(Arrays.asList(userKey)));
+        }else{
+            sharedGoal.getLikeUserKeys().add(userKey);
+        }
+        sharedGoal.setLike(sharedGoal.getLike()+1);
+        mUpdateSharedGoalService.execute(new UpdateSharedGoalRequestDTO(sharedGoal));
     }
 
     public void unlikeSharedGoal(SharedGoal sharedGoal, User user) {
+        String userKey = user.getKey();
+        if(sharedGoal.getLikeUserKeys()!=null){
+            sharedGoal.getLikeUserKeys().remove(userKey);
+        }
+        sharedGoal.setLike(sharedGoal.getLike()-1);
+        mUpdateSharedGoalService.execute(new UpdateSharedGoalRequestDTO(sharedGoal));
     }
 
     public void sharedGoalDetails(SharedGoal sharedGoal) {
-
+        mBoardView.onSharedGoalDetails(sharedGoal);
     }
 
     public void showGoalsDialog() {
@@ -99,9 +114,9 @@ public class BoardPresenter {
         builder.setAdapter(
                 arrayAdapter, (dialog, which) -> {
                     GoalEntity selectedGoal = goals.get(which);
-                    mUploadGoalService.execute(new UploadGoalRequestDTO(userEntity, selectedGoal));
-                    //uploadGoal
+                    UploadGoalResponseDTO uploadGoalResponseDTO = (UploadGoalResponseDTO) mUploadGoalService.execute(new UploadGoalRequestDTO(userEntity, selectedGoal));
                     dialog.dismiss();
+                    mBoardView.onUploadGoal(uploadGoalResponseDTO.getSharedGoal());
                 });
         builder.show();
     }

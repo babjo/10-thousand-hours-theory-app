@@ -53,19 +53,21 @@ public class SharedGoalListAdapter extends RecyclerView.Adapter<SharedGoalListAd
         holder.mSharedGoalTitleTv.setOnClickListener(v -> mBoardPresenter.sharedGoalDetails(sharedGoal));
 
         if(sharedGoal.getType() == Const.GOAL_TYPE_HOURS)
-            holder.mSharedGoalNeedTv.setText(Integer.toString(sharedGoal.getGoalHours()));
+            holder.mSharedGoalNeedTv.setText(String.format("약 %d시간 예상", sharedGoal.getGoalHours()));
         else{
-            holder.mSharedGoalNeedTv.setText(sharedGoal.getGoalDays());
+            holder.mSharedGoalNeedTv.setText(String.format("약 %s일 예상", sharedGoal.getGoalDays()));
         }
 
         User user = mBoardPresenter.getUser();
-        if(sharedGoal.getLikeUserKeys().contains(user.getKey())) {
+        if(sharedGoal.getLikeUserKeys() != null && sharedGoal.getLikeUserKeys().contains(user.getKey())) {
             holder.mSharedGoalLikeIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_star_black_24dp));
-            holder.mSharedGoalLikeIv.setOnClickListener(v -> mBoardPresenter.likeSharedGoal(sharedGoal, user));
+            holder.mSharedGoalLikeIv.setOnClickListener(v -> mBoardPresenter.unlikeSharedGoal(sharedGoal, user));
         } else{
             holder.mSharedGoalLikeIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_star_border_black_24dp));
-            holder.mSharedGoalLikeIv.setOnClickListener(v -> mBoardPresenter.unlikeSharedGoal(sharedGoal, user));
+            holder.mSharedGoalLikeIv.setOnClickListener(v -> mBoardPresenter.likeSharedGoal(sharedGoal, user));
         }
+
+        holder.mSharedGoalLikeTv.setText(Integer.toString(sharedGoal.getLike()));
     }
 
     @Override

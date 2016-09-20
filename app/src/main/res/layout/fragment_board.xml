@@ -6,6 +6,13 @@
     android:fitsSystemWindows="true"
     tools:context="com.three.a10_thousand_hours_theory_app.view.activity.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/loading_pg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/shared_goal_list"
         android:layout_width="match_parent"

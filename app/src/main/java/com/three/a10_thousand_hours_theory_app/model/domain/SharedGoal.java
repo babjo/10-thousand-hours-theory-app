@@ -28,6 +28,9 @@ public class SharedGoal {
         private String startDate;
         private int labelColor;
 
+        public TaskRule() {
+        }
+
         public String getTitle() {
             return title;
         }
@@ -67,6 +70,9 @@ public class SharedGoal {
         public void setLabelColor(int labelColor) {
             this.labelColor = labelColor;
         }
+    }
+
+    public SharedGoal() {
     }
 
     public String getKey() {
@@ -139,6 +145,10 @@ public class SharedGoal {
 
     public void setUserKey(String userKey) {
         this.userKey = userKey;
+    }
+
+    public String getUserKey() {
+        return userKey;
     }
 
     public void setUpdatedAt(String updatedAt) {
