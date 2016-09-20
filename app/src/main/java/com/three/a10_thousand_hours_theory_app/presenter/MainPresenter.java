@@ -41,7 +41,7 @@ public class MainPresenter {
 
     public void loadGoals(){
         GetAllGoalResponseDTO g = (GetAllGoalResponseDTO) mGetAllGoalService.execute(null);
-        mMainView.loadGoals(g.getGoals());
+        mMainView.onLoadGoals(g.getGoals());
     }
 
     public void setMainView(MainView mMainView) {

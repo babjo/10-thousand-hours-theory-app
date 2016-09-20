@@ -25,27 +25,37 @@
             android:layout_weight="1"
             >
             <TextView
-                android:id="@+id/goal_title_tv"
+                android:id="@+id/shared_goal_item_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="모든 영화 자막 없이 보기"
                 android:textAppearance="?android:textAppearanceMedium"
                 />
             <TextView
-                android:id="@+id/goal_des_tv"
+                android:id="@+id/shared_goal_item_need_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="영어 농담도 알아들을 수준"
+                android:text="1000hr 시간 필요"
                 />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            >
             <ImageView
-                android:id="@+id/goal_details_iv"
+                android:id="@+id/shared_goal_item_like_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_black_24dp" />
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_arrow_forward_black_24dp" />
+                android:layout_height="wrap_content"
+                android:id="@+id/shared_goal_item_like_tv"
+                android:text="11"
+                android:gravity="center_horizontal"
+                />
         </LinearLayout>
 
     </LinearLayout>

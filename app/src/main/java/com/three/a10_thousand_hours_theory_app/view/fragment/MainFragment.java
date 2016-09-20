@@ -53,7 +53,7 @@ public class MainFragment extends Fragment implements MainView{
         mMainPresenter.loadGoals();
     }
     @Override
-    public void loadGoals(List<GoalEntity> goals) {
+    public void onLoadGoals(List<GoalEntity> goals) {
         getActivity().runOnUiThread(()->{
             mGoalListAdapter.clearAndAddAll(goals);
             mGoalListAdapter.notifyDataSetChanged();

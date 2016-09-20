@@ -8,7 +8,7 @@ import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
  */
 
 public interface GoalDetailsView {
-    void loadGoal(GoalEntity goalEntity, int updatedTaskId);
+    void onLoadGoal(GoalEntity goalEntity, int updatedTaskId);
     void finish();
     void showTimerDialog(TaskEntity taskEntity);
 }

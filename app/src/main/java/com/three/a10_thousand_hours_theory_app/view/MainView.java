@@ -8,5 +8,5 @@ import java.util.List;
  * Created by LCH on 2016. 9. 13..
  */
 public interface MainView {
-    void loadGoals(List<GoalEntity> goals);
+    void onLoadGoals(List<GoalEntity> goals);
 }

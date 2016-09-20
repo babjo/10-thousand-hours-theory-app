@@ -117,13 +117,13 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void submitNewGoal() {
+    public void onSubmitNewGoal() {
         mProgressBar.setProgress(10);
         finish();
     }
 
     @Override
-    public void addTask(TaskRuleEntity newTaskEntity) {
+    public void onAddTask(TaskRuleEntity newTaskEntity) {
         mNewGoalAdapter.addRuleTasks(newTaskEntity);
         runOnUiThread(()-> {
             mNewGoalAdapter.clearAndAdd(STEP_3);
@@ -132,7 +132,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
     }
 
     @Override
-    public void modifyTask(TaskRuleEntity taskEntity) {
+    public void onModifyTask(TaskRuleEntity taskEntity) {
         runOnUiThread(()-> {
             mNewGoalAdapter.clearAndAdd(STEP_3);
             mNewGoalStack.resetStack();

@@ -44,7 +44,7 @@ public class NewGoalPresenter {
 
     public void submitNewGoal(CreateGoalRequestDTO createGoalRequestDTO){
         mCreateGoalService.execute(createGoalRequestDTO);
-        mNewGoalView.submitNewGoal();
+        mNewGoalView.onSubmitNewGoal();
     }
 
     public void setNewGoalView(NewGoalView mNewGoalView) {
@@ -64,11 +64,11 @@ public class NewGoalPresenter {
     }
 
     public void addTaskRule(TaskRuleEntity newTask) {
-        mNewGoalView.addTask(newTask);
+        mNewGoalView.onAddTask(newTask);
     }
 
     public void modifyTask(TaskRuleEntity taskEntity) {
-        mNewGoalView.modifyTask(taskEntity);
+        mNewGoalView.onModifyTask(taskEntity);
     }
 
     public GoalEntity getGoal(int goalId) {

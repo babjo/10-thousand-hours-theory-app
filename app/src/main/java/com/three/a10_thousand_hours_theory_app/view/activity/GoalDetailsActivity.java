@@ -125,7 +125,7 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
     }
 
     @Override
-    public void loadGoal(GoalEntity goalEntity, int updatedTaskId) {
+    public void onLoadGoal(GoalEntity goalEntity, int updatedTaskId) {
         setTitle(goalEntity.getTitle());
         List<TaskEntity> tasks = goalEntity.getTasks();
 

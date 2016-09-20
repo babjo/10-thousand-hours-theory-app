@@ -13,8 +13,8 @@ public interface NewGoalView {
     void goNewGoalFormStep3();
     void showDatePicker(Date deadLineDate);
     void showTaskDialog(TaskRuleEntity task);
-    void submitNewGoal();
-    void addTask(TaskRuleEntity newTaskEntity);
-    void modifyTask(TaskRuleEntity taskEntity);
+    void onSubmitNewGoal();
+    void onAddTask(TaskRuleEntity newTaskEntity);
+    void onModifyTask(TaskRuleEntity taskEntity);
     void finish();
 }

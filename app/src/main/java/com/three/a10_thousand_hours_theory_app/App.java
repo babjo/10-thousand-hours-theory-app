@@ -17,6 +17,7 @@ import org.androidannotations.annotations.EApplication;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,12 +42,12 @@ public class App extends Application {
         AppEventsLogger.activateApp(this);
         mTaskAlarmManager.setting();
 
-
         if (BuildConfig.DEBUG) {
             int count = mRequery.getData().count(GoalEntity.class).get().value();
             if(count == 0) {
                 try {
                     GoalEntity goalEntity = new GoalEntity();
+                    goalEntity.setStartDate(new Date());
                     goalEntity.setDeadLineDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-09-30"));
                     goalEntity.setTitle("영어 중급 마스터");
                     goalEntity.setDescription("할 수 있다. 화이팅");

@@ -47,7 +47,7 @@ public class GoalDetailsPresenter {
     public void loadGoal(int goalId) {
         GetGoalResponseDTO g = (GetGoalResponseDTO) mGetGoalService.execute(new GetGoalRequestDTO(goalId));
         GoalEntity goalEntity = g.getGoalEntity();
-        mGoalDetailsView.loadGoal(goalEntity, 0);
+        mGoalDetailsView.onLoadGoal(goalEntity, 0);
     }
 
     public void deleteGoal(int goalId) {
