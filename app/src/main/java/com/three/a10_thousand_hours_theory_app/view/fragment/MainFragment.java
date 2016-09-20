@@ -38,6 +38,12 @@ public class MainFragment extends Fragment implements MainView{
     FloatingActionButton mFloatingActionButton;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mMainPresenter.loadGoals();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mGoalListView.setHasFixedSize(true);

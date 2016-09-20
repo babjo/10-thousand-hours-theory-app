@@ -101,7 +101,7 @@ public class App extends Application {
     private TaskEntity createTask(GoalEntity goalEntity, TaskRuleEntity ruleEntity, String completed, String begin, String end) throws ParseException {
         TaskEntity newTask;
         newTask = new TaskEntity();
-        newTask.setCompleted(false);
+        newTask.setCompleted(true);
         newTask.setCompletedDate(Utils.DATE_FORMAT_yyyy_MM_dd.parse("2016-"+completed));
         newTask.setGoal(goalEntity);
         newTask.setTitle(ruleEntity.getTitle());
