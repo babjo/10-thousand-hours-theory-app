@@ -9,6 +9,6 @@
         <item
             android:id="@+id/nav_board"
             android:icon="@drawable/ic_account_balance_black_36dp"
-            android:title="피드백 게시판" />
+            android:title="목표 게시판" />
     </group>
 </menu>

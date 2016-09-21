@@ -5,15 +5,20 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.widget.ArrayAdapter;
 
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.SharedGoal;
+import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.User;
 import com.three.a10_thousand_hours_theory_app.model.domain.UserEntity;
+import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
+import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetAllGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetUserResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateSharedGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UploadGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UploadGoalResponseDTO;
+import com.three.a10_thousand_hours_theory_app.model.service.CreateGoalService;
 import com.three.a10_thousand_hours_theory_app.model.service.CreateUserService;
 import com.three.a10_thousand_hours_theory_app.model.service.GetAllGoalService;
 import com.three.a10_thousand_hours_theory_app.model.service.GetUserService;
@@ -27,6 +32,8 @@ import org.androidannotations.annotations.EBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +59,9 @@ public class BoardPresenter {
 
     @Bean(UpdateSharedGoalService.class)
     Service mUpdateSharedGoalService;
+
+    @Bean(CreateGoalService.class)
+    Service mCreateGoalService;
 
     private Context mContext;
 
@@ -119,5 +129,38 @@ public class BoardPresenter {
                     mBoardView.onUploadGoal(uploadGoalResponseDTO.getSharedGoal());
                 });
         builder.show();
+    }
+
+    public void download(SharedGoal sharedGoal) {
+        try {
+            CreateGoalRequestDTO createGoalRequestDTO = new CreateGoalRequestDTO();
+
+            createGoalRequestDTO.setGoalType(sharedGoal.getType());
+            if (sharedGoal.getType() == Const.GOAL_TYPE_HOURS)
+                createGoalRequestDTO.setGoalHours(sharedGoal.getGoalHours());
+            else {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.add(Calendar.DATE, sharedGoal.getGoalDays());
+                createGoalRequestDTO.setDeadLineDate(calendar.getTime());
+            }
+            createGoalRequestDTO.setDescription(sharedGoal.getDescription());
+            createGoalRequestDTO.setTitle(sharedGoal.getTitle());
+
+            for (SharedGoal.TaskRule r : sharedGoal.getTaskRules()) {
+                TaskRuleEntity taskRuleEntity = new TaskRuleEntity();
+                taskRuleEntity.setHours(r.getHours());
+                taskRuleEntity.setLabelColor(r.getLabelColor());
+                taskRuleEntity.setTitle(r.getTitle());
+                taskRuleEntity.setStartDate(new Date());
+                taskRuleEntity.setTimes(r.getTimes());
+                createGoalRequestDTO.addTaskRuleEntity(taskRuleEntity);
+            }
+
+            CreateGoalResponseDTO r = (CreateGoalResponseDTO) mCreateGoalService.execute(createGoalRequestDTO);
+            mBoardView.onDownloadGoal(r.getNewGoalEntity());
+        }catch (Exception e){
+            mBoardView.onFailToDownloadGoal();
+        }
     }
 }

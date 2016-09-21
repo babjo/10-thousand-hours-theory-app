@@ -19,6 +19,7 @@
         android:orientation="horizontal"
         >
         <LinearLayout
+            android:id="@+id/shared_goal_item_title_need_ly"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"

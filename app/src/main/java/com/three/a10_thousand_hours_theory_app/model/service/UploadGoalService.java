@@ -44,7 +44,7 @@ public class UploadGoalService implements Service<UploadGoalRequestDTO, UploadGo
         else {
             long diff = goalEntity.getDeadLineDate().getTime() - goalEntity.getStartDate().getTime();
             int goalDays = (int) (diff / (24 * 60 * 60 * 1000));
-            sharedGoal.setGoalDays(Integer.toString(goalDays));
+            sharedGoal.setGoalDays(goalDays);
         }
         sharedGoal.setLike(0);
         sharedGoal.setLikeUserKeys(new ArrayList());
@@ -54,7 +54,6 @@ public class UploadGoalService implements Service<UploadGoalRequestDTO, UploadGo
             SharedGoal.TaskRule t = new SharedGoal.TaskRule();
             t.setHours(r.getHours());
             t.setLabelColor(r.getLabelColor());
-            t.setStartDate(Utils.DATE_FORMAT_yyyy_MM_dd.format(r.getStartDate()));
             t.setTimes(r.getTimes());
             t.setTitle(r.getTitle());
             taskRules.add(t);

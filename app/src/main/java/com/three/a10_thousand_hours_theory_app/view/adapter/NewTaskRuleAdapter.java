@@ -56,7 +56,7 @@ public class NewTaskRuleAdapter extends BaseAdapter{
         TaskRuleEntity t = getItem(position);
 
         if (convertView == null){
-            convertView = mInflater.inflate(R.layout.new_task_item, parent, false);
+            convertView = mInflater.inflate(R.layout.list_item_new_task, parent, false);
             v = new ViewHolder();
             v.mNewTaskTitleTv = (TextView) convertView.findViewById(R.id.new_task_title_tv);
             v.mEditIv = (ImageView) convertView.findViewById(R.id.edit_new_task_iv);

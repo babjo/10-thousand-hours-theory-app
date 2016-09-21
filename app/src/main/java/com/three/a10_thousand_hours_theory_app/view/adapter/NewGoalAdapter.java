@@ -82,7 +82,7 @@ public class NewGoalAdapter extends BaseAdapter {
         if(type == STEP_1){
             if(convertView == null)
             {
-                convertView = mInflater.inflate(R.layout.new_goal_step1, parent, false);
+                convertView = mInflater.inflate(R.layout.list_item_new_goal_step1, parent, false);
 
                 step1ViewHolder = new Step1ViewHolder();
                 step1ViewHolder.mTitleEt = (MaterialEditText) convertView.findViewById(R.id.goal_title_et);
@@ -106,7 +106,7 @@ public class NewGoalAdapter extends BaseAdapter {
         }else if (type == STEP_2){
             if(convertView == null)
             {
-                convertView = mInflater.inflate(R.layout.new_goal_step2, parent, false);
+                convertView = mInflater.inflate(R.layout.list_item_new_goal_step2, parent, false);
                 step2ViewHolder = new Step2ViewHolder();
                 step2ViewHolder.mNextBtn = (Button) convertView.findViewById(R.id.step2_next_btn);
                 step2ViewHolder.mNewGoalDeadLineTypeLy = (LinearLayout) convertView.findViewById(R.id.goal_dead_line_type_ly);
@@ -158,7 +158,7 @@ public class NewGoalAdapter extends BaseAdapter {
 
         }else{
             if(convertView == null){
-                convertView = mInflater.inflate(R.layout.new_goal_step3, parent, false);
+                convertView = mInflater.inflate(R.layout.list_item_new_goal_step3, parent, false);
                 step3ViewHolder = new Step3ViewHolder();
                 step3ViewHolder.mBackBtn = (Button) convertView.findViewById(R.id.step3_back_btn);
                 step3ViewHolder.mAddNewTaskIv = (LinearLayout) convertView.findViewById(R.id.add_new_task_iv);

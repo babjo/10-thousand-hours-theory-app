@@ -12,7 +12,7 @@ public class SharedGoal {
     private String title;
     private String description;
     private int type;
-    private String goalDays;
+    private int goalDays;
     private int goalHours;
     private List<TaskRule> taskRules;
 
@@ -25,7 +25,6 @@ public class SharedGoal {
         private String title;
         private int times;
         private int hours;
-        private String startDate;
         private int labelColor;
 
         public TaskRule() {
@@ -55,14 +54,6 @@ public class SharedGoal {
             this.hours = hours;
         }
 
-        public String getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(String startDate) {
-            this.startDate = startDate;
-        }
-
         public int getLabelColor() {
             return labelColor;
         }
@@ -87,7 +78,7 @@ public class SharedGoal {
         return description;
     }
 
-    public String getGoalDays() {
+    public int getGoalDays() {
         return goalDays;
     }
 
@@ -131,7 +122,7 @@ public class SharedGoal {
         this.type = type;
     }
 
-    public void setGoalDays(String goalDays) {
+    public void setGoalDays(int goalDays) {
         this.goalDays = goalDays;
     }
 

@@ -12,4 +12,8 @@ public class CreateUserResponseDTO {
     public CreateUserResponseDTO(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
 }

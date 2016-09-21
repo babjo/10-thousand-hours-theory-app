@@ -66,7 +66,7 @@ public class TaskAdapter extends BaseAdapter{
         TaskEntity task = getItem(position);
 
         if (convertView == null){
-            convertView = mInflater.inflate(R.layout.task_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.list_item_task, parent, false);
             v = new ViewHolder();
             v.mTaskLabel = convertView.findViewById(R.id.task_label);
             v.mTaskTitleTv = (TextView) convertView.findViewById(R.id.task_title_tv);

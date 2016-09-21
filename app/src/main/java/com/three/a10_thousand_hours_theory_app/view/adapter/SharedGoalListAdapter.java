@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.three.a10_thousand_hours_theory_app.Const;
@@ -41,7 +42,7 @@ public class SharedGoalListAdapter extends RecyclerView.Adapter<SharedGoalListAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shared_goal_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_shared_goal, parent, false);
         SharedGoalListAdapter.ViewHolder viewHolder = new SharedGoalListAdapter.ViewHolder(view);
         return viewHolder;
     }
@@ -50,12 +51,12 @@ public class SharedGoalListAdapter extends RecyclerView.Adapter<SharedGoalListAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         SharedGoal sharedGoal = mSharedGoals.get(position);
         holder.mSharedGoalTitleTv.setText(sharedGoal.getTitle());
-        holder.mSharedGoalTitleTv.setOnClickListener(v -> mBoardPresenter.sharedGoalDetails(sharedGoal));
+        holder.mSharedGoalTitleAndNeedLy.setOnClickListener(v -> mBoardPresenter.sharedGoalDetails(sharedGoal));
 
         if(sharedGoal.getType() == Const.GOAL_TYPE_HOURS)
-            holder.mSharedGoalNeedTv.setText(String.format("약 %d시간 예상", sharedGoal.getGoalHours()));
+            holder.mSharedGoalNeedTv.setText(String.format(Const.약_D시간_예상, sharedGoal.getGoalHours()));
         else{
-            holder.mSharedGoalNeedTv.setText(String.format("약 %s일 예상", sharedGoal.getGoalDays()));
+            holder.mSharedGoalNeedTv.setText(String.format(Const.약_D일_예상, sharedGoal.getGoalDays()));
         }
 
         User user = mBoardPresenter.getUser();
@@ -77,6 +78,7 @@ public class SharedGoalListAdapter extends RecyclerView.Adapter<SharedGoalListAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public LinearLayout mSharedGoalTitleAndNeedLy;
         public TextView mSharedGoalTitleTv;
         public TextView mSharedGoalNeedTv;
         public ImageView mSharedGoalLikeIv;
@@ -84,6 +86,7 @@ public class SharedGoalListAdapter extends RecyclerView.Adapter<SharedGoalListAd
 
         public ViewHolder(View itemView) {
             super(itemView);
+            mSharedGoalTitleAndNeedLy = (LinearLayout) itemView.findViewById(R.id.shared_goal_item_title_need_ly);
             mSharedGoalTitleTv = (TextView) itemView.findViewById(R.id.shared_goal_item_title_tv);
             mSharedGoalNeedTv = (TextView) itemView.findViewById(R.id.shared_goal_item_need_tv);
             mSharedGoalLikeIv = (ImageView) itemView.findViewById(R.id.shared_goal_item_like_iv);

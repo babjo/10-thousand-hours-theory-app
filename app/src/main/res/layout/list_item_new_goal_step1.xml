@@ -42,14 +42,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:text="목표에 대한 각오를 써주세요."
+                android:text="목표에 대한 설명 또는 각오를 써주세요."
                 />
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_marginTop="10dp"
                 android:id="@+id/goal_description_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="각오"
+                android:hint="설명 및 각오"
                 app:met_helperText="ex) 일자복근 소취!!!"
                 app:met_floatingLabel="normal"
                 app:met_helperTextAlwaysShown="true"

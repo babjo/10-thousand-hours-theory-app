@@ -5,17 +5,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.R;
+import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.SharedGoal;
 import com.three.a10_thousand_hours_theory_app.model.infrastructure.FirebaseDB;
 import com.three.a10_thousand_hours_theory_app.presenter.BoardPresenter;
@@ -123,6 +131,45 @@ public class BoardFragment extends Fragment implements BoardView{
 
     @Override
     public void onSharedGoalDetails(SharedGoal sharedGoal) {
+        LayoutInflater inflater = getLayoutInflater(null);
+        View dialogView= inflater.inflate(R.layout.dialog_shared_goal_details, null);
+        TextView sharedGoalDescriptionTv = (TextView) dialogView.findViewById(R.id.shared_goal_description_tv);
+        TextView sharedGoalNeedTv = (TextView) dialogView.findViewById(R.id.shared_goal_need_tv);
+        TextView sharedGoalLikeTv = (TextView) dialogView.findViewById(R.id.shared_goal_like_tv);
+        ListView sharedGoalTaskRuleLv = (ListView) dialogView.findViewById(R.id.shared_goal_task_rule_lv);
 
+        sharedGoalDescriptionTv.setText(sharedGoal.getDescription());
+        if(sharedGoal.getType() == Const.GOAL_TYPE_HOURS)
+            sharedGoalNeedTv.setText(String.format(Const.약_D시간_예상, Integer.toString(sharedGoal.getGoalHours())));
+        else
+            sharedGoalNeedTv.setText(String.format(Const.약_D일_예상, sharedGoal.getGoalDays()));
+
+        sharedGoalLikeTv.setText(Integer.toString(sharedGoal.getLike()));
+
+        List<String> sharedGoalTaskRuleList = new ArrayList();
+        for (SharedGoal.TaskRule t : sharedGoal.getTaskRules())
+            sharedGoalTaskRuleList.add(String.format("매주 %d회 %d시간씩 '%s' 하기", t.getTimes(), t.getHours(), t.getTitle()));
+        ListAdapter adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sharedGoalTaskRuleList);
+        sharedGoalTaskRuleLv.setAdapter(adapter);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(sharedGoal.getTitle());
+        builder.setPositiveButton("다운로드", (dialog, which) -> {
+            mBoardPresenter.download(sharedGoal);
+            dialog.dismiss();
+        });
+        builder.setNegativeButton("닫기", (dialog, which) -> dialog.dismiss());
+        builder.setView(dialogView);
+        builder.show();
+    }
+
+    @Override
+    public void onDownloadGoal(GoalEntity goalEntity) {
+        Toast.makeText(getContext(), String.format("목표 '%s'를 다운로드 했습니다. 내 목표에서 확인하세요.", goalEntity.getTitle()), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onFailToDownloadGoal() {
+        Toast.makeText(getContext(), "목표 '%s'를 다운로드 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
     }
 }

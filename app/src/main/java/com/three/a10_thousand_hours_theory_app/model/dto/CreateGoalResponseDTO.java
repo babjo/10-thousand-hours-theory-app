@@ -12,4 +12,8 @@ public class CreateGoalResponseDTO {
     public CreateGoalResponseDTO(GoalEntity newGoalEntity) {
         this.newGoalEntity = newGoalEntity;
     }
+
+    public GoalEntity getNewGoalEntity() {
+        return newGoalEntity;
+    }
 }

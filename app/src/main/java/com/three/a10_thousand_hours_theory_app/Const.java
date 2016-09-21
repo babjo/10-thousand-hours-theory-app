@@ -36,4 +36,6 @@ public class Const {
     public static final String 시간으로_설정할래요 = "시간으로 설정할래요.";
     public static final String 날짜로_설정할래요 = "날짜로 설정할래요.";
     public static final String INTENT_EXTRA_TASK_ID = "INTENT_EXTRA_TASK_ID";
+    public static final String 약_D시간_예상 = "약 %d시간 예상";
+    public static final String 약_D일_예상 = "약 %d일 예상";
 }

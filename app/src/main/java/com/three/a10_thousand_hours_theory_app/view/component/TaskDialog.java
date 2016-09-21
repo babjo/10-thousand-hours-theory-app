@@ -37,7 +37,7 @@ public class TaskDialog {
     }
 
     public void show(TaskRuleEntity taskEntity){
-        View v = LayoutInflater.from(mContext).inflate(R.layout.new_task_dialog, null, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_new_task, null, false);
         EditText titleEt = (EditText) v.findViewById(R.id.task_title_et);
         WheelView timeWheelView = (WheelView) v.findViewById(R.id.time_wv);
         timeWheelView.setItems(Arrays.asList(TIMES));
