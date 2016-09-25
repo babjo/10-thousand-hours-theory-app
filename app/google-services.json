@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1062136859710",
+    "firebase_url": "https://thousand-hours-theory-app.firebaseio.com",
+    "project_id": "thousand-hours-theory-app",
+    "storage_bucket": "thousand-hours-theory-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062136859710:android:50706e58924beb46",
+        "android_client_info": {
+          "package_name": "com.three.a10_thousand_hours_theory_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062136859710-j5vq07hkdn07v40gsplec3l0uhk8meri.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.three.a10_thousand_hours_theory_app",
+            "certificate_hash": "973D7AB789245EF780BEDC2722DF09DF61DACDA1"
+          }
+        },
+        {
+          "client_id": "1062136859710-lir9b8c0e4fa5n67sgbtbq97up5a11sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOHiKT6VKCaFosXggXNUFmDpNewnkYaec"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062136859710-lir9b8c0e4fa5n67sgbtbq97up5a11sa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

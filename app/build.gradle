@@ -54,6 +54,9 @@ dependencies {
 
     // facebook login
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    // rxjava
+    compile 'io.reactivex:rxandroid:1.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

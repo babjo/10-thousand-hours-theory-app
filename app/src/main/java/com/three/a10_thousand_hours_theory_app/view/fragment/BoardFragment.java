@@ -140,7 +140,7 @@ public class BoardFragment extends Fragment implements BoardView{
 
         sharedGoalDescriptionTv.setText(sharedGoal.getDescription());
         if(sharedGoal.getType() == Const.GOAL_TYPE_HOURS)
-            sharedGoalNeedTv.setText(String.format(Const.약_D시간_예상, Integer.toString(sharedGoal.getGoalHours())));
+            sharedGoalNeedTv.setText(String.format(Const.약_D시간_예상, sharedGoal.getGoalHours()));
         else
             sharedGoalNeedTv.setText(String.format(Const.약_D일_예상, sharedGoal.getGoalDays()));
 
@@ -149,7 +149,7 @@ public class BoardFragment extends Fragment implements BoardView{
         List<String> sharedGoalTaskRuleList = new ArrayList();
         for (SharedGoal.TaskRule t : sharedGoal.getTaskRules())
             sharedGoalTaskRuleList.add(String.format("매주 %d회 %d시간씩 '%s' 하기", t.getTimes(), t.getHours(), t.getTitle()));
-        ListAdapter adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sharedGoalTaskRuleList);
+        ListAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, sharedGoalTaskRuleList);
         sharedGoalTaskRuleLv.setAdapter(adapter);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
