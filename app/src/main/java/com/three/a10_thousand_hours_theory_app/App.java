@@ -36,8 +36,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //FacebookSdk.sdkInitialize(getApplicationContext());
-        //AppEventsLogger.activateApp(this);
         mTaskAlarmManager.setting();
 
         if (BuildConfig.DEBUG) {

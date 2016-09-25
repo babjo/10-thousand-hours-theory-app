@@ -25,6 +25,7 @@ import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.SharedGoal;
+import com.three.a10_thousand_hours_theory_app.model.domain.UserEntity;
 import com.three.a10_thousand_hours_theory_app.model.infrastructure.FirebaseDB;
 import com.three.a10_thousand_hours_theory_app.presenter.BoardPresenter;
 import com.three.a10_thousand_hours_theory_app.view.BoardView;
@@ -63,20 +64,22 @@ public class BoardFragment extends Fragment implements BoardView{
 
     private SharedGoalListAdapter mSharedGoalListAdapter;
 
-    private ValueEventListener mSharedGoalsListener = new AbstractSharedGoalsValueEventListener(){
+    private final ValueEventListener SHARED_GOALS_LISTENER = new AbstractSharedGoalsValueEventListener(){
         @Override
         public void onDataChange(List<SharedGoal> sharedGoals) {
             onPostGetSharedGoals(sharedGoals);
         }
     };
 
-    private ValueEventListener mSharedGoalsReverseListener = new AbstractSharedGoalsValueEventListener(){
+    private final ValueEventListener SHARED_GOALS_REVERSE_LISTENER = new AbstractSharedGoalsValueEventListener(){
         @Override
         public void onDataChange(List<SharedGoal> sharedGoals) {
             Collections.reverse(sharedGoals);
             onPostGetSharedGoals(sharedGoals);
         }
     };
+
+    private ValueEventListener mCurrentSharedGoalsListener = SHARED_GOALS_LISTENER;
 
     private void onPostGetSharedGoals(List<SharedGoal> sharedGoals) {
         SharedGoalListAdapter sharedGoalListAdapter = new SharedGoalListAdapter(getContext(), sharedGoals);
@@ -108,7 +111,7 @@ public class BoardFragment extends Fragment implements BoardView{
         mSharedGoalListView.setVisibility(View.GONE);
         setHasOptionsMenu(true);
 
-        FirebaseDB.sharedGoals().addValueEventListener(mSharedGoalsListener);
+        FirebaseDB.sharedGoals().addValueEventListener(mCurrentSharedGoalsListener);
     }
 
     @Override
@@ -121,20 +124,33 @@ public class BoardFragment extends Fragment implements BoardView{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_order_by_create_at:
-                mProgressBar.setVisibility(View.VISIBLE);
-                mSharedGoalListView.setVisibility(View.GONE);
-                FirebaseDB.sharedGoals().orderByChild("like").removeEventListener(mSharedGoalsReverseListener);
-                FirebaseDB.sharedGoals().addValueEventListener(mSharedGoalsListener);
+                onPreGetSharedGoals();
+                mCurrentSharedGoalsListener = SHARED_GOALS_LISTENER;
+                FirebaseDB.sharedGoals().addValueEventListener(SHARED_GOALS_LISTENER);
                 return true;
             case R.id.action_order_by_like:
-                mProgressBar.setVisibility(View.VISIBLE);
-                mSharedGoalListView.setVisibility(View.GONE);
-                FirebaseDB.sharedGoals().removeEventListener(mSharedGoalsListener);
-                FirebaseDB.sharedGoals().orderByChild("like").addValueEventListener(mSharedGoalsReverseListener);
+                onPreGetSharedGoals();
+                mCurrentSharedGoalsListener = SHARED_GOALS_REVERSE_LISTENER;
+                FirebaseDB.sharedGoals().orderByChild("like").addValueEventListener(mCurrentSharedGoalsListener);
                 return true;
+            case R.id.action_filter_my:
+                onPreGetSharedGoals();
+                mCurrentSharedGoalsListener = SHARED_GOALS_LISTENER;
+                FirebaseDB.sharedGoals().orderByChild("userKey").equalTo(mBoardPresenter.getUser().getKey()).addValueEventListener(mCurrentSharedGoalsListener);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onPreGetSharedGoals() {
+        removeFirebaseEventListener();
+        mProgressBar.setVisibility(View.VISIBLE);
+        mSharedGoalListView.setVisibility(View.GONE);
+    }
+
+    public void removeFirebaseEventListener(){
+        FirebaseDB.sharedGoals().orderByChild("like").removeEventListener(mCurrentSharedGoalsListener);
+        FirebaseDB.sharedGoals().removeEventListener(mCurrentSharedGoalsListener);
     }
 
     @Click(R.id.upload_shared_goal_btn)
@@ -177,6 +193,14 @@ public class BoardFragment extends Fragment implements BoardView{
             dialog.dismiss();
         });
         builder.setNegativeButton("닫기", (dialog, which) -> dialog.dismiss());
+
+        UserEntity user = mBoardPresenter.getUser();
+        if(user.getKey().equals(sharedGoal.getUserKey()))
+            builder.setNeutralButton("삭제", (dialog, which) -> {
+                FirebaseDB.sharedGoals().child(sharedGoal.getKey()).removeValue();
+                Toast.makeText(getContext(), String.format("목표 '%s'를 삭제했습니다.", sharedGoal.getTitle()), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            });
         builder.setView(dialogView);
         builder.show();
     }

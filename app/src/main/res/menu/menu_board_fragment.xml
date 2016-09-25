@@ -12,4 +12,9 @@
         android:orderInCategory="100"
         android:title="@string/action_order_by_like"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_filter_my"
+        android:orderInCategory="100"
+        android:title="@string/action_filter_my"
+        app:showAsAction="never" />
 </menu>

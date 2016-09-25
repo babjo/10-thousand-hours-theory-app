@@ -7,6 +7,7 @@
     <string name="action_delete">삭제하기</string>
     <string name="action_order_by_create_at">최신순</string>
     <string name="action_order_by_like">인기순</string>
+    <string name="action_filter_my">내가 올린 목표</string>
     <string name="facebook_app_id">158861857896057</string>
     <string name="title_activity_main">MainActivity</string>
 
