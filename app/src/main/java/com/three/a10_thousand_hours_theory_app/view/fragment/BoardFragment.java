@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -18,8 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.R;
@@ -29,6 +29,7 @@ import com.three.a10_thousand_hours_theory_app.model.infrastructure.FirebaseDB;
 import com.three.a10_thousand_hours_theory_app.presenter.BoardPresenter;
 import com.three.a10_thousand_hours_theory_app.view.BoardView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.SharedGoalListAdapter;
+import com.three.a10_thousand_hours_theory_app.view.firbase_listener.AbstractSharedGoalsValueEventListener;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -36,6 +37,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,31 +62,31 @@ public class BoardFragment extends Fragment implements BoardView{
     ProgressBar mProgressBar;
 
     private SharedGoalListAdapter mSharedGoalListAdapter;
-    private ValueEventListener mSharedGoalsListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            Log.e("Count " ,""+dataSnapshot.getChildrenCount());
-            List<SharedGoal> sharedGoals = new ArrayList();
-            for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                Log.d(TAG, "loadSharedGoal:onDataChange Value ==> "+childSnapshot.getKey());
-                SharedGoal sharedGoal = childSnapshot.getValue(SharedGoal.class);
-                Log.d(TAG, "loadSharedGoal:onDataChange Value ==> "+sharedGoal.getTitle());
-                sharedGoals.add(sharedGoal);
-            }
-            SharedGoalListAdapter sharedGoalListAdapter = new SharedGoalListAdapter(getContext(), sharedGoals);
-            sharedGoalListAdapter.setBoardPresenter(mBoardPresenter);
-            if(mSharedGoalListView != null){
-                mSharedGoalListView.setAdapter(sharedGoalListAdapter);
-                mProgressBar.setVisibility(View.GONE);
-                mSharedGoalListView.setVisibility(View.VISIBLE);
-            }
-        }
 
+    private ValueEventListener mSharedGoalsListener = new AbstractSharedGoalsValueEventListener(){
         @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.w(TAG, "loadSharedGoal:onCancelled", databaseError.toException());
+        public void onDataChange(List<SharedGoal> sharedGoals) {
+            onPostGetSharedGoals(sharedGoals);
         }
-    }; ;
+    };
+
+    private ValueEventListener mSharedGoalsReverseListener = new AbstractSharedGoalsValueEventListener(){
+        @Override
+        public void onDataChange(List<SharedGoal> sharedGoals) {
+            Collections.reverse(sharedGoals);
+            onPostGetSharedGoals(sharedGoals);
+        }
+    };
+
+    private void onPostGetSharedGoals(List<SharedGoal> sharedGoals) {
+        SharedGoalListAdapter sharedGoalListAdapter = new SharedGoalListAdapter(getContext(), sharedGoals);
+        sharedGoalListAdapter.setBoardPresenter(mBoardPresenter);
+        if(mSharedGoalListView != null){
+            mSharedGoalListView.setAdapter(sharedGoalListAdapter);
+            mProgressBar.setVisibility(View.GONE);
+            mSharedGoalListView.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -104,19 +106,35 @@ public class BoardFragment extends Fragment implements BoardView{
 
         mProgressBar.setVisibility(View.VISIBLE);
         mSharedGoalListView.setVisibility(View.GONE);
-    }
+        setHasOptionsMenu(true);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Set Event
         FirebaseDB.sharedGoals().addValueEventListener(mSharedGoalsListener);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        FirebaseDB.sharedGoals().removeEventListener(mSharedGoalsListener);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_board_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_order_by_create_at:
+                mProgressBar.setVisibility(View.VISIBLE);
+                mSharedGoalListView.setVisibility(View.GONE);
+                FirebaseDB.sharedGoals().orderByChild("like").removeEventListener(mSharedGoalsReverseListener);
+                FirebaseDB.sharedGoals().addValueEventListener(mSharedGoalsListener);
+                return true;
+            case R.id.action_order_by_like:
+                mProgressBar.setVisibility(View.VISIBLE);
+                mSharedGoalListView.setVisibility(View.GONE);
+                FirebaseDB.sharedGoals().removeEventListener(mSharedGoalsListener);
+                FirebaseDB.sharedGoals().orderByChild("like").addValueEventListener(mSharedGoalsReverseListener);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Click(R.id.upload_shared_goal_btn)

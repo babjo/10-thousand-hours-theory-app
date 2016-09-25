@@ -3,8 +3,6 @@ package com.three.a10_thousand_hours_theory_app;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
@@ -38,8 +36,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+        //FacebookSdk.sdkInitialize(getApplicationContext());
+        //AppEventsLogger.activateApp(this);
         mTaskAlarmManager.setting();
 
         if (BuildConfig.DEBUG) {
