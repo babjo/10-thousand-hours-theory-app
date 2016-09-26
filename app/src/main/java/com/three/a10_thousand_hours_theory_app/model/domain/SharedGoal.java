@@ -2,10 +2,12 @@ package com.three.a10_thousand_hours_theory_app.model.domain;
 
 import java.util.List;
 
+import lombok.Data;
+
 /**
  * Created by LCH on 2016. 9. 19..
  */
-
+@Data
 public class SharedGoal {
 
     private String key;
@@ -21,136 +23,11 @@ public class SharedGoal {
     private int like;
     private List<String> likeUserKeys;
 
+    @Data
     public static class TaskRule{
         private String title;
         private int times;
         private int hours;
         private int labelColor;
-
-        public TaskRule() {
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public int getTimes() {
-            return times;
-        }
-
-        public void setTimes(int times) {
-            this.times = times;
-        }
-
-        public int getHours() {
-            return hours;
-        }
-
-        public void setHours(int hours) {
-            this.hours = hours;
-        }
-
-        public int getLabelColor() {
-            return labelColor;
-        }
-
-        public void setLabelColor(int labelColor) {
-            this.labelColor = labelColor;
-        }
-    }
-
-    public SharedGoal() {
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getGoalDays() {
-        return goalDays;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public int getGoalHours() {
-        return goalHours;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public int getLike() {
-        return like;
-    }
-
-    public List<String> getLikeUserKeys() {
-        return likeUserKeys;
-    }
-
-    public List<TaskRule> getTaskRules() {
-        return taskRules;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public void setGoalDays(int goalDays) {
-        this.goalDays = goalDays;
-    }
-
-    public void setGoalHours(int goalHours) {
-        this.goalHours = goalHours;
-    }
-
-    public void setTaskRules(List<TaskRule> taskRules) {
-        this.taskRules = taskRules;
-    }
-
-    public void setUserKey(String userKey) {
-        this.userKey = userKey;
-    }
-
-    public String getUserKey() {
-        return userKey;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void setLike(int like) {
-        this.like = like;
-    }
-
-    public void setLikeUserKeys(List<String> likeUserKeys) {
-        this.likeUserKeys = likeUserKeys;
     }
 }

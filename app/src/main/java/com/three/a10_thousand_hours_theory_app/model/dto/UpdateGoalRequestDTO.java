@@ -3,9 +3,13 @@ package com.three.a10_thousand_hours_theory_app.model.dto;
 import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 
+import lombok.Getter;
+
 /**
  * Created by LCH on 2016. 9. 15..
  */
+
+@Getter
 public class UpdateGoalRequestDTO {
     private final GoalEntity goalEntity;
 
@@ -15,9 +19,5 @@ public class UpdateGoalRequestDTO {
             goalEntity.setDeadLineDate(null);
         else
             goalEntity.setGoalHours(0);
-    }
-
-    public GoalEntity getGoalEntity() {
-        return goalEntity;
     }
 }

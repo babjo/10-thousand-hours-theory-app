@@ -57,6 +57,10 @@ dependencies {
 
     // rxjava
     // compile 'io.reactivex:rxandroid:1.2.1'
+
+    // lombok
+    provided "org.projectlombok:lombok:1.12.6"
+    apt "org.projectlombok:lombok:1.12.6"
 }
 
 apply plugin: 'com.google.gms.google-services'

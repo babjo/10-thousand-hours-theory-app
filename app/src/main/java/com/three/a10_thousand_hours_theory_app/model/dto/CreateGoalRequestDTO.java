@@ -10,9 +10,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by LCH on 2016. 9. 11..
  */
+@Getter
+@Setter
 public class CreateGoalRequestDTO {
 
     private GoalEntity goalEntity;
@@ -38,51 +43,9 @@ public class CreateGoalRequestDTO {
         this.description = goalEntity.getDescription();
         this.taskRuleEntities = goalEntity.getTaskRules();
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDeadLineDate(Date deadLineDate) {
-        this.deadLineDate = deadLineDate;
-    }
-
-    public Date getDeadLineDate() {
-        return deadLineDate;
-    }
-
-    public List<TaskRuleEntity> getTaskRuleEntities() {
-        return taskRuleEntities;
-    }
-
     public void addTaskRuleEntity(TaskRuleEntity newTaskRule) {
         this.taskRuleEntities.add(newTaskRule);
     }
-
-    public int getGoalId() {
-        return goalId;
-    }
-
-    public int getGoalType() {
-        return goalType;
-    }
-
-    public void setGoalType(int goalType) {
-        this.goalType = goalType;
-    }
-
     public UpdateGoalRequestDTO convert(){
         goalEntity.setTitle(title);
         goalEntity.setDescription(description);
@@ -104,13 +67,5 @@ public class CreateGoalRequestDTO {
         }
 
         return new UpdateGoalRequestDTO(goalEntity);
-    }
-
-    public int getGoalHours() {
-        return goalHours;
-    }
-
-    public void setGoalHours(int goalHours) {
-        this.goalHours = goalHours;
     }
 }
