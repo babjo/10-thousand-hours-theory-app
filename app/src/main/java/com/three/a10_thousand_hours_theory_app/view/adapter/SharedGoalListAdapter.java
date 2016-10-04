@@ -47,6 +47,8 @@ public class SharedGoalListAdapter extends RecyclerView.Adapter<SharedGoalListAd
         return viewHolder;
     }
 
+    
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SharedGoal sharedGoal = mSharedGoals.get(position);

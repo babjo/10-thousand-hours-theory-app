@@ -70,4 +70,10 @@ public class MainFragment extends Fragment implements MainView{
     public void createGoalButton(View view){
         mMainPresenter.addGoal();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMainPresenter.destroy();
+    }
 }

@@ -3,13 +3,17 @@ package com.three.a10_thousand_hours_theory_app.presenter;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalRequestDTO;
+import com.three.a10_thousand_hours_theory_app.model.dto.CreateGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateGoalRequestDTO;
-import com.three.a10_thousand_hours_theory_app.model.service.CreateGoalService;
-import com.three.a10_thousand_hours_theory_app.model.service.GetGoalService;
-import com.three.a10_thousand_hours_theory_app.model.service.Service;
-import com.three.a10_thousand_hours_theory_app.model.service.UpdateGoalService;
+import com.three.a10_thousand_hours_theory_app.model.dto.UpdateGoalResponseDTO;
+import com.three.a10_thousand_hours_theory_app.model.usecase.CreateGoalUseCase;
+import com.three.a10_thousand_hours_theory_app.model.usecase.DefaultSubscriber;
+import com.three.a10_thousand_hours_theory_app.model.usecase.GetGoalSyncUseCase;
+import com.three.a10_thousand_hours_theory_app.model.usecase.SyncUseCase;
+import com.three.a10_thousand_hours_theory_app.model.usecase.UpdateGoalUseCase;
+import com.three.a10_thousand_hours_theory_app.model.usecase.UseCase;
 import com.three.a10_thousand_hours_theory_app.view.NewGoalView;
 
 import org.androidannotations.annotations.Bean;
@@ -21,18 +25,18 @@ import java.util.Date;
  * Created by LCH on 2016. 9. 11..
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class NewGoalPresenter {
+public class NewGoalPresenter implements Presenter{
 
     private NewGoalView mNewGoalView;
 
-    @Bean(CreateGoalService.class)
-    Service mCreateGoalService;
+    @Bean(CreateGoalUseCase.class)
+    UseCase<CreateGoalRequestDTO> mCreateGoalUseCase;
 
-    @Bean(UpdateGoalService.class)
-    Service mUpdateGoalService;
+    @Bean(UpdateGoalUseCase.class)
+    UseCase<UpdateGoalRequestDTO> mUpdateGoalUseCase;
 
-    @Bean(GetGoalService.class)
-    Service mGetGoalService;
+    @Bean(GetGoalSyncUseCase.class)
+    SyncUseCase<GetGoalRequestDTO, GetGoalResponseDTO> mGetGoalSyncUseCase;
 
     public void goNewGoalFormStep2() {
         mNewGoalView.goNewGoalFormStep2();
@@ -43,8 +47,12 @@ public class NewGoalPresenter {
     }
 
     public void submitNewGoal(CreateGoalRequestDTO createGoalRequestDTO){
-        mCreateGoalService.execute(createGoalRequestDTO);
-        mNewGoalView.onSubmitNewGoal();
+        mCreateGoalUseCase.execute(createGoalRequestDTO, new DefaultSubscriber<CreateGoalResponseDTO>(){
+            @Override
+            public void onNext(CreateGoalResponseDTO o) {
+                mNewGoalView.onSubmitNewGoal();
+            }
+        });
     }
 
     public void setNewGoalView(NewGoalView mNewGoalView) {
@@ -72,12 +80,31 @@ public class NewGoalPresenter {
     }
 
     public GoalEntity getGoal(int goalId) {
-        GetGoalResponseDTO g = (GetGoalResponseDTO) mGetGoalService.execute(new GetGoalRequestDTO(goalId));
+        GetGoalResponseDTO g = mGetGoalSyncUseCase.execute(new GetGoalRequestDTO(goalId));
         return g.getGoalEntity();
     }
 
     public void updateGoal(UpdateGoalRequestDTO updateGoalRequestDTO) {
-        mUpdateGoalService.execute(updateGoalRequestDTO);
-        mNewGoalView.finish();
+        mUpdateGoalUseCase.execute(updateGoalRequestDTO, new DefaultSubscriber<UpdateGoalResponseDTO>(){
+            @Override
+            public void onNext(UpdateGoalResponseDTO o) {
+                mNewGoalView.finish();
+            }
+        });
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void destroy() {
+        mNewGoalView = null;
+        mCreateGoalUseCase.unsubscribe();
+        mUpdateGoalUseCase.unsubscribe();
     }
 }

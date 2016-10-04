@@ -56,7 +56,7 @@ dependencies {
     // compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     // rxjava
-    // compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxandroid:1.2.1'
 
     // lombok
     provided "org.projectlombok:lombok:1.12.6"

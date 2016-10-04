@@ -104,8 +104,7 @@ public class BoardFragment extends Fragment implements BoardView{
         // inject
         mSharedGoalListAdapter.setBoardPresenter(mBoardPresenter);
         mBoardPresenter.setBoardView(this);
-        mBoardPresenter.loadSharedGoals();
-
+        mBoardPresenter.loadUser();
 
         mProgressBar.setVisibility(View.VISIBLE);
         mSharedGoalListView.setVisibility(View.GONE);
@@ -213,5 +212,11 @@ public class BoardFragment extends Fragment implements BoardView{
     @Override
     public void onFailToDownloadGoal() {
         Toast.makeText(getContext(), "목표 '%s'를 다운로드 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBoardPresenter.destroy();
     }
 }

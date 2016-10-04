@@ -6,9 +6,10 @@ import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetTaskRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetTaskResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateTaskRequestDTO;
-import com.three.a10_thousand_hours_theory_app.model.service.GetTaskService;
-import com.three.a10_thousand_hours_theory_app.model.service.Service;
-import com.three.a10_thousand_hours_theory_app.model.service.UpdateTaskService;
+import com.three.a10_thousand_hours_theory_app.model.usecase.DefaultSubscriber;
+import com.three.a10_thousand_hours_theory_app.model.usecase.GetTaskUseCase;
+import com.three.a10_thousand_hours_theory_app.model.usecase.UpdateTaskUseCase;
+import com.three.a10_thousand_hours_theory_app.model.usecase.UseCase;
 import com.three.a10_thousand_hours_theory_app.view.TimerView;
 
 import org.androidannotations.annotations.Bean;
@@ -19,15 +20,15 @@ import org.androidannotations.annotations.EBean;
  */
 
 @EBean
-public class TimerPresenter {
+public class TimerPresenter implements Presenter{
 
     private Context mContext;
 
-    @Bean(GetTaskService.class)
-    Service mGetTaskService;
+    @Bean(GetTaskUseCase.class)
+    UseCase<GetTaskRequestDTO> mGetTaskUseCase;
 
-    @Bean(UpdateTaskService.class)
-    Service mUpdateTaskService;
+    @Bean(UpdateTaskUseCase.class)
+    UseCase<UpdateTaskRequestDTO> mUpdateTaskUseCase;
 
     private TimerView mTimerView;
 
@@ -36,8 +37,12 @@ public class TimerPresenter {
     }
 
     public void startTimer(int taskId) {
-        GetTaskResponseDTO t = (GetTaskResponseDTO) mGetTaskService.execute(new GetTaskRequestDTO(taskId));
-        mTimerView.onTimerStart(t.getTaskEntity());
+        mGetTaskUseCase.execute(new GetTaskRequestDTO(taskId), new DefaultSubscriber<GetTaskResponseDTO>(){
+            @Override
+            public void onNext(GetTaskResponseDTO o) {
+                mTimerView.onTimerStart(o.getTaskEntity());
+            }
+        });
     }
 
     public void setTimerView(TimerView mTimerView) {
@@ -45,6 +50,21 @@ public class TimerPresenter {
     }
 
     public void updateTask(TaskEntity taskEntity) {
-        mUpdateTaskService.execute(new UpdateTaskRequestDTO(taskEntity));
+        mUpdateTaskUseCase.execute(new UpdateTaskRequestDTO(taskEntity), new DefaultSubscriber());
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void destroy() {
+        mTimerView = null;
+        mGetTaskUseCase.unsubscribe();
+        mUpdateTaskUseCase.unsubscribe();
     }
 }

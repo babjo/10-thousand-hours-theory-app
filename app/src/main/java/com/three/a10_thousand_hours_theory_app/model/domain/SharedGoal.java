@@ -17,7 +17,6 @@ public class SharedGoal {
     private int goalDays;
     private int goalHours;
     private List<TaskRule> taskRules;
-
     private String userKey;
     private String updatedAt;
     private int like;

@@ -86,16 +86,20 @@ public class TaskAdapter extends BaseAdapter{
         if(task.getCompleted()){
             v.mTaskCompletedDateTv.setText(Utils.DATE_FORMAT_yyyy_MM_dd.format(task.getCompletedDate()));
             v.mTaskCompletedDateTv.setVisibility(VISIBLE);
-            v.mTaskCompletedCb.setEnabled(false); // disable checkbox
+            v.mTaskCompletedCb.setChecked(true);
+            v.mTaskCompletedCb.setEnabled(false);
             v.mTaskHoursTv.setVisibility(GONE);
         }else{
             v.mTaskCompletedDateTv.setVisibility(GONE);
+            v.mTaskCompletedCb.setEnabled(true);
+            v.mTaskCompletedCb.setChecked(false);
             v.mTaskHoursTv.setVisibility(VISIBLE);
         }
 
         v.mTaskCompletedCb.setOnClickListener(v1 -> {
             Log.d(TAG, String.format("mTaskCompletedCb onClick position(%d)", position));
             if(!task.getCompleted()){
+                v.mTaskCompletedCb.setChecked(false);
                 mGoalDetailsPresenter.showTimerDialog(task);
             }
         });

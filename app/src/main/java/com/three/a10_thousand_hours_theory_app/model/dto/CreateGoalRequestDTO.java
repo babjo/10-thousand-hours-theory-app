@@ -6,6 +6,7 @@ import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,33 @@ public class CreateGoalRequestDTO {
         this.goalType = Const.GOAL_TYPE_DEADLINE;
         this.taskRuleEntities = new ArrayList();
     }
+
+    public static CreateGoalRequestDTO example(){
+        CreateGoalRequestDTO c = new CreateGoalRequestDTO();
+        c.setTitle("영어 프리토킹 자유로워지기");
+        c.setDescription("외국나가서 편하게 이야기하자");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, 2);
+        c.setDeadLineDate(cal.getTime());
+        c.setGoalHours(10000);
+        List<TaskRuleEntity> taskRuleEntities = new ArrayList();
+        TaskRuleEntity t = new TaskRuleEntity();
+        t.setTimes(3);
+        t.setHours(1);
+        t.setStartDate(new Date());
+        t.setTitle("영어회화 스터디");
+        taskRuleEntities.add(t);
+        t = new TaskRuleEntity();
+        t.setTimes(2);
+        t.setHours(1);
+        t.setStartDate(new Date());
+        t.setTitle("쉐도우 스피킹 연습");
+        taskRuleEntities.add(t);
+        c.setTaskRuleEntities(taskRuleEntities);
+
+        return c;
+    }
+
     public CreateGoalRequestDTO(GoalEntity goalEntity) {
         this.goalEntity = goalEntity;
         this.goalType = goalEntity.getType();

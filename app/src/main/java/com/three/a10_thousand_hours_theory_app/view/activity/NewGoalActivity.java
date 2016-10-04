@@ -170,4 +170,9 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalView {
         mTaskDialog.show(taskEntity);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mNewGoalPresenter.destroy();
+    }
 }

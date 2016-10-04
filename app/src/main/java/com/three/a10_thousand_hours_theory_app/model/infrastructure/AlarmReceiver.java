@@ -10,8 +10,9 @@ import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateGoalRequestDTO;
-import com.three.a10_thousand_hours_theory_app.model.service.Service;
-import com.three.a10_thousand_hours_theory_app.model.service.UpdateGoalService;
+import com.three.a10_thousand_hours_theory_app.model.usecase.DefaultSubscriber;
+import com.three.a10_thousand_hours_theory_app.model.usecase.UpdateGoalUseCase;
+import com.three.a10_thousand_hours_theory_app.model.usecase.UseCase;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EReceiver;
@@ -30,8 +31,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Bean
     Requery mRequery;
 
-    @Bean(UpdateGoalService.class)
-    Service mUpdateGoalService;
+    @Bean(UpdateGoalUseCase.class)
+    UseCase<UpdateGoalRequestDTO> mUpdateGoalUseCase;
 
     @Bean
     TaskAlarmManager mTaskAlarmManager;
@@ -68,7 +69,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         Log.d(TAG, String.format("새로운 테스트 추가 (목표 : %s, 테스크 : %s)", goalEntity.getTitle(), newTaskEntity.getTitle()));
                     }
                 }
-                mUpdateGoalService.execute(new UpdateGoalRequestDTO(goalEntity));
+                mUpdateGoalUseCase.execute(new UpdateGoalRequestDTO(goalEntity), new DefaultSubscriber());
             }
         } else if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
             mTaskAlarmManager.setting();

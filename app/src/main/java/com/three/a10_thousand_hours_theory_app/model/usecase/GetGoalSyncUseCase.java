@@ -1,4 +1,4 @@
-package com.three.a10_thousand_hours_theory_app.model.service;
+package com.three.a10_thousand_hours_theory_app.model.usecase;
 
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetGoalRequestDTO;
@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EBean;
  */
 
 @EBean
-public class GetGoalService implements Service<GetGoalRequestDTO, GetGoalResponseDTO> {
+public class GetGoalSyncUseCase implements SyncUseCase<GetGoalRequestDTO, GetGoalResponseDTO> {
 
     @Bean
     Requery mRequery;

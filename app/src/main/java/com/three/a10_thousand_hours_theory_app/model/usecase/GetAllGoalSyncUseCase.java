@@ -1,6 +1,7 @@
-package com.three.a10_thousand_hours_theory_app.model.service;
+package com.three.a10_thousand_hours_theory_app.model.usecase;
 
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
+import com.three.a10_thousand_hours_theory_app.model.dto.GetAllGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.GetAllGoalResponseDTO;
 import com.three.a10_thousand_hours_theory_app.model.infrastructure.Requery;
 
@@ -14,13 +15,13 @@ import java.util.List;
  */
 
 @EBean
-public class GetAllGoalService implements Service<Void, GetAllGoalResponseDTO> {
+public class GetAllGoalSyncUseCase implements SyncUseCase<GetAllGoalRequestDTO, GetAllGoalResponseDTO> {
 
     @Bean
     Requery requery;
 
     @Override
-    public GetAllGoalResponseDTO execute(Void arg) {
+    public GetAllGoalResponseDTO execute(GetAllGoalRequestDTO arg) {
         List<GoalEntity> goals = requery.getData().select(GoalEntity.class).get().toList();
         return new GetAllGoalResponseDTO(goals);
     }

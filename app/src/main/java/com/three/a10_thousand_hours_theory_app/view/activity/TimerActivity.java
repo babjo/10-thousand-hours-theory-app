@@ -133,4 +133,10 @@ public class TimerActivity extends AppCompatActivity implements TimerView{
         super.onPause();
         pauseTimer();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTimerPresenter.destroy();
+    }
 }

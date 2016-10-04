@@ -184,7 +184,15 @@ public class GoalDetailsActivity extends AppCompatActivity implements GoalDetail
             startActivityForResult(intent, 0);
             dialog.dismiss();
         });
-        builder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
+        builder.setNegativeButton("취소", (dialog, which) -> {
+            dialog.dismiss();
+        });
         builder.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mGoalDetailsPresenter.destroy();
     }
 }
