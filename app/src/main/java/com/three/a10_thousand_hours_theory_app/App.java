@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRuleEntity;
-import com.three.a10_thousand_hours_theory_app.model.infrastructure.Requery;
-import com.three.a10_thousand_hours_theory_app.model.infrastructure.TaskAlarmManager;
+import com.three.a10_thousand_hours_theory_app.infrastructure.Requery;
+import com.three.a10_thousand_hours_theory_app.infrastructure.TaskAlarmManager;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;

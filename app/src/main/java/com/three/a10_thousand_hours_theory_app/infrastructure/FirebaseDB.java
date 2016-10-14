@@ -1,4 +1,4 @@
-package com.three.a10_thousand_hours_theory_app.model.infrastructure;
+package com.three.a10_thousand_hours_theory_app.infrastructure;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

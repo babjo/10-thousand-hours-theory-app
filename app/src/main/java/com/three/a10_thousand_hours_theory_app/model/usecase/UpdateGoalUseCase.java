@@ -4,7 +4,7 @@ import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateGoalResponseDTO;
-import com.three.a10_thousand_hours_theory_app.model.infrastructure.Requery;
+import com.three.a10_thousand_hours_theory_app.infrastructure.Requery;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;

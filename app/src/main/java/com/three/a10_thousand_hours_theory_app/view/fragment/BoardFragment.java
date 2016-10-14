@@ -26,7 +26,7 @@ import com.three.a10_thousand_hours_theory_app.R;
 import com.three.a10_thousand_hours_theory_app.model.domain.GoalEntity;
 import com.three.a10_thousand_hours_theory_app.model.domain.SharedGoal;
 import com.three.a10_thousand_hours_theory_app.model.domain.UserEntity;
-import com.three.a10_thousand_hours_theory_app.model.infrastructure.FirebaseDB;
+import com.three.a10_thousand_hours_theory_app.infrastructure.FirebaseDB;
 import com.three.a10_thousand_hours_theory_app.presenter.BoardPresenter;
 import com.three.a10_thousand_hours_theory_app.view.BoardView;
 import com.three.a10_thousand_hours_theory_app.view.adapter.SharedGoalListAdapter;

@@ -4,7 +4,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.three.a10_thousand_hours_theory_app.model.domain.SharedGoal;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateSharedGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UpdateSharedGoalResponseDTO;
-import com.three.a10_thousand_hours_theory_app.model.infrastructure.FirebaseDB;
+import com.three.a10_thousand_hours_theory_app.infrastructure.FirebaseDB;
 
 import org.androidannotations.annotations.EBean;
 

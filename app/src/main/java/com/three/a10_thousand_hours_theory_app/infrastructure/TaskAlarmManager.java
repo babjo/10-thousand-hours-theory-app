@@ -1,4 +1,4 @@
-package com.three.a10_thousand_hours_theory_app.model.infrastructure;
+package com.three.a10_thousand_hours_theory_app.infrastructure;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.three.a10_thousand_hours_theory_app.Const;
 import com.three.a10_thousand_hours_theory_app.Utils;
+import com.three.a10_thousand_hours_theory_app.model.infrastructure.AlarmReceiver_;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.SystemService;

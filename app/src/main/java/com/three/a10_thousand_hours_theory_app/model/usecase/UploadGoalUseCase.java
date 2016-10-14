@@ -8,7 +8,7 @@ import com.three.a10_thousand_hours_theory_app.model.domain.SharedGoal;
 import com.three.a10_thousand_hours_theory_app.model.domain.TaskRule;
 import com.three.a10_thousand_hours_theory_app.model.dto.UploadGoalRequestDTO;
 import com.three.a10_thousand_hours_theory_app.model.dto.UploadGoalResponseDTO;
-import com.three.a10_thousand_hours_theory_app.model.infrastructure.FirebaseDB;
+import com.three.a10_thousand_hours_theory_app.infrastructure.FirebaseDB;
 
 import org.androidannotations.annotations.EBean;
 
